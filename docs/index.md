@@ -1,12 +1,12 @@
 # LFS458 - Kubernetes Administration Lab Guide
 
-Welcome to the student lab guide for **LFS458 / CKA preparation**, delivered by **VEGA TRAINING & HADAR TRAINING**.
+Welcome to the student lab guide for **LFS458 / CKA preparation**, delivered by **VEGA TRAINING**.
 
 ---
 
 ## How to use this guide
 
-Each chapter corresponds to a section of the LFS458 course. Follow the exercises in order ? later chapters build on earlier ones.
+Each chapter corresponds to a section of the LFS458 course. Follow the exercises in order - later chapters build on earlier ones.
 
 Work on your assigned lab nodes:
 
