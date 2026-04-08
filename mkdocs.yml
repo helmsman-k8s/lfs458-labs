@@ -1,6 +1,6 @@
 site_name: LFS458 - Kubernetes Administration Lab Guide
 site_description: Student lab guide for LFS458 / CKA preparation
-site_author: HADAR TRAINING
+site_author: VEGA TRAINING
 
 theme:
   name: material
@@ -59,8 +59,8 @@ nav:
 plugins:
   - search
   - with-pdf:
-      author: HADAR TRAINING
-      copyright: HADAR TRAINING 2025
+      author: VEGA TRAINING
+      copyright: VEGA TRAINING 2025
       cover_title: LFS458 / CKA Lab Guide
       cover_subtitle: Kubernetes Administration
       output_path: /home/guru/lfs458-guide.pdf
