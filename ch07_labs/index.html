@@ -1,0 +1,1636 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Student lab guide for LFS458 / CKA preparation">
+      
+      
+        <meta name="author" content="HADAR TRAINING">
+      
+      
+      
+        <link rel="prev" href="../ch06_labs/">
+      
+      
+        <link rel="next" href="../ch08_labs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Chapter 7 - Deployments - LFS458 - Kubernetes Administration Lab Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-7-managing-state-with-deployments" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-header__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LFS458 - Kubernetes Administration Lab Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 7 - Deployments
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch03_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 3 - Install Kubernetes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch04_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 4 - Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch05_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 5 - API Access
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch06_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 6 - API Objects
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 7 - Deployments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch08_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 8 - Helm & Kustomize
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch09_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 9 - Volumes & Data
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch10_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 10 - Services
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch11_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 11 - Ingress
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch12_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 12 - Scheduling
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch13_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 13 - Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch14_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 14 - Custom Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch15_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 15 - Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch16_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 16 - High Availability
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-nav__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    LFS458 - Kubernetes Administration Lab Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 - Install Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 - API Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 - API Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 - Deployments
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 - Deployments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-71-working-with-replicasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 7.1: Working with ReplicaSets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-72-working-with-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 7.2: Working with Deployments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-73-rollout-and-rollback-using-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 7.3: Rollout and Rollback using Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-74-working-with-daemonsets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 7.4: Working with DaemonSets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-75-rollout-and-rollback-using-daemonset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 7.5: Rollout and Rollback using DaemonSet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch08_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 - Helm & Kustomize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch09_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 9 - Volumes & Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch10_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 - Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch11_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11 - Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch12_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 12 - Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch13_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 13 - Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch14_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 14 - Custom Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch15_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 15 - Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch16_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 16 - High Availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapter-7-managing-state-with-deployments">Chapter 7: Managing State with Deployments<a class="headerlink" href="#chapter-7-managing-state-with-deployments" title="Permanent link">&para;</a></h1>
+<p><strong>Working directory: <code>~/lfs458/ch07-deployments/</code></strong></p>
+<hr />
+<h2 id="exercise-71-working-with-replicasets">Exercise 7.1: Working with ReplicaSets<a class="headerlink" href="#exercise-71-working-with-replicasets" title="Permanent link">&para;</a></h2>
+<p>A <code>ReplicaSet</code> is a next-generation Replication Controller. The only reason to use a ReplicaSet directly is if you have no need for updating container software or update orchestration. In most cases you should use a <code>Deployment</code> instead.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch07-deployments/
+</code></pre></div>
+<p><strong>1.</strong> Check for any existing ReplicaSets in the default namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>rs
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>No resources found in default namespace.
+</code></pre></div>
+<p><strong>2.</strong> The <code>rs.yaml</code> file is already staged in your lab folder. Review it — it creates two replicas of nginx:1.22.1.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cat<span class="w"> </span>~/lfs458/ch07-deployments/rs.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReplicaSet</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rs-one</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReplicaOne</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">        </span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReplicaOne</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.22.1</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</code></pre></div>
+<p><strong>3.</strong> Create the ReplicaSet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>rs.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>replicaset.apps/rs-one created
+</code></pre></div>
+<p><strong>4.</strong> View the newly created ReplicaSet and its details.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>rs<span class="w"> </span>rs-one
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Name:         rs-one
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Namespace:    default
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Selector:     system=ReplicaOne
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Labels:       &lt;none&gt;
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Replicas:     2 current / 2 desired
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Pods Status:  2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Pod Template:
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  Labels:  system=ReplicaOne
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>  Containers:
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>   nginx:
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    Image:  nginx:1.22.1
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    Port:   80/TCP
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>5.</strong> View the Pods created by the ReplicaSet. There should be two running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>rs-one-2p9x4    1/1     Running   0          5m4s
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>rs-one-3c6pb    1/1     Running   0          5m4s
+</code></pre></div>
+<p><strong>6.</strong> Delete the ReplicaSet but leave its Pods running using <code>--cascade=orphan</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>rs<span class="w"> </span>rs-one<span class="w"> </span>--cascade<span class="o">=</span>orphan
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>replicaset.apps &quot;rs-one&quot; deleted
+</code></pre></div>
+<p><strong>7.</strong> Verify the ReplicaSet is gone but the Pods remain.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>rs<span class="w"> </span>rs-one
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Error from server (NotFound): replicasets.apps &quot;rs-one&quot; not found
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>rs-one-2p9x4    1/1     Running   0          7m
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>rs-one-3c6pb    1/1     Running   0          7m
+</code></pre></div>
+<p><strong>8.</strong> Re-create the ReplicaSet. Because the selector matches the existing Pod labels, the new ReplicaSet will take ownership of the orphaned Pods. Pod software versions cannot be updated this way.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>rs.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>replicaset.apps/rs-one created
+</code></pre></div>
+<p><strong>9.</strong> View the age of the ReplicaSet and the Pods — the Pods are older than the ReplicaSet, confirming ownership was assumed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>rs
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>NAME     DESIRED   CURRENT   READY   AGE
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>rs-one   2         2         2       46s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>rs-one-2p9x4    1/1     Running   0          8m
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>rs-one-3c6pb    1/1     Running   0          8m
+</code></pre></div>
+<p><strong>10.</strong> Isolate a Pod from its ReplicaSet by editing its label. Change <code>system: ReplicaOne</code> to <code>system: IsolatedPod</code>. Use the pod name from your output.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>kubectl<span class="w"> </span>edit<span class="w"> </span>pod<span class="w"> </span>rs-one-3c6pb
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">labels</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">    </span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IsolatedPod</span><span class="w">    </span><span class="c1">#&lt;-- Change from ReplicaOne</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="nt">managedFields</span><span class="p">:</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>11.</strong> The ReplicaSet detects it only has one matching Pod and creates a replacement. Verify two Pods are still running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>rs
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>NAME     DESIRED   CURRENT   READY   AGE
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>rs-one   2         2         2       4m
+</code></pre></div>
+<p><strong>12.</strong> Now view pods with the <code>system</code> label column. You should see three pods — two with <code>ReplicaOne</code> and one with <code>IsolatedPod</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>po<span class="w"> </span>-L<span class="w"> </span>system
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>NAME            READY   STATUS    RESTARTS   AGE   SYSTEM
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>rs-one-3c6pb    1/1     Running   0          10m   IsolatedPod
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>rs-one-2p9x4    1/1     Running   0          10m   ReplicaOne
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>rs-one-dq5xd    1/1     Running   0          30s   ReplicaOne
+</code></pre></div>
+<p><strong>13.</strong> Delete the ReplicaSet, then check remaining Pods.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>rs<span class="w"> </span>rs-one
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>replicaset.apps &quot;rs-one&quot; deleted
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>po
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>NAME            READY   STATUS        RESTARTS   AGE
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>rs-one-3c6pb    1/1     Running       0          14m
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>rs-one-dq5xd    0/1     Terminating   0          4m
+</code></pre></div>
+<p><strong>14.</strong> Wait a moment then check again. There should be no ReplicaSets but one Pod remains — the isolated one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>rs
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>No resources found in default namespaces.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>rs-one-3c6pb    1/1     Running   0          16m
+</code></pre></div>
+<p><strong>15.</strong> Delete the remaining isolated Pod using its label.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">system</span><span class="o">=</span>IsolatedPod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>pod &quot;rs-one-3c6pb&quot; deleted
+</code></pre></div>
+<hr />
+<h2 id="exercise-72-working-with-deployments">Exercise 7.2: Working with Deployments<a class="headerlink" href="#exercise-72-working-with-deployments" title="Permanent link">&para;</a></h2>
+<p>A <code>Deployment</code> is a watch loop object that provides declarative updates to Pods and ReplicaSets. It is the recommended way to manage stateless applications in Kubernetes.</p>
+<p><strong>1.</strong> Generate a Deployment YAML using the imperative method with <code>--dry-run=client</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span>--image<span class="w"> </span>nginx:1.22.1<span class="w"> </span>--replicas<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="w">  </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>dep.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webserver</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webserver</span>
+<a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>2.</strong> Create the Deployment and verify two Pods are running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>dep.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>deployment.apps/webserver created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deploy
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>webserver   2/2     2            2           14s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>webserver-6cbc654ddc-lssbm    1/1     Running   0          42s
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>webserver-6cbc654ddc-xpmtl    1/1     Running   0          42s
+</code></pre></div>
+<p><strong>3.</strong> Verify the image running inside the Pods. Note this version — you will compare it after the rollout.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>webserver-6cbc654ddc-lssbm<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<hr />
+<h2 id="exercise-73-rollout-and-rollback-using-deployment">Exercise 7.3: Rollout and Rollback using Deployment<a class="headerlink" href="#exercise-73-rollout-and-rollback-using-deployment" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> View the current update strategy for the <code>webserver</code> Deployment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">4</span><span class="w"> </span>strategy
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="nt">strategy</span><span class="p">:</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">rollingUpdate</span><span class="p">:</span>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">    </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span>
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">    </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span>
+<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RollingUpdate</span>
+</code></pre></div>
+<p><strong>2.</strong> Edit the Deployment to change the strategy to <code>Recreate</code>. Remove the <code>rollingUpdate</code> lines and change the type.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>kubectl<span class="w"> </span>edit<span class="w"> </span>deploy<span class="w"> </span>webserver
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="l l-Scalar l-Scalar-Plain">strategy</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="w">  </span><span class="nt">rollingUpdate</span><span class="p">:</span><span class="w">            </span><span class="c1"># &lt;-- remove this line</span>
+<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="w">    </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span><span class="w">           </span><span class="c1"># &lt;-- remove this line</span>
+<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="w">    </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span><span class="w">     </span><span class="c1"># &lt;-- remove this line</span>
+<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Recreate</span><span class="w">            </span><span class="c1"># &lt;-- edit to this value</span>
+<a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>3.</strong> Update the Deployment to use a newer version of nginx using the <code>set</code> command.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span><span class="nv">nginx</span><span class="o">=</span>nginx:1.23.1-alpine
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>Flag has been deprecated, will be removed in the future
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>deployment.apps/webserver image updated
+</code></pre></div>
+<p><strong>4.</strong> Verify the new Pods are using the updated image.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>webserver-6cf9cd5c74-qjph4    1/1     Running   0          35s
+<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>webserver-6cf9cd5c74-zc6x9    1/1     Running   0          35s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>webserver-6cf9cd5c74-qjph4<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>Image:   nginx:1.23.1-alpine
+</code></pre></div>
+<p><strong>5.</strong> View the rollout history. You should see two revisions.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deploy<span class="w"> </span>webserver
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>deployment.apps/webserver
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>REVISION  CHANGE-CAUSE
+<a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a>1         &lt;none&gt;
+<a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a>2         kubectl set image deploy webserver nginx=nginx:1.23.1-alpine
+</code></pre></div>
+<p><strong>6.</strong> View the details of each revision. The <code>Image:</code> line should be the only difference.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span>--revision<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>deployment.apps/webserver with revision #1
+<a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>Pod Template:
+<a id="__codelineno-62-3" name="__codelineno-62-3" href="#__codelineno-62-3"></a>  Labels:  app=webserver
+<a id="__codelineno-62-4" name="__codelineno-62-4" href="#__codelineno-62-4"></a>           pod-template-hash=6cbc654ddc
+<a id="__codelineno-62-5" name="__codelineno-62-5" href="#__codelineno-62-5"></a>  Containers:
+<a id="__codelineno-62-6" name="__codelineno-62-6" href="#__codelineno-62-6"></a>   nginx:
+<a id="__codelineno-62-7" name="__codelineno-62-7" href="#__codelineno-62-7"></a>    Image:  nginx:1.22.1
+<a id="__codelineno-62-8" name="__codelineno-62-8" href="#__codelineno-62-8"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span>--revision<span class="o">=</span><span class="m">2</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>....
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>    Image:  nginx:1.23.1-alpine
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>....
+</code></pre></div>
+<p><strong>7.</strong> Roll back the Deployment to the previous version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>deploy<span class="w"> </span>webserver
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>deployment.apps/webserver rolled back
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>webserver-6cbc654ddc-7wb5q    1/1     Running   0          37s
+<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>webserver-6cbc654ddc-svbtj    1/1     Running   0          37s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>webserver-6cbc654ddc-7wb5q<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<p><strong>8.</strong> Try the <code>RollingUpdate</code> strategy. Edit the Deployment, change the strategy back to <code>RollingUpdate</code>, then update the image to <code>nginx:1.26-alpine</code>. Observe how pods are replaced one at a time.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>kubectl<span class="w"> </span>edit<span class="w"> </span>deploy<span class="w"> </span>webserver
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="l l-Scalar l-Scalar-Plain">strategy</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a><span class="w">  </span><span class="nt">rollingUpdate</span><span class="p">:</span>
+<a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a><span class="w">    </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span>
+<a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a><span class="w">    </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span>
+<a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RollingUpdate</span>
+<a id="__codelineno-72-7" name="__codelineno-72-7" href="#__codelineno-72-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>kubectl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deploy<span class="w"> </span>webserver<span class="w"> </span><span class="nv">nginx</span><span class="o">=</span>nginx:1.26-alpine
+</code></pre></div>
+<p><strong>9.</strong> Clean up by deleting the Deployment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>webserver
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>deployment.apps &quot;webserver&quot; deleted
+</code></pre></div>
+<hr />
+<h2 id="exercise-74-working-with-daemonsets">Exercise 7.4: Working with DaemonSets<a class="headerlink" href="#exercise-74-working-with-daemonsets" title="Permanent link">&para;</a></h2>
+<p>A <code>DaemonSet</code> ensures that a single Pod runs on every node in the cluster. It is useful for node-level services like logging, metrics, and security agents.</p>
+<p><strong>1.</strong> Copy <code>rs.yaml</code> to a new file and edit it to create a DaemonSet. Change the <code>kind</code>, <code>name</code>, both <code>system:</code> label references, and remove the <code>replicas:</code> line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>cp<span class="w"> </span>rs.yaml<span class="w"> </span>ds.yaml
+<a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a>vim<span class="w"> </span>ds.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DaemonSet</span><span class="w">         </span><span class="c1">#&lt;-- change from ReplicaSet</span>
+<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ds-one</span><span class="w">          </span><span class="c1">#&lt;-- change name</span>
+<a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">replicas</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">           </span><span class="c1">#&lt;-- remove this line entirely</span>
+<a id="__codelineno-77-7" name="__codelineno-77-7" href="#__codelineno-77-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-77-8" name="__codelineno-77-8" href="#__codelineno-77-8"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">system</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DaemonSetOne</span><span class="w">    </span><span class="c1">#&lt;-- edit both references</span>
+<a id="__codelineno-77-9" name="__codelineno-77-9" href="#__codelineno-77-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>2.</strong> Create the DaemonSet and verify one Pod is running on each node.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>ds.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>daemonset.apps/ds-one created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ds
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>NAME     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE-SELECTOR   AGE
+<a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>ds-one   3         3         3       3            3           &lt;none&gt;          1m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>ds-one-b1dcv    1/1     Running   0          2m
+<a id="__codelineno-83-3" name="__codelineno-83-3" href="#__codelineno-83-3"></a>ds-one-z31r4    1/1     Running   0          2m
+</code></pre></div>
+<p><strong>3.</strong> Verify the image version running in the Pods.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>ds-one-b1dcv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<hr />
+<h2 id="exercise-75-rollout-and-rollback-using-daemonset">Exercise 7.5: Rollout and Rollback using DaemonSet<a class="headerlink" href="#exercise-75-rollout-and-rollback-using-daemonset" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> View the current <code>updateStrategy</code> for the DaemonSet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">4</span><span class="w"> </span>Strategy
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="nt">updateStrategy</span><span class="p">:</span>
+<a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a><span class="w">  </span><span class="nt">rollingUpdate</span><span class="p">:</span>
+<a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a><span class="w">    </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a><span class="w">    </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-87-5" name="__codelineno-87-5" href="#__codelineno-87-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RollingUpdate</span>
+</code></pre></div>
+<p><strong>2.</strong> Edit the DaemonSet to change the update strategy to <code>OnDelete</code>. This means Pods are only updated when manually deleted.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>kubectl<span class="w"> </span>edit<span class="w"> </span>ds<span class="w"> </span>ds-one
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a><span class="l l-Scalar l-Scalar-Plain">updateStrategy</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a><span class="w">  </span><span class="nt">rollingUpdate</span><span class="p">:</span>
+<a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="w">    </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OnDelete</span><span class="w">    </span><span class="c1">#&lt;-- Edit to this value</span>
+<a id="__codelineno-89-6" name="__codelineno-89-6" href="#__codelineno-89-6"></a><span class="nt">status</span><span class="p">:</span>
+<a id="__codelineno-89-7" name="__codelineno-89-7" href="#__codelineno-89-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>3.</strong> Update the DaemonSet to use a newer version of nginx.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>kubectl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span><span class="nv">nginx</span><span class="o">=</span>nginx:1.26-alpine
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>Flag has been deprecated, will be removed in the future
+<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a>daemonset.apps/ds-one image updated
+</code></pre></div>
+<p><strong>4.</strong> Verify the existing Pod still shows the old image — it has not been updated yet because of <code>OnDelete</code> strategy.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-one-b1dcv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<p><strong>5.</strong> Delete one Pod. Wait for its replacement to start, then check the new Pod's image version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>po<span class="w"> </span>ds-one-b1dcv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>pod &quot;ds-one-b1dcv&quot; deleted
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>ds-one-xc86w    1/1     Running   0          19s
+<a id="__codelineno-97-3" name="__codelineno-97-3" href="#__codelineno-97-3"></a>ds-one-z31r4    1/1     Running   0          4m8s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-one-xc86w<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>Image:   nginx:1.26-alpine
+</code></pre></div>
+<p><strong>6.</strong> The older Pod still shows the old version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-one-z31r4<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<p><strong>7.</strong> View the rollout history for the DaemonSet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-one
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>daemonset.apps/ds-one
+<a id="__codelineno-103-2" name="__codelineno-103-2" href="#__codelineno-103-2"></a>REVISION  CHANGE-CAUSE
+<a id="__codelineno-103-3" name="__codelineno-103-3" href="#__codelineno-103-3"></a>1         &lt;none&gt;
+<a id="__codelineno-103-4" name="__codelineno-103-4" href="#__codelineno-103-4"></a>2         kubectl set image ds ds-one nginx=nginx:1.26-alpine
+</code></pre></div>
+<p><strong>8.</strong> View details for each revision.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>--revision<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>daemonsets &quot;ds-one&quot; with revision #1
+<a id="__codelineno-105-2" name="__codelineno-105-2" href="#__codelineno-105-2"></a>Pod Template:
+<a id="__codelineno-105-3" name="__codelineno-105-3" href="#__codelineno-105-3"></a>  Labels:  system=DaemonSetOne
+<a id="__codelineno-105-4" name="__codelineno-105-4" href="#__codelineno-105-4"></a>  Containers:
+<a id="__codelineno-105-5" name="__codelineno-105-5" href="#__codelineno-105-5"></a>   nginx:
+<a id="__codelineno-105-6" name="__codelineno-105-6" href="#__codelineno-105-6"></a>    Image:  nginx:1.22.1
+<a id="__codelineno-105-7" name="__codelineno-105-7" href="#__codelineno-105-7"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>--revision<span class="o">=</span><span class="m">2</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a>....
+<a id="__codelineno-107-2" name="__codelineno-107-2" href="#__codelineno-107-2"></a>    Image:  nginx:1.26-alpine
+<a id="__codelineno-107-3" name="__codelineno-107-3" href="#__codelineno-107-3"></a>....
+</code></pre></div>
+<p><strong>9.</strong> Roll back the DaemonSet to revision 1. Since we are using <code>OnDelete</code> strategy there will be no change to running Pods yet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>--to-revision<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>daemonset.apps/ds-one rolled back
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-one-xc86w<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>Image:   nginx:1.26-alpine
+</code></pre></div>
+<p><strong>10.</strong> Delete the recently updated Pod. The replacement should use the rolled-back image.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>po<span class="w"> </span>ds-one-xc86w
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a>pod &quot;ds-one-xc86w&quot; deleted
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a>NAME            READY   STATUS        RESTARTS   AGE
+<a id="__codelineno-115-2" name="__codelineno-115-2" href="#__codelineno-115-2"></a>ds-one-qc72k    1/1     Running       0          10s
+<a id="__codelineno-115-3" name="__codelineno-115-3" href="#__codelineno-115-3"></a>ds-one-xc86w    0/1     Terminating   0          12m
+<a id="__codelineno-115-4" name="__codelineno-115-4" href="#__codelineno-115-4"></a>ds-one-z31r4    1/1     Running       0          28m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-one-qc72k<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<p><strong>11.</strong> View the DaemonSet — the <code>updateStrategy</code> is still <code>OnDelete</code>. Check the YAML to confirm.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ds<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DaemonSet</span>
+<a id="__codelineno-121-3" name="__codelineno-121-3" href="#__codelineno-121-3"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-121-4" name="__codelineno-121-4" href="#__codelineno-121-4"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">terminationGracePeriodSeconds</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<a id="__codelineno-121-5" name="__codelineno-121-5" href="#__codelineno-121-5"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">updateStrategy</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-121-6" name="__codelineno-121-6" href="#__codelineno-121-6"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OnDelete</span>
+<a id="__codelineno-121-7" name="__codelineno-121-7" href="#__codelineno-121-7"></a><span class="nt">status</span><span class="p">:</span>
+<a id="__codelineno-121-8" name="__codelineno-121-8" href="#__codelineno-121-8"></a><span class="w">  </span><span class="nt">currentNumberScheduled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-121-9" name="__codelineno-121-9" href="#__codelineno-121-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>12.</strong> Create a second DaemonSet using <code>RollingUpdate</code> strategy. Generate the config from the existing DaemonSet, then edit it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>ds2.yaml
+<a id="__codelineno-122-2" name="__codelineno-122-2" href="#__codelineno-122-2"></a>vim<span class="w"> </span>ds2.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ds-two</span><span class="w">          </span><span class="c1">#&lt;-- change name (around line 69)</span>
+<a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RollingUpdate</span><span class="w">   </span><span class="c1">#&lt;-- change strategy back (around line 100)</span>
+<a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>13.</strong> Create the new DaemonSet and verify the image version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>ds2.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>daemonset.apps/ds-two created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a>ds-one-qc72k    1/1     Running   0          28m
+<a id="__codelineno-127-3" name="__codelineno-127-3" href="#__codelineno-127-3"></a>ds-one-z31r4    1/1     Running   0          57m
+<a id="__codelineno-127-4" name="__codelineno-127-4" href="#__codelineno-127-4"></a>ds-two-10khc    1/1     Running   0          5m
+<a id="__codelineno-127-5" name="__codelineno-127-5" href="#__codelineno-127-5"></a>ds-two-kzp9g    1/1     Running   0          5m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-two-10khc<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>Image:   nginx:1.22.1
+</code></pre></div>
+<p><strong>14.</strong> Update the <code>ds-two</code> DaemonSet to a newer image version using <code>edit</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>kubectl<span class="w"> </span>edit<span class="w"> </span>ds<span class="w"> </span>ds-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-131-2" name="__codelineno-131-2" href="#__codelineno-131-2"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">- image</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.26-alpine</span>
+<a id="__codelineno-131-3" name="__codelineno-131-3" href="#__codelineno-131-3"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>15.</strong> View the DaemonSet age — it should be about 10 minutes old.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>ds-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>NAME     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE-SELECTOR   AGE
+<a id="__codelineno-133-2" name="__codelineno-133-2" href="#__codelineno-133-2"></a>ds-two   2         2         2       2            2           &lt;none&gt;          10m
+</code></pre></div>
+<p><strong>16.</strong> View the Pods. The <code>ds-two</code> pods should be much newer than the DaemonSet — they were replaced by the rolling update.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>NAME            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-135-2" name="__codelineno-135-2" href="#__codelineno-135-2"></a>ds-one-qc72k    1/1     Running   0          36m
+<a id="__codelineno-135-3" name="__codelineno-135-3" href="#__codelineno-135-3"></a>ds-one-z31r4    1/1     Running   0          1h
+<a id="__codelineno-135-4" name="__codelineno-135-4" href="#__codelineno-135-4"></a>ds-two-2p8vz    1/1     Running   0          34s
+<a id="__codelineno-135-5" name="__codelineno-135-5" href="#__codelineno-135-5"></a>ds-two-81x7k    1/1     Running   0          32s
+</code></pre></div>
+<p><strong>17.</strong> Verify the new Pods are running the updated image.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>po<span class="w"> </span>ds-two-81x7k<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Image:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>Image:   nginx:1.26-alpine
+</code></pre></div>
+<p><strong>18.</strong> View the rollout status and history of <code>ds-two</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>ds<span class="w"> </span>ds-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a>daemon set &quot;ds-two&quot; successfully rolled out
+</code></pre></div>
+<p><strong>19.</strong> Check rollout history.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>daemonset.apps/ds-two
+<a id="__codelineno-141-2" name="__codelineno-141-2" href="#__codelineno-141-2"></a>REVISION  CHANGE-CAUSE
+<a id="__codelineno-141-3" name="__codelineno-141-3" href="#__codelineno-141-3"></a>1         &lt;none&gt;
+<a id="__codelineno-141-4" name="__codelineno-141-4" href="#__codelineno-141-4"></a>2         &lt;none&gt;
+</code></pre></div>
+<p><strong>20.</strong> View detailed revision history.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-two<span class="w"> </span>--revision<span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-142-2" name="__codelineno-142-2" href="#__codelineno-142-2"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>ds<span class="w"> </span>ds-two<span class="w"> </span>--revision<span class="o">=</span><span class="m">2</span>
+</code></pre></div>
+<p><strong>21.</strong> Clean up by removing both DaemonSets.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>ds<span class="w"> </span>ds-one<span class="w"> </span>ds-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>daemonset.apps &quot;ds-one&quot; deleted
+<a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>daemonset.apps &quot;ds-two&quot; deleted
+</code></pre></div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.top", "navigation.tabs", "search.highlight", "search.suggest", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

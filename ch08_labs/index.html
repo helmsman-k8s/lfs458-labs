@@ -1,0 +1,1537 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Student lab guide for LFS458 / CKA preparation">
+      
+      
+        <meta name="author" content="HADAR TRAINING">
+      
+      
+      
+        <link rel="prev" href="../ch07_labs/">
+      
+      
+        <link rel="next" href="../ch09_labs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Chapter 8 - Helm & Kustomize - LFS458 - Kubernetes Administration Lab Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-8-helm-and-kustomize" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-header__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LFS458 - Kubernetes Administration Lab Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 8 - Helm & Kustomize
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch03_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 3 - Install Kubernetes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch04_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 4 - Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch05_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 5 - API Access
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch06_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 6 - API Objects
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch07_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 7 - Deployments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 8 - Helm & Kustomize
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch09_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 9 - Volumes & Data
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch10_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 10 - Services
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch11_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 11 - Ingress
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch12_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 12 - Scheduling
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch13_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 13 - Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch14_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 14 - Custom Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch15_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 15 - Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch16_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 16 - High Availability
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-nav__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    LFS458 - Kubernetes Administration Lab Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 - Install Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 - API Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 - API Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch07_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 - Deployments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 - Helm & Kustomize
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 - Helm & Kustomize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-81-working-with-helm-and-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 8.1: Working with Helm and Charts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 8.1: Working with Helm and Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Helm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-82-horizontal-pod-autoscaler-hpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 8.2: Horizontal Pod Autoscaler (HPA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-83-working-with-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 8.3: Working with Kustomize
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch09_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 9 - Volumes & Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch10_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 - Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch11_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11 - Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch12_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 12 - Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch13_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 13 - Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch14_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 14 - Custom Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch15_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 15 - Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch16_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 16 - High Availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapter-8-helm-and-kustomize">Chapter 8: Helm and Kustomize<a class="headerlink" href="#chapter-8-helm-and-kustomize" title="Permanent link">&para;</a></h1>
+<p><strong>Working directory: <code>~/lfs458/ch08-helm/</code></strong></p>
+<hr />
+<h2 id="exercise-81-working-with-helm-and-charts">Exercise 8.1: Working with Helm and Charts<a class="headerlink" href="#exercise-81-working-with-helm-and-charts" title="Permanent link">&para;</a></h2>
+<p><strong>Helm</strong> allows easy deployment of complex multi-part applications using a <code>Chart</code> — a collection of template files. Once installed you can list, upgrade, roll back, and delete releases.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch08-helm/
+</code></pre></div>
+<hr />
+<h3 id="install-helm">Install Helm<a class="headerlink" href="#install-helm" title="Permanent link">&para;</a></h3>
+<p><strong>1.</strong> Download the Helm binary using <code>wget</code>. Check https://github.com/helm/helm/releases for the latest version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>wget<span class="w"> </span>https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>helm-v3.19.0-linux-amd64.tar.gz 100%[===================&gt;] 17.18M
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>2025-10-18 13:38:09 (101 MB/s) - &#39;helm-v3.19.0-linux-amd64.tar.gz&#39; saved
+</code></pre></div>
+<p><strong>2.</strong> Extract the archive.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tar<span class="w"> </span>-xvf<span class="w"> </span>helm-v3.19.0-linux-amd64.tar.gz
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>linux-amd64/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>linux-amd64/helm
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>linux-amd64/README.md
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>linux-amd64/LICENSE
+</code></pre></div>
+<p><strong>3.</strong> Copy the <code>helm</code> binary to your PATH.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>cp<span class="w"> </span>linux-amd64/helm<span class="w"> </span>/usr/local/bin/helm
+</code></pre></div>
+<p><strong>4.</strong> Search for available charts on ArtifactHub.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>helm<span class="w"> </span>search<span class="w"> </span>hub<span class="w"> </span>database
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>URL                                               CHART VERSION   APP VERSION   DESCRIPTION
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>https://artifacthub.io/packages/helm/drycc/data...   1.0.2
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>                                                  A PostgreSQL database used by Drycc Workflow.
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>5.</strong> Add an external repository. We will use the <code>ealenn</code> repository which has a useful echo server chart.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>ealenn<span class="w"> </span>https://ealenn.github.io/charts
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&quot;ealenn&quot; has been added to your repositories
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Hang tight while we grab the latest from your chart repositories...
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>...Successfully got an update from the &quot;ealenn&quot; chart repository
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Update Complete.  Happy Helming!
+</code></pre></div>
+<p><strong>6.</strong> Install the <code>tester</code> release using the <code>ealenn/echo-server</code> chart. The <code>--debug</code> flag provides detailed output including how to access the application.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>-i<span class="w"> </span>tester<span class="w"> </span>ealenn/echo-server<span class="w"> </span>--debug
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>history.go:56: [debug] getting history for release tester
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>Release &quot;tester&quot; does not exist. Installing it now.
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>install.go:173: [debug] Original chart version: &quot;&quot;
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>install.go:190: [debug] CHART PATH: /home/guru/.cache/helm/repository/echo-server-0.5.0.tgz
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>client.go:122: [debug] creating 4 resource(s)
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>NAME: tester
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>7.</strong> Ensure the <code>tester-echo-server</code> pod is running. Fix any issues if not.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>NAME                                  READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tester-echo-server-xxxxxxx-xxxxx      1/1     Running   0          30s
+</code></pre></div>
+<p><strong>8.</strong> Find the ClusterIP of the service and send a <code>curl</code> request. You should get a large JSON response showing request details.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>kubernetes           ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP   26h
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>tester-echo-server   ClusterIP   10.98.252.11    &lt;none&gt;        80/TCP    11m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># If ClusterIP is unreachable from the node, curl the pod IP directly:</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nv">POD_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/instance<span class="o">=</span>tester<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].status.podIP}&#39;</span><span class="k">)</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>curl<span class="w"> </span><span class="nv">$POD_IP</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span><span class="nt">&quot;host&quot;</span><span class="p">:{</span><span class="nt">&quot;hostname&quot;</span><span class="p">:</span><span class="s2">&quot;10.98.252.11&quot;</span><span class="p">,</span><span class="nt">&quot;ip&quot;</span><span class="p">:</span><span class="s2">&quot;::ffff:192.168.74.128&quot;</span><span class="p">,</span><span class="nt">&quot;ips&quot;</span><span class="p">:</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="p">[]},</span><span class="nt">&quot;http&quot;</span><span class="p">:{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="nt">&quot;baseUrl&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;originalUrl&quot;</span><span class="p">:</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="nt">&quot;protocol&quot;</span><span class="p">:</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="s2">&quot;http&quot;</span><span class="p">},</span><span class="nt">&quot;request&quot;</span><span class="p">:{</span><span class="nt">&quot;params&quot;</span><span class="p">:{</span><span class="nt">&quot;0&quot;</span><span class="p">:</span><span class="s2">&quot;/&quot;</span><span class="p">},</span><span class="nt">&quot;query&quot;</span><span class="p">:{},</span><span class="nt">&quot;cookies&quot;</span><span class="p">:{},</span><span class="nt">&quot;body&quot;</span><span class="p">:</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">{},</span><span class="nt">&quot;headers&quot;</span><span class="p">:{</span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="s2">&quot;10.98.252.11&quot;</span><span class="p">,</span><span class="nt">&quot;user-agent&quot;</span><span class="p">:</span><span class="s2">&quot;curl/7.58.0&quot;</span><span class="p">,</span><span class="nt">&quot;accept&quot;</span><span class="p">:</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="s2">&quot;*/*&quot;</span><span class="p">}},</span><span class="nt">&quot;environment&quot;</span><span class="p">:{</span><span class="nt">&quot;PATH&quot;</span><span class="p">:</span><span class="err">&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="err">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<p><strong>9.</strong> View the chart history. The <code>-a</code> flag shows all charts including deleted and failed attempts.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>helm<span class="w"> </span>list
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>NAME     NAMESPACE   REVISION   UPDATED                                   STATUS    CHART               APP VERSION
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>tester   default     1          2025-10-19 13:42:38.262327888 +0000 UTC   deployed  echo-server-0.5.0   0.6.0
+</code></pre></div>
+<p><strong>10.</strong> Uninstall the <code>tester</code> chart. Verify it is no longer listed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>tester
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>release &quot;tester&quot; uninstalled
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>helm<span class="w"> </span>list
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>NAME   NAMESPACE   REVISION   UPDATED   STATUS   CHART   APP VERSION
+</code></pre></div>
+<p><strong>11.</strong> Find the cached chart tarball under the home directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>find<span class="w"> </span><span class="nv">$HOME</span><span class="w"> </span>-name<span class="w"> </span>*echo*
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>/home/guru/.cache/helm/repository/echo-server-0.5.0.tgz
+</code></pre></div>
+<p><strong>12.</strong> Move to the cache directory and extract the tarball to explore the chart structure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/.cache/helm/repository
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>tar<span class="w"> </span>-xvf<span class="w"> </span>echo-server-*
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>echo-server/Chart.yaml
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>echo-server/values.yaml
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>echo-server/templates/_helpers.tpl
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>echo-server/templates/configmap.yaml
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>echo-server/templates/deployment.yaml
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>13.</strong> Examine the <code>values.yaml</code> file to understand the configurable parameters.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>cat<span class="w"> </span>echo-server/values.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>14.</strong> Add the metrics-server repository and download its chart to explore it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>metrics-server<span class="w"> </span>https://kubernetes-sigs.github.io/metrics-server/
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>helm<span class="w"> </span>fetch<span class="w"> </span>metrics-server/metrics-server<span class="w"> </span>--untar
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nb">cd</span><span class="w"> </span>metrics-server/
+</code></pre></div>
+<p><strong>15.</strong> View the chart structure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>Chart.lock  Chart.yaml  README.md  charts  ci  files  templates
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>values.schema.json  values.yaml
+</code></pre></div>
+<p><strong>16.</strong> Review the <code>values.yaml</code> file. Find the <code>defaultArgs</code> section and add <code>--kubelet-insecure-tls</code> — this is required for our lab environment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>less<span class="w"> </span>values.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Default values for metrics-server.</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nt">image</span><span class="p">:</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.k8s.io/metrics-server/metrics-server</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nt">defaultArgs</span><span class="p">:</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--cert-dir=/tmp</span>
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname</span>
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--kubelet-use-node-status-port</span>
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--metric-resolution=15s</span>
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--kubelet-insecure-tls</span><span class="w">    </span><span class="c1">#  &lt;---- add this line</span>
+<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<p><strong>17.</strong> Install the metrics-server using the local <code>values.yaml</code>, deploying it into <code>kube-system</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>helm<span class="w"> </span>install<span class="w"> </span>metrics-server<span class="w"> </span>.<span class="w"> </span>-n<span class="w"> </span>kube-system
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>NAME: metrics-server
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>LAST DEPLOYED: Tue Oct 21 11:09:16 2025
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>NAMESPACE: kube-system
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>STATUS: deployed
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>REVISION: 1
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>TEST SUITE: None
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>NOTES:
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>* Metrics Server
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>18.</strong> Verify the metrics server pod is running and that <code>kubectl top</code> now works.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>metrics
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>metrics-server-799f7ccf68-b9t8d   1/1   Running   0   2m38s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>kubectl<span class="w"> </span>top<span class="w"> </span>nodes
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>NAME     CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>controller       202m         10%      1156Mi          14%
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>worker1   41m          2%       717Mi           9%
+</code></pre></div>
+<blockquote>
+<p>Leave the metrics-server running — it is required for Exercise 8.2.</p>
+</blockquote>
+<hr />
+<h2 id="exercise-82-horizontal-pod-autoscaler-hpa">Exercise 8.2: Horizontal Pod Autoscaler (HPA)<a class="headerlink" href="#exercise-82-horizontal-pod-autoscaler-hpa" title="Permanent link">&para;</a></h2>
+<p>The <strong>Horizontal Pod Autoscaler (HPA)</strong> automatically adjusts the number of Pod replicas based on observed CPU utilisation. It requires the metrics-server to be running.</p>
+<p><strong>1.</strong> The <code>hpa-deploy.yaml</code> file is already staged in your lab folder. Review it — it defines a Deployment and a Service for a CPU-intensive test application.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>cat<span class="w"> </span>~/lfs458/ch08-helm/hpa-deploy.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa-app</span>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa-app</span>
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa-app</span>
+<a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.k8s.io/hpa-example</span>
+<a id="__codelineno-44-18" name="__codelineno-44-18" href="#__codelineno-44-18"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-44-19" name="__codelineno-44-19" href="#__codelineno-44-19"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<a id="__codelineno-44-20" name="__codelineno-44-20" href="#__codelineno-44-20"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-44-21" name="__codelineno-44-21" href="#__codelineno-44-21"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-44-22" name="__codelineno-44-22" href="#__codelineno-44-22"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
+<a id="__codelineno-44-23" name="__codelineno-44-23" href="#__codelineno-44-23"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-44-24" name="__codelineno-44-24" href="#__codelineno-44-24"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m</span>
+<a id="__codelineno-44-25" name="__codelineno-44-25" href="#__codelineno-44-25"></a><span class="nn">---</span>
+<a id="__codelineno-44-26" name="__codelineno-44-26" href="#__codelineno-44-26"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-44-27" name="__codelineno-44-27" href="#__codelineno-44-27"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<a id="__codelineno-44-28" name="__codelineno-44-28" href="#__codelineno-44-28"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-44-29" name="__codelineno-44-29" href="#__codelineno-44-29"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa-app</span>
+<a id="__codelineno-44-30" name="__codelineno-44-30" href="#__codelineno-44-30"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-44-31" name="__codelineno-44-31" href="#__codelineno-44-31"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
+<a id="__codelineno-44-32" name="__codelineno-44-32" href="#__codelineno-44-32"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-44-33" name="__codelineno-44-33" href="#__codelineno-44-33"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa-app</span>
+<a id="__codelineno-44-34" name="__codelineno-44-34" href="#__codelineno-44-34"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-44-35" name="__codelineno-44-35" href="#__codelineno-44-35"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<a id="__codelineno-44-36" name="__codelineno-44-36" href="#__codelineno-44-36"></a><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</code></pre></div>
+<p><strong>2.</strong> Create the Deployment and Service.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch08-helm/hpa-deploy.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>deployment.apps/hpa-app created
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>service/hpa-app created
+</code></pre></div>
+<p><strong>3.</strong> Verify all resources are running. Both Pods should be on different nodes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deploy,rs,pods,svc<span class="w"> </span>-o<span class="w"> </span>wide
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>NAME                      READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>deployment.apps/hpa-app   2/2     2            2           2m6s   web          registry.k8s.io/hpa-example
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a>NAME                                DESIRED   CURRENT   READY   AGE    SELECTOR
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>replicaset.apps/hpa-app-844785cc56  2         2         2       2m6s   app=hpa-app
+<a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>
+<a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a>NAME                          READY   STATUS    RESTARTS   AGE    IP             NODE
+<a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a>pod/hpa-app-844785cc56-djrtq  1/1     Running   0          2m6s   192.168.0.1    controller
+<a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a>pod/hpa-app-844785cc56-zbklc  1/1     Running   0          2m6s   192.168.1.68   worker1
+<a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a>
+<a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a>NAME                  TYPE        CLUSTER-IP       PORT(S)    AGE
+<a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a>service/hpa-app       ClusterIP   10.107.208.86    80/TCP     2m6s
+<a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a>service/kubernetes    ClusterIP   10.96.0.1        443/TCP    20m
+</code></pre></div>
+<p><strong>4.</strong> Generate the HPA YAML using <code>--dry-run=client</code>. The HPA targets 50% CPU utilisation with a minimum of 2 and maximum of 10 replicas.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>autoscale<span class="w"> </span>deployment<span class="w"> </span>hpa-app<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">  </span>--cpu-percent<span class="o">=</span><span class="m">50</span><span class="w"> </span>--min<span class="o">=</span><span class="m">2</span><span class="w"> </span>--max<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">  </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>hpa.yaml
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>cat<span class="w"> </span>hpa.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">autoscaling/v2</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HorizontalPodAutoscaler</span>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="nn">...</span>
+</code></pre></div>
+<p><strong>5.</strong> Apply the HPA and verify it is being tracked. The <code>TARGETS</code> column will show <code>0%/50%</code> until load is detected.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>hpa.yaml
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>hpa
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>NAME      REFERENCE              TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>hpa-app   Deployment/hpa-app    cpu: 20%/50%   2         10        2          33s
+</code></pre></div>
+<p><strong>6.</strong> In a <strong>second terminal</strong>, install <code>siege</code> and run a 2-minute load test against the service ClusterIP. Use the IP from your <code>kubectl get svc</code> output.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>siege
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>siege<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>-t<span class="w"> </span>2m<span class="w"> </span>http://&lt;hpa-app-cluster-ip&gt;
+</code></pre></div>
+<p><strong>7.</strong> In the <strong>first terminal</strong>, watch the HPA scale up as CPU usage rises above 50%.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>watch<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>hpa
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>NAME      REFERENCE              TARGETS        MINPODS   MAXPODS   REPLICAS   AGE
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>hpa-app   Deployment/hpa-app    210%/50%        2         10        6          3m
+</code></pre></div>
+<p><strong>8.</strong> Watch the Pods scale dynamically across both nodes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>watch<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>NAME                          READY   STATUS    RESTARTS   AGE   NODE
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>hpa-app-6d7d9c7c9c-hbw9t      1/1     Running   0          6m    worker1
+<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>hpa-app-6d7d9c7c9c-8qj9d      1/1     Running   0          2m    controller
+<a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>hpa-app-6d7d9c7c9c-7k2h4      1/1     Running   0          1m    worker1
+<a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>...
+</code></pre></div>
+<p><strong>9.</strong> Once the load test finishes (<code>Ctrl+C</code> in the siege window), the HPA will gradually scale back down. Scaling down is intentionally slower to avoid oscillation.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>watch<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>hpa
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>NAME      REFERENCE              TARGETS        MINPODS   MAXPODS   REPLICAS   AGE
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>hpa-app   Deployment/hpa-app    cpu: 20%/50%   2         10        10         7m20s
+</code></pre></div>
+<blockquote>
+<p>Scaling down to 2 replicas may take several minutes after load stops.</p>
+</blockquote>
+<p><strong>10.</strong> Troubleshooting tips if HPA shows <code>&lt;unknown&gt;</code> metrics:
+- Ensure <code>metrics-server</code> is healthy: <code>kubectl get pods -n kube-system | grep metrics</code>
+- Verify the container defines a <code>cpu</code> request (HPA uses requests, not limits)
+- Check live usage: <code>kubectl top pods</code></p>
+<p><strong>11.</strong> Clean up all resources.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>-f<span class="w"> </span>hpa.yaml<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch08-helm/hpa-deploy.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>horizontalpodautoscaler.autoscaling &quot;hpa-app&quot; deleted from default namespace
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>deployment.apps &quot;hpa-app&quot; deleted from default namespace
+<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a>service &quot;hpa-app&quot; deleted from default namespace
+</code></pre></div>
+<hr />
+<h2 id="exercise-83-working-with-kustomize">Exercise 8.3: Working with Kustomize<a class="headerlink" href="#exercise-83-working-with-kustomize" title="Permanent link">&para;</a></h2>
+<p><strong>Kustomize</strong> is built into <code>kubectl</code> and allows you to customise Kubernetes configurations using a base/overlay pattern — no templating language required.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch08-helm/
+</code></pre></div>
+<p><strong>1.</strong> Verify kustomize is available as part of kubectl.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>kubectl<span class="w"> </span>kustomize<span class="w"> </span>--help
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>Build a set of KRM resources using a &#39;kustomization.yaml&#39; file. The DIR
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>argument must be a path to a directory containing &#39;kustomization.yaml&#39;,
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>or a git repository URL with a path suffix specifying same with respect
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a>to the repository root. If DIR is omitted, &#39;.&#39; is assumed.
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a>
+<a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>Examples:
+<a id="__codelineno-64-7" name="__codelineno-64-7" href="#__codelineno-64-7"></a>  # Build the current working directory
+<a id="__codelineno-64-8" name="__codelineno-64-8" href="#__codelineno-64-8"></a>  kubectl kustomize
+<a id="__codelineno-64-9" name="__codelineno-64-9" href="#__codelineno-64-9"></a>...
+<a id="__codelineno-64-10" name="__codelineno-64-10" href="#__codelineno-64-10"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>2.</strong> Create the directory structure for a base and two overlay environments.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>myapp/base<span class="w"> </span>myapp/overlays/dev<span class="w"> </span>myapp/overlays/prod
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>tree<span class="w"> </span>myapp
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>myapp
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>|--base
+<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>|-- overlays
+<a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a>    |-- dev
+<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a>    |-- prod
+</code></pre></div>
+<p><strong>3.</strong> Copy the base and overlay resource files from the Solutions folder.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>cp<span class="w"> </span>~/lfs458/ch08-helm/kustomize-base/*<span class="w"> </span>myapp/base/
+<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>cp<span class="w"> </span>~/lfs458/ch08-helm/kustomize-dev/*<span class="w"> </span>myapp/overlays/dev/
+<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>cp<span class="w"> </span>~/lfs458/ch08-helm/kustomize-prod/*<span class="w"> </span>myapp/overlays/prod/
+</code></pre></div>
+<blockquote>
+<p>If the kustomize files are not pre-staged, rename the solution files: files ending in <code>.yaml-base</code> go to <code>base/</code>, <code>.yaml-dev</code> to <code>overlays/dev/</code>, <code>.yaml-prod</code> to <code>overlays/prod/</code>, stripping the suffix.</p>
+</blockquote>
+<p><strong>4.</strong> Rename the manifest files in the base directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="nb">cd</span><span class="w"> </span>myapp/base
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.yaml-base<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">/-base/</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>ls<span class="w"> </span>*.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>deployment.yaml  kustomization.yaml  service.yaml
+</code></pre></div>
+<p><strong>5.</strong> Rename the manifest files in the overlays/dev directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="nb">cd</span><span class="w"> </span>../overlays/dev
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.yaml-dev<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">/-dev/</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>ls<span class="w"> </span>*.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>deployment-patch.yaml  kustomization.yaml  service-patch.yaml
+</code></pre></div>
+<p><strong>6.</strong> Rename the manifest files in the overlays/prod directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="nb">cd</span><span class="w"> </span>../prod
+<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.yaml-prod<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">/-prod/</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>ls<span class="w"> </span>*.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>deployment-patch.yaml  kustomization.yaml  service-patch.yaml
+</code></pre></div>
+<p><strong>7.</strong> Return to the home directory and verify the full directory structure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="nb">cd</span>
+<a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>tree<span class="w"> </span>myapp
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>myapp
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>|-- base
+<a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>|   |-- deployment.yaml
+<a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>|   |-- kustomization.yaml
+<a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a>|   `-- service.yaml
+<a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a>|-- overlays
+<a id="__codelineno-75-7" name="__codelineno-75-7" href="#__codelineno-75-7"></a>    |-- dev
+<a id="__codelineno-75-8" name="__codelineno-75-8" href="#__codelineno-75-8"></a>    |   |-- deployment-patch.yaml
+<a id="__codelineno-75-9" name="__codelineno-75-9" href="#__codelineno-75-9"></a>    |   |-- kustomization.yaml
+<a id="__codelineno-75-10" name="__codelineno-75-10" href="#__codelineno-75-10"></a>    |   `-- service-patch.yaml
+<a id="__codelineno-75-11" name="__codelineno-75-11" href="#__codelineno-75-11"></a>    `-- prod
+<a id="__codelineno-75-12" name="__codelineno-75-12" href="#__codelineno-75-12"></a>        |-- deployment-patch.yaml
+<a id="__codelineno-75-13" name="__codelineno-75-13" href="#__codelineno-75-13"></a>        |-- kustomization.yaml
+<a id="__codelineno-75-14" name="__codelineno-75-14" href="#__codelineno-75-14"></a>        `-- service-patch.yaml
+<a id="__codelineno-75-15" name="__codelineno-75-15" href="#__codelineno-75-15"></a>
+<a id="__codelineno-75-16" name="__codelineno-75-16" href="#__codelineno-75-16"></a>5 directories, 9 files
+</code></pre></div>
+<p><strong>8.</strong> Review the base <code>kustomization.yaml</code>. It sets a <code>namePrefix</code>, lists the resources, adds a common label, and injects it into selectors.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>vim<span class="w"> </span>myapp/base/kustomization.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="nt">namePrefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lf-</span>
+<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment.yaml</span>
+<a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service.yaml</span>
+<a id="__codelineno-77-7" name="__codelineno-77-7" href="#__codelineno-77-7"></a><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-77-8" name="__codelineno-77-8" href="#__codelineno-77-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">includeSelectors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-77-9" name="__codelineno-77-9" href="#__codelineno-77-9"></a><span class="w">  </span><span class="nt">pairs</span><span class="p">:</span>
+<a id="__codelineno-77-10" name="__codelineno-77-10" href="#__codelineno-77-10"></a><span class="w">    </span><span class="nt">company</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux-foundation</span>
+</code></pre></div>
+<p><strong>9.</strong> Preview the output for each environment before applying. Notice how each overlay applies different patches on top of the base.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>kubectl<span class="w"> </span>kustomize<span class="w"> </span>myapp/base
+<a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a>kubectl<span class="w"> </span>kustomize<span class="w"> </span>myapp/overlays/dev
+<a id="__codelineno-78-3" name="__codelineno-78-3" href="#__codelineno-78-3"></a>kubectl<span class="w"> </span>kustomize<span class="w"> </span>myapp/overlays/prod
+</code></pre></div>
+<p><strong>10.</strong> Apply the base configuration to the cluster.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span>myapp/base/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>service/lf-myapp created
+<a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a>deployment.apps/lf-myapp created
+</code></pre></div>
+<p><strong>11.</strong> Verify all resources have been deployed with the injected label.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>-l<span class="w"> </span><span class="nv">company</span><span class="o">=</span>linux-foundation
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>NAME                              READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>pod/lf-myapp-5b68c7d779-ngsq4     1/1     Running   0          3m23s
+<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>pod/lf-myapp-5b68c7d779-z8pth     1/1     Running   0          3m23s
+<a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a>
+<a id="__codelineno-82-5" name="__codelineno-82-5" href="#__codelineno-82-5"></a>NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+<a id="__codelineno-82-6" name="__codelineno-82-6" href="#__codelineno-82-6"></a>service/lf-myapp    ClusterIP   10.104.21.181    &lt;none&gt;        80/TCP    3m23s
+<a id="__codelineno-82-7" name="__codelineno-82-7" href="#__codelineno-82-7"></a>
+<a id="__codelineno-82-8" name="__codelineno-82-8" href="#__codelineno-82-8"></a>NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-82-9" name="__codelineno-82-9" href="#__codelineno-82-9"></a>deployment.apps/lf-myapp    2/2     2            2           3m23s
+<a id="__codelineno-82-10" name="__codelineno-82-10" href="#__codelineno-82-10"></a>
+<a id="__codelineno-82-11" name="__codelineno-82-11" href="#__codelineno-82-11"></a>NAME                                   DESIRED   CURRENT   READY   AGE
+<a id="__codelineno-82-12" name="__codelineno-82-12" href="#__codelineno-82-12"></a>replicaset.apps/lf-myapp-5b68c7d779    2         2         2       3m23s
+</code></pre></div>
+<p><strong>12.</strong> Apply the dev overlay patch on top of the running base.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span>myapp/overlays/dev/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>service/lf-myapp configured
+<a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>deployment.apps/lf-myapp configured
+</code></pre></div>
+<p><strong>13.</strong> Verify the resources have been updated according to the dev overlay configuration.</p>
+<p><strong>14.</strong> Clean up all resources created by the overlay.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>-k<span class="w"> </span>myapp/overlays/dev/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>service &quot;lf-myapp&quot; deleted
+<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>deployment.apps &quot;lf-myapp&quot; deleted
+</code></pre></div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.top", "navigation.tabs", "search.highlight", "search.suggest", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
