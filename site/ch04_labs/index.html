@@ -1,0 +1,1722 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Student lab guide for LFS458 / CKA preparation">
+      
+      
+        <meta name="author" content="HADAR TRAINING">
+      
+      
+      
+        <link rel="prev" href="../ch03_labs/">
+      
+      
+        <link rel="next" href="../ch05_labs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Chapter 4 - Architecture - LFS458 - Kubernetes Administration Lab Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-4-kubernetes-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-header__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LFS458 - Kubernetes Administration Lab Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 4 - Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch03_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 3 - Install Kubernetes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 4 - Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch05_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 5 - API Access
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch06_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 6 - API Objects
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch07_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 7 - Deployments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch08_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 8 - Helm & Kustomize
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch09_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 9 - Volumes & Data
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch10_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 10 - Services
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch11_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 11 - Ingress
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch12_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 12 - Scheduling
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch13_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 13 - Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch14_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 14 - Custom Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch15_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 15 - Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch16_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 16 - High Availability
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-nav__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    LFS458 - Kubernetes Administration Lab Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 - Install Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-41-basic-node-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 4.1: Basic Node Maintenance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 4.1: Basic Node Maintenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-the-etcd-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup the etcd Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upgrade-the-cluster-control-plane-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade the Cluster — Control Plane Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upgrade-the-cluster-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade the Cluster — Worker Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-42-working-with-cpu-and-memory-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 4.2: Working with CPU and Memory Constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-43-resource-limits-for-a-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 4.3: Resource Limits for a Namespace
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 - API Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 - API Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch07_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 - Deployments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch08_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 - Helm & Kustomize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch09_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 9 - Volumes & Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch10_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 - Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch11_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11 - Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch12_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 12 - Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch13_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 13 - Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch14_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 14 - Custom Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch15_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 15 - Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch16_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 16 - High Availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapter-4-kubernetes-architecture">Chapter 4: Kubernetes Architecture<a class="headerlink" href="#chapter-4-kubernetes-architecture" title="Permanent link">&para;</a></h1>
+<p><strong>Working directory: <code>~/lfs458/ch04-architecture/</code></strong></p>
+<hr />
+<h2 id="exercise-41-basic-node-maintenance">Exercise 4.1: Basic Node Maintenance<a class="headerlink" href="#exercise-41-basic-node-maintenance" title="Permanent link">&para;</a></h2>
+<p>In this exercise we will back up the <strong>etcd</strong> database and then upgrade the version of Kubernetes on the control plane and worker nodes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
+</code></pre></div>
+<hr />
+<h3 id="backup-the-etcd-database">Backup the etcd Database<a class="headerlink" href="#backup-the-etcd-database" title="Permanent link">&para;</a></h3>
+<p><strong>1.</strong> Find the data directory of the <strong>etcd</strong> daemon. All settings for the pod can be found in its manifest.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>grep<span class="w"> </span>data-dir<span class="w"> </span>/etc/kubernetes/manifests/etcd.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>  - --data-dir=/var/lib/etcd
+</code></pre></div>
+<p><strong>2.</strong> Log into the etcd container to explore the <strong>etcdctl</strong> options. Use Tab to complete the container name — it has the node name appended to it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>etcd-controller<span class="w"> </span>--<span class="w"> </span>sh
+</code></pre></div>
+<blockquote>
+<p>The following sub-steps (a), (b), (c) run <strong>inside the etcd container shell</strong>.</p>
+</blockquote>
+<p><strong>(a)</strong> View the arguments and options available to <code>etcdctl</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>etcdctl<span class="w"> </span>-h
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>NAME:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>        etcdctl - A simple command line client for etcd3.
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>USAGE:
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        etcdctl [flags]
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>(b)</strong> Find the TLS certificate files needed to authenticate with etcd. Newer etcd images are minimised so <code>find</code> and <code>ls</code> may not be available — use <code>echo</code> instead.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>/etc/kubernetes/pki/etcd
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span>*
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ca.crt ca.key healthcheck-client.crt healthcheck-client.key
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>peer.crt peer.key server.crt server.key
+</code></pre></div>
+<p><strong>(c)</strong> Exit the container shell.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">exit</span>
+</code></pre></div>
+<p><strong>3.</strong> Check the health of the etcd database using the loopback IP and port 2379. Pass the peer cert, key, and CA as environment variables. You do not need to type out the comments or backslashes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>etcd-controller<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;ETCDCTL_API=3 \</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s2">  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="s2">  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="s2">  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="s2">  etcdctl endpoint health&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 11.942936ms
+</code></pre></div>
+<p><strong>4.</strong> Determine how many databases are part of the cluster. Three or five members are common in production for 50%+1 quorum. In our single-node exercise environment you will only see one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>etcd-controller<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;ETCDCTL_API=3 \</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="s2">  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="s2">  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="s2">  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="s2">  etcdctl --endpoints=https://127.0.0.1:2379 member list&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>fb50b7ddbf4930ba, started, controller, https://192.168.2.x:2380,
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>https://192.168.2.x:2379, false
+</code></pre></div>
+<p><strong>5.</strong> View the member list in table format using the <code>-w table</code> option.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>etcd-controller<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;ETCDCTL_API=3 \</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s2">  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="s2">  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="s2">  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s2">  etcdctl --endpoints=https://127.0.0.1:2379 member list -w table&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>+------------------+---------+------+---------------------------+---------------------------+---------+
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>|        ID        | STATUS  | NAME |        PEER ADDRS         |       CLIENT ADDRS        | LEARNER |
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>+------------------+---------+------+---------------------------+---------------------------+---------+
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>| 802d78549985d5a8 | started | controller | https://192.168.2.x:2380  | https://192.168.2.x:2379  | false   |
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>+------------------+---------+------+---------------------------+---------------------------+---------+
+</code></pre></div>
+<p><strong>6.</strong> Back up the etcd database using the <code>snapshot</code> argument. The snapshot is saved inside the container's data directory <code>/var/lib/etcd/</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>etcd-controller<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;ETCDCTL_API=3 \</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s2">  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s2">  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s2">  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="s2">  etcdctl --endpoints=https://127.0.0.1:2379 snapshot save /var/lib/etcd/snapshot.db&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>{&quot;level&quot;:&quot;info&quot;,...,&quot;msg&quot;:&quot;created temporary db file&quot;,&quot;path&quot;:&quot;/var/lib/etcd/snapshot.db.part&quot;}
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>{&quot;level&quot;:&quot;info&quot;,...,&quot;msg&quot;:&quot;fetched snapshot&quot;,&quot;endpoint&quot;:&quot;https://127.0.0.1:2379&quot;}
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>{&quot;level&quot;:&quot;info&quot;,...,&quot;msg&quot;:&quot;saved&quot;,&quot;path&quot;:&quot;/var/lib/etcd/snapshot.db&quot;}
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>Snapshot saved at /var/lib/etcd/snapshot.db
+</code></pre></div>
+<p><strong>7.</strong> Verify the snapshot file exists from the node perspective.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/var/lib/etcd/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>total 3888
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>drwx------ 4 root root    4096 Aug 25 11:22 member
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>-rw------- 1 root root 3973152 Aug 25 18:42 snapshot.db
+</code></pre></div>
+<p><strong>8.</strong> Back up the snapshot and cluster config files locally in case the node becomes unavailable.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>mkdir<span class="w"> </span><span class="nv">$HOME</span>/backup
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>cp<span class="w"> </span>/var/lib/etcd/snapshot.db<span class="w"> </span><span class="nv">$HOME</span>/backup/snapshot.db-<span class="k">$(</span>date<span class="w"> </span>+%m-%d-%y<span class="k">)</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>sudo<span class="w"> </span>cp<span class="w"> </span>/root/kubeadm-config.yaml<span class="w"> </span><span class="nv">$HOME</span>/backup/
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>sudo<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>/etc/kubernetes/pki/etcd<span class="w"> </span><span class="nv">$HOME</span>/backup/
+</code></pre></div>
+<blockquote>
+<p>Any mistakes during restore may render the cluster unusable. Attempt a restore only after the final lab exercise. More on the restore process: https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster</p>
+</blockquote>
+<hr />
+<h3 id="upgrade-the-cluster-control-plane-node">Upgrade the Cluster — Control Plane Node<a class="headerlink" href="#upgrade-the-cluster-control-plane-node" title="Permanent link">&para;</a></h3>
+<p><strong>1.</strong> Update the package metadata for APT.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>2.</strong> Update the Kubernetes apt repository to point to the new minor version you want to upgrade to. Replace <code>33</code> with <code>34</code> to target v1.34.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/v1.33/v1.34/g&#39;</span><span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</code></pre></div>
+<p><strong>3.</strong> View the available kubeadm packages to confirm the target version is available.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>4.</strong> Remove the hold on <strong>kubeadm</strong> and upgrade it to the next release's first patch (update 1).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Canceled hold on kubeadm.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.34.1-1.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>Reading package lists... Done
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>Building dependency tree
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>Reading state information... Done
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>5.</strong> Hold the package again to prevent unintended upgrades.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>kubeadm set on hold.
+</code></pre></div>
+<p><strong>6.</strong> Verify the new kubeadm version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>version
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>kubeadm version: &amp;version.Info{Major:&quot;1&quot;, Minor:&quot;34&quot;, GitVersion:&quot;v1.34.1&quot;, ...}
+</code></pre></div>
+<p><strong>7.</strong> Drain the CP node to evict as many pods as possible before upgrading. DaemonSet pods such as Cilium must remain.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>controller<span class="w"> </span>--ignore-daemonsets
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>node/controller cordoned
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>Warning: ignoring DaemonSet-managed Pods: kube-system/cilium-5tv9d, kube-system/kube-proxy-8x9c5
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>evicting pod kube-system/coredns-5d78c9869d-z5ngb
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>evicting pod kube-system/cilium-operator-788c7d7585-wnb5b
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>evicting pod kube-system/coredns-5d78c9869d-4h2bs
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>pod/cilium-operator-788c7d7585-wnb5b evicted
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>pod/coredns-5d78c9869d-z5ngb evicted
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>pod/coredns-5d78c9869d-4h2bs evicted
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>node/controller drained
+</code></pre></div>
+<p><strong>8.</strong> Review the upgrade plan. Read through the output to understand what will change.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>plan
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>[preflight] Running pre-flight checks.
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>[upgrade/config] Reading configuration from the cluster...
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>[upgrade] Running cluster health checks
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>[upgrade/versions] Cluster version: v1.33.1
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>[upgrade/versions] kubeadm version: v1.34.1
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>[upgrade/versions] Target version: v1.34.1
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>[upgrade/versions] Latest version in the v1.34 series: v1.34.1
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>9.</strong> Apply the upgrade. Answer <strong>y</strong> when prompted. This will take several minutes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>apply<span class="w"> </span>v1.34.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>[preflight] Running pre-flight checks.
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>[upgrade/config] Reading configuration from the cluster...
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>[upgrade/version] You have chosen to change the cluster version to &quot;v1.34.1&quot;
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>[upgrade/versions] Cluster version: v1.33.1
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>[upgrade/versions] kubeadm version: v1.34.1
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>[upgrade] Are you sure you want to proceed? [y/N]: y
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>[upgrade/prepull] Pulling images required for setting up a Kubernetes cluster
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>10.</strong> Check node status. The CP should show <code>Ready,SchedulingDisabled</code> and still show the old version until kubelet is upgraded.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>controller   Ready,SchedulingDisabled   control-plane   109m   v1.33.1
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>worker1      Ready                      &lt;none&gt;          61m    v1.33.1
+</code></pre></div>
+<p><strong>11.</strong> Release the hold on <strong>kubelet</strong> and <strong>kubectl</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Canceled hold on kubelet.
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>Canceled hold on kubectl.
+</code></pre></div>
+<p><strong>12.</strong> Upgrade both packages to match kubeadm.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.34.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.34.1-1.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Reading package lists... Done
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>13.</strong> Hold the packages again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>kubelet set on hold.
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>kubectl set on hold.
+</code></pre></div>
+<p><strong>14.</strong> Restart the daemons.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+</code></pre></div>
+<p><strong>15.</strong> Verify the CP node now shows the new version. The worker still shows the old version — we will upgrade it next.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>controller   Ready,SchedulingDisabled   control-plane   113m   v1.34.1
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>worker1      Ready                      &lt;none&gt;          65m    v1.33.1
+</code></pre></div>
+<p><strong>16.</strong> Make the CP available for scheduling again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>controller
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>node/controller uncordoned
+</code></pre></div>
+<p><strong>17.</strong> Verify the CP now shows <code>Ready</code> status.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>NAME     STATUS   ROLES           AGE    VERSION
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>controller   Ready    control-plane   114m   v1.34.1
+<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>worker1      Ready    &lt;none&gt;          66m    v1.33.1
+</code></pre></div>
+<hr />
+<h3 id="upgrade-the-cluster-worker-node">Upgrade the Cluster — Worker Node<a class="headerlink" href="#upgrade-the-cluster-worker-node" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Open a <strong>second terminal</strong> connected to the <strong>worker node</strong> for steps 18–27. You will also need the CP terminal open.</p>
+</blockquote>
+<p><strong>18.</strong> On the <strong>worker node</strong>, remove the hold on kubeadm.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>Canceled hold on kubeadm.
+</code></pre></div>
+<p><strong>19.</strong> Update the apt repository to point to v1.34, then update package metadata.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/v1.33/v1.34/g&#39;</span><span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</code></pre></div>
+<p><strong>20.</strong> View available packages to confirm the target version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>kubeadm | 1.34.2-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+<a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<p><strong>21.</strong> Install the updated kubeadm on the worker.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.34.1-1.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>&lt;output_omitted&gt;
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>Setting up kubeadm (1.34.1-1.1) ...
+</code></pre></div>
+<p><strong>22.</strong> Hold kubeadm again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>kubeadm set on hold.
+</code></pre></div>
+<p><strong>23.</strong> Back on the <strong>CP node</strong>, drain the worker node to evict its pods before upgrading.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>worker1<span class="w"> </span>--ignore-daemonsets
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>node/worker1 cordoned
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>Warning: ignoring DaemonSet-managed Pods: kube-system/cilium-gzdk6, kube-system/kube-proxy-lpsmq
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>evicting pod kube-system/coredns-5d78c9869d-h4p7v
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a>evicting pod kube-system/coredns-5d78c9869d-d4nv8
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a>pod/coredns-5d78c9869d-h4p7v evicted
+<a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>pod/coredns-5d78c9869d-d4nv8 evicted
+<a id="__codelineno-64-7" name="__codelineno-64-7" href="#__codelineno-64-7"></a>node/worker1 drained
+</code></pre></div>
+<p><strong>24.</strong> Back on the <strong>worker node</strong>, download the updated node configuration.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>node
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>[upgrade] Reading configuration from the cluster...
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>[preflight] Running pre-flight checks
+<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>[preflight] Skipping prepull. Not a control plane node.
+<a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a>[upgrade] Skipping phase. Not a control plane node.
+<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a>[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+<a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a>[upgrade] The configuration for this node was successfully updated!
+<a id="__codelineno-66-7" name="__codelineno-66-7" href="#__codelineno-66-7"></a>[upgrade] Now you should go ahead and upgrade the kubelet package using your package manager.
+</code></pre></div>
+<p><strong>25.</strong> Remove the hold on kubelet and kubectl, then upgrade them.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>Canceled hold on kubelet.
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>Canceled hold on kubectl.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.34.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.34.1-1.1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>Reading package lists... Done
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>&lt;output_omitted&gt;
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>Setting up kubectl (1.34.1-1.1) ...
+<a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>Setting up kubelet (1.34.1-1.1) ...
+</code></pre></div>
+<p><strong>26.</strong> Hold the packages again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>kubelet set on hold.
+<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>kubectl set on hold.
+</code></pre></div>
+<p><strong>27.</strong> Restart the daemons on the worker node.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+</code></pre></div>
+<p><strong>28.</strong> Back on the <strong>CP node</strong>, check the status of both nodes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>controller   Ready                      control-plane   118m   v1.34.1
+<a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>worker1      Ready,SchedulingDisabled   &lt;none&gt;          70m    v1.34.1
+</code></pre></div>
+<p><strong>29.</strong> Uncordon the worker node to allow pods to be scheduled on it again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>worker1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>node/worker1 uncordoned
+</code></pre></div>
+<p><strong>30.</strong> Verify both nodes show <code>Ready</code> and the same upgraded version.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>NAME     STATUS   ROLES           AGE    VERSION
+<a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>controller   Ready    control-plane   119m   v1.34.1
+<a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a>worker1      Ready    &lt;none&gt;          71m    v1.34.1
+</code></pre></div>
+<hr />
+<h2 id="exercise-42-working-with-cpu-and-memory-constraints">Exercise 4.2: Working with CPU and Memory Constraints<a class="headerlink" href="#exercise-42-working-with-cpu-and-memory-constraints" title="Permanent link">&para;</a></h2>
+<p>We will deploy a <strong>stress</strong> application inside a container and use <code>resource limits</code> to constrain what it can consume.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
+</code></pre></div>
+<p><strong>1.</strong> Create a deployment called <code>hog</code> using the <code>vish/stress</code> container image and verify it is running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>deployment.apps/hog created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>hog    1/1     1            1           13s
+</code></pre></div>
+<p><strong>2.</strong> Describe the deployment and view the output in YAML format. Note there are no resource limits set — the <code>resources:</code> field shows empty curly brackets <code>{}</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>deployment<span class="w"> </span>hog
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>Name:       hog
+<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>Namespace:  default
+<a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a>Labels:     app=hog
+<a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a>Annotations: deployment.kubernetes.io/revision: 1
+<a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+<a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">template</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-88-6" name="__codelineno-88-6" href="#__codelineno-88-6"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-88-7" name="__codelineno-88-7" href="#__codelineno-88-7"></a><span class="w">      </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<a id="__codelineno-88-8" name="__codelineno-88-8" href="#__codelineno-88-8"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-88-9" name="__codelineno-88-9" href="#__codelineno-88-9"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-88-10" name="__codelineno-88-10" href="#__codelineno-88-10"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-88-11" name="__codelineno-88-11" href="#__codelineno-88-11"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-88-12" name="__codelineno-88-12" href="#__codelineno-88-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
+<a id="__codelineno-88-13" name="__codelineno-88-13" href="#__codelineno-88-13"></a><span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<a id="__codelineno-88-14" name="__codelineno-88-14" href="#__codelineno-88-14"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
+<a id="__codelineno-88-15" name="__codelineno-88-15" href="#__codelineno-88-15"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-88-16" name="__codelineno-88-16" href="#__codelineno-88-16"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<p><strong>3.</strong> Save the deployment YAML to a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>hog.yaml
+</code></pre></div>
+<p><strong>4.</strong> Edit the file to remove the <code>status:</code> section, <code>creationTimestamp</code>, and other generated fields. Then add memory resource limits as shown below. Find the <code>resources: {}</code> line and replace it with the limits block.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>vim<span class="w"> </span>hog.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span><span class="w">             </span><span class="c1"># Edit to remove {}</span>
+<a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span><span class="w">              </span><span class="c1"># Add these 4 lines</span>
+<a id="__codelineno-91-5" name="__codelineno-91-5" href="#__codelineno-91-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
+<a id="__codelineno-91-6" name="__codelineno-91-6" href="#__codelineno-91-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-91-7" name="__codelineno-91-7" href="#__codelineno-91-7"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2500Mi&quot;</span>
+<a id="__codelineno-91-8" name="__codelineno-91-8" href="#__codelineno-91-8"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-91-9" name="__codelineno-91-9" href="#__codelineno-91-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>5.</strong> Replace the deployment using the edited file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>kubectl<span class="w"> </span>replace<span class="w"> </span>-f<span class="w"> </span>hog.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>deployment.apps/hog replaced
+</code></pre></div>
+<p><strong>6.</strong> Verify the deployment now shows the memory resource limits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-95-3" name="__codelineno-95-3" href="#__codelineno-95-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-95-4" name="__codelineno-95-4" href="#__codelineno-95-4"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
+<a id="__codelineno-95-5" name="__codelineno-95-5" href="#__codelineno-95-5"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-95-6" name="__codelineno-95-6" href="#__codelineno-95-6"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2500Mi</span>
+<a id="__codelineno-95-7" name="__codelineno-95-7" href="#__codelineno-95-7"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-95-8" name="__codelineno-95-8" href="#__codelineno-95-8"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>7.</strong> View the pod name and check its logs to see the stress application output.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>po
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>NAME                    READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>hog-64cbfcc7cf-lwq66    1/1     Running   0          2m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>I1102 16:16:42.638972  1 main.go:26] Allocating &quot;0&quot; memory, in
+<a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>  &quot;4Ki&quot; chunks, with a 1ms sleep between allocations
+<a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a>I1102 16:16:42.639064  1 main.go:29] Allocated &quot;0&quot; memory
+</code></pre></div>
+<p><strong>8.</strong> Open a second and third terminal to access both CP and worker nodes. Run <code>top</code> on each to monitor resource usage. The <strong>stress</strong> command is not consuming resources yet since no <code>args:</code> have been set.</p>
+<p><strong>9.</strong> Edit <code>hog.yaml</code> to add CPU and memory consumption arguments for the <strong>stress</strong> container. The <code>args:</code> entry should be indented at the same level as <code>resources:</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>vim<span class="w"> </span>hog.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-101-4" name="__codelineno-101-4" href="#__codelineno-101-4"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
+<a id="__codelineno-101-5" name="__codelineno-101-5" href="#__codelineno-101-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
+<a id="__codelineno-101-6" name="__codelineno-101-6" href="#__codelineno-101-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-101-7" name="__codelineno-101-7" href="#__codelineno-101-7"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.5&quot;</span>
+<a id="__codelineno-101-8" name="__codelineno-101-8" href="#__codelineno-101-8"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500Mi&quot;</span>
+<a id="__codelineno-101-9" name="__codelineno-101-9" href="#__codelineno-101-9"></a><span class="w w-Error">        </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-101-10" name="__codelineno-101-10" href="#__codelineno-101-10"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-cpus</span>
+<a id="__codelineno-101-11" name="__codelineno-101-11" href="#__codelineno-101-11"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
+<a id="__codelineno-101-12" name="__codelineno-101-12" href="#__codelineno-101-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-total</span>
+<a id="__codelineno-101-13" name="__codelineno-101-13" href="#__codelineno-101-13"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;950Mi&quot;</span>
+<a id="__codelineno-101-14" name="__codelineno-101-14" href="#__codelineno-101-14"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-size</span>
+<a id="__codelineno-101-15" name="__codelineno-101-15" href="#__codelineno-101-15"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span>
+<a id="__codelineno-101-16" name="__codelineno-101-16" href="#__codelineno-101-16"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-sleep</span>
+<a id="__codelineno-101-17" name="__codelineno-101-17" href="#__codelineno-101-17"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1s&quot;</span>
+<a id="__codelineno-101-18" name="__codelineno-101-18" href="#__codelineno-101-18"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>10.</strong> Delete and recreate the deployment. Watch the <code>top</code> output on both nodes — you should see CPU usage spike and memory allocated in 100Mi chunks.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>deployment.apps &quot;hog&quot; deleted
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>deployment.apps/hog created
+</code></pre></div>
+<blockquote>
+<p>If <code>top</code> does not show high usage, check the pod logs for errors. A common mistake is using <code>Mi</code> (case sensitive) — <code>mi</code> will cause the container to panic.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+<a id="__codelineno-106-2" name="__codelineno-106-2" href="#__codelineno-106-2"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
+</code></pre></div>
+<hr />
+<h2 id="exercise-43-resource-limits-for-a-namespace">Exercise 4.3: Resource Limits for a Namespace<a class="headerlink" href="#exercise-43-resource-limits-for-a-namespace" title="Permanent link">&para;</a></h2>
+<p>The previous exercise set limits on a specific deployment. You can also set limits on an entire <strong>namespace</strong> using a <code>LimitRange</code> object. When set, the <code>hog</code> deployment should not be able to exceed those namespace-level limits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
+</code></pre></div>
+<p><strong>1.</strong> Create a new namespace called <code>low-usage-limit</code> and verify it exists.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>low-usage-limit
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>namespace/low-usage-limit created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>namespace
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>NAME              STATUS   AGE
+<a id="__codelineno-111-2" name="__codelineno-111-2" href="#__codelineno-111-2"></a>default           Active   1h
+<a id="__codelineno-111-3" name="__codelineno-111-3" href="#__codelineno-111-3"></a>kube-node-lease   Active   1h
+<a id="__codelineno-111-4" name="__codelineno-111-4" href="#__codelineno-111-4"></a>kube-public       Active   1h
+<a id="__codelineno-111-5" name="__codelineno-111-5" href="#__codelineno-111-5"></a>kube-system       Active   1h
+<a id="__codelineno-111-6" name="__codelineno-111-6" href="#__codelineno-111-6"></a>low-usage-limit   Active   42s
+</code></pre></div>
+<p><strong>2.</strong> The <code>low-resource-range.yaml</code> file is already staged in your lab folder. Review it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>cat<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-113-2" name="__codelineno-113-2" href="#__codelineno-113-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LimitRange</span>
+<a id="__codelineno-113-3" name="__codelineno-113-3" href="#__codelineno-113-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-113-4" name="__codelineno-113-4" href="#__codelineno-113-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-resource-range</span>
+<a id="__codelineno-113-5" name="__codelineno-113-5" href="#__codelineno-113-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-113-6" name="__codelineno-113-6" href="#__codelineno-113-6"></a><span class="w">  </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-113-7" name="__codelineno-113-7" href="#__codelineno-113-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-113-8" name="__codelineno-113-8" href="#__codelineno-113-8"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-113-9" name="__codelineno-113-9" href="#__codelineno-113-9"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
+<a id="__codelineno-113-10" name="__codelineno-113-10" href="#__codelineno-113-10"></a><span class="w">    </span><span class="nt">defaultRequest</span><span class="p">:</span>
+<a id="__codelineno-113-11" name="__codelineno-113-11" href="#__codelineno-113-11"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<a id="__codelineno-113-12" name="__codelineno-113-12" href="#__codelineno-113-12"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
+<a id="__codelineno-113-13" name="__codelineno-113-13" href="#__codelineno-113-13"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Container</span>
+</code></pre></div>
+<p><strong>3.</strong> Apply the LimitRange to the <code>low-usage-limit</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a><span class="w">  </span>-n<span class="w"> </span>low-usage-limit
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a>limitrange/low-resource-range created
+</code></pre></div>
+<p><strong>4.</strong> Verify the LimitRange was created. Note it only exists in the <code>low-usage-limit</code> namespace — the default namespace shows nothing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a>No resources found in default namespace.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange<span class="w"> </span>--all-namespaces
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>NAMESPACE         NAME                CREATED AT
+<a id="__codelineno-119-2" name="__codelineno-119-2" href="#__codelineno-119-2"></a>low-usage-limit   low-resource-range  2024-06-23T10:23:57Z
+</code></pre></div>
+<p><strong>5.</strong> Create a new deployment in the <code>low-usage-limit</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a><span class="w">  </span>create<span class="w"> </span>deployment<span class="w"> </span>limited-hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a>deployment.apps/limited-hog created
+</code></pre></div>
+<p><strong>6.</strong> List deployments across all namespaces. Note that <code>hog</code> continues to run in the <code>default</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>default           hog               1/1     1            1           7m57s
+<a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a>kube-system       cilium-operator   1/1     1            1           2d10h
+<a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a>kube-system       coredns           2/2     2            2           2d10h
+<a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a>low-usage-limit   limited-hog       1/1     1            1           9s
+</code></pre></div>
+<p><strong>7.</strong> View the pods in the <code>low-usage-limit</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>NAME                            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>limited-hog-2556092078-wnpnv    1/1     Running   0          2m11s
+</code></pre></div>
+<p><strong>8.</strong> Look at the pod details. Notice it has inherited the resource limits from the namespace LimitRange.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a><span class="w">  </span>get<span class="w"> </span>pod<span class="w"> </span>&lt;limited-hog-pod-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+<a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-127-3" name="__codelineno-127-3" href="#__codelineno-127-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-127-4" name="__codelineno-127-4" href="#__codelineno-127-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
+<a id="__codelineno-127-5" name="__codelineno-127-5" href="#__codelineno-127-5"></a><span class="w">    </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<a id="__codelineno-127-6" name="__codelineno-127-6" href="#__codelineno-127-6"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
+<a id="__codelineno-127-7" name="__codelineno-127-7" href="#__codelineno-127-7"></a><span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-127-8" name="__codelineno-127-8" href="#__codelineno-127-8"></a><span class="w">      </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-127-9" name="__codelineno-127-9" href="#__codelineno-127-9"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
+<a id="__codelineno-127-10" name="__codelineno-127-10" href="#__codelineno-127-10"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
+<a id="__codelineno-127-11" name="__codelineno-127-11" href="#__codelineno-127-11"></a><span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-127-12" name="__codelineno-127-12" href="#__codelineno-127-12"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span>
+<a id="__codelineno-127-13" name="__codelineno-127-13" href="#__codelineno-127-13"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
+<a id="__codelineno-127-14" name="__codelineno-127-14" href="#__codelineno-127-14"></a><span class="w">    </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-127-15" name="__codelineno-127-15" href="#__codelineno-127-15"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<p><strong>9.</strong> Copy <code>hog.yaml</code> to a new file and add a <code>namespace:</code> line so the deployment runs in <code>low-usage-limit</code>. Delete the <code>selfLink:</code> line if it exists.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>cp<span class="w"> </span>hog.yaml<span class="w"> </span>hog2.yaml
+<a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a>vim<span class="w"> </span>hog2.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">labels</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-129-3" name="__codelineno-129-3" href="#__codelineno-129-3"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-129-4" name="__codelineno-129-4" href="#__codelineno-129-4"></a><span class="w w-Error">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-129-5" name="__codelineno-129-5" href="#__codelineno-129-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-usage-limit</span><span class="w">    </span><span class="c1">#&lt;-- Add this line, delete selfLink below if present</span>
+<a id="__codelineno-129-6" name="__codelineno-129-6" href="#__codelineno-129-6"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-129-7" name="__codelineno-129-7" href="#__codelineno-129-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+<p><strong>10.</strong> Create the deployment in the <code>low-usage-limit</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog2.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>deployment.apps/hog created
+</code></pre></div>
+<p><strong>11.</strong> List all deployments. You should see two deployments with the same name <code>hog</code> — one in <code>default</code> and one in <code>low-usage-limit</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-133-2" name="__codelineno-133-2" href="#__codelineno-133-2"></a>default           hog               1/1     1            1           24m
+<a id="__codelineno-133-3" name="__codelineno-133-3" href="#__codelineno-133-3"></a>kube-system       cilium-operator   1/1     0            0           4h
+<a id="__codelineno-133-4" name="__codelineno-133-4" href="#__codelineno-133-4"></a>kube-system       coredns           2/2     2            2           4h
+<a id="__codelineno-133-5" name="__codelineno-133-5" href="#__codelineno-133-5"></a>low-usage-limit   hog               1/1     1            1           26s
+<a id="__codelineno-133-6" name="__codelineno-133-6" href="#__codelineno-133-6"></a>low-usage-limit   limited-hog       1/1     1            1           5m11s
+</code></pre></div>
+<p><strong>12.</strong> Check <code>top</code> on both node terminals. Both <code>hog</code> deployments should be consuming about the same resources — the per-deployment settings from <code>hog.yaml</code> override the global namespace limits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>25128 root   20   0  958532 954672  3180 R 100.0 11.7   0:52.27 stress
+<a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>24875 root   20   0  958532 954800  3180 R 100.3 11.7  41:04.97 stress
+</code></pre></div>
+<p><strong>13.</strong> Delete all <code>hog</code> deployments to recover cluster resources.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>limited-hog
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>deployment.apps &quot;hog&quot; deleted
+<a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a>deployment.apps &quot;limited-hog&quot; deleted
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>deployment.apps &quot;hog&quot; deleted
+</code></pre></div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.top", "navigation.tabs", "search.highlight", "search.suggest", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

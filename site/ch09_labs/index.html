@@ -1,0 +1,1833 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Student lab guide for LFS458 / CKA preparation">
+      
+      
+        <meta name="author" content="HADAR TRAINING">
+      
+      
+      
+        <link rel="prev" href="../ch08_labs/">
+      
+      
+        <link rel="next" href="../ch10_labs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Chapter 9 - Volumes & Data - LFS458 - Kubernetes Administration Lab Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-9-volumes-and-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-header__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LFS458 - Kubernetes Administration Lab Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 9 - Volumes & Data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch03_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 3 - Install Kubernetes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch04_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 4 - Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch05_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 5 - API Access
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch06_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 6 - API Objects
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch07_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 7 - Deployments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch08_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 8 - Helm & Kustomize
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 9 - Volumes & Data
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch10_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 10 - Services
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch11_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 11 - Ingress
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch12_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 12 - Scheduling
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch13_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 13 - Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch14_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 14 - Custom Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch15_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 15 - Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch16_labs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapter 16 - High Availability
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-nav__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    LFS458 - Kubernetes Administration Lab Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 - Install Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 - API Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 - API Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch07_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 - Deployments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch08_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 - Helm & Kustomize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 9 - Volumes & Data
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 9 - Volumes & Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-91-create-a-configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 9.1: Create a ConfigMap
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 9.1: Create a ConfigMap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap-from-files-and-literals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap from files and literals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configmap-from-a-yaml-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap from a YAML file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configmap-as-a-mounted-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap as a mounted volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-92-creating-a-persistent-nfs-volume-pv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 9.2: Creating a Persistent NFS Volume (PV)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-93-creating-a-persistent-volume-claim-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 9.3: Creating a Persistent Volume Claim (PVC)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-94-using-a-resourcequota-to-limit-pvc-count-and-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 9.4: Using a ResourceQuota to Limit PVC Count and Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-95-using-storageclass-to-dynamically-provision-a-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 9.5: Using StorageClass to Dynamically Provision a Volume
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch10_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 - Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch11_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11 - Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch12_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 12 - Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch13_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 13 - Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch14_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 14 - Custom Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch15_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 15 - Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch16_labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 16 - High Availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapter-9-volumes-and-data">Chapter 9: Volumes and Data<a class="headerlink" href="#chapter-9-volumes-and-data" title="Permanent link">&para;</a></h1>
+<p><strong>Working directory: <code>~/lfs458/ch09-volumes/</code></strong></p>
+<hr />
+<h2 id="exercise-91-create-a-configmap">Exercise 9.1: Create a ConfigMap<a class="headerlink" href="#exercise-91-create-a-configmap" title="Permanent link">&para;</a></h2>
+<p>A <code>ConfigMap</code> decouples configuration from container images. Data is stored as key-value pairs and can be consumed as environment variables or mounted volumes. Unlike Secrets, ConfigMap data is not encoded.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch09-volumes/
+</code></pre></div>
+<hr />
+<h3 id="configmap-from-files-and-literals">ConfigMap from files and literals<a class="headerlink" href="#configmap-from-files-and-literals" title="Permanent link">&para;</a></h3>
+<p><strong>1.</strong> Create a directory called <code>primary</code> and populate it with four color files. Also create a <code>favorite</code> file in the home directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkdir<span class="w"> </span>primary
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">echo</span><span class="w"> </span>c<span class="w"> </span>&gt;<span class="w"> </span>primary/cyan
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">echo</span><span class="w"> </span>m<span class="w"> </span>&gt;<span class="w"> </span>primary/magenta
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">echo</span><span class="w"> </span>y<span class="w"> </span>&gt;<span class="w"> </span>primary/yellow
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">echo</span><span class="w"> </span>k<span class="w"> </span>&gt;<span class="w"> </span>primary/black
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;known as key&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>primary/black
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">echo</span><span class="w"> </span>blue<span class="w"> </span>&gt;<span class="w"> </span>favorite
+</code></pre></div>
+<p><strong>2.</strong> Create a ConfigMap called <code>colors</code> from all three sources — a literal, a single file, and the entire directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>configmap<span class="w"> </span>colors<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">text</span><span class="o">=</span>black<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--from-file<span class="o">=</span>./favorite<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--from-file<span class="o">=</span>./primary/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>configmap/colors created
+</code></pre></div>
+<p><strong>3.</strong> View the ConfigMap to understand how data is organised.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>colors
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>NAME     DATA   AGE
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>colors   6      30s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>colors<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">black</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="no">k</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="no">known as key</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">cyan</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="no">c</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">favorite</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="no">blue</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">  </span><span class="nt">magenta</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="no">m</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">black</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="nt">yellow</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="no">y</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<p><strong>4.</strong> Create a Pod that uses one ConfigMap key as an environment variable. The <code>simpleshell.yaml</code> file is pre-staged in your lab folder.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shell-demo</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ilike</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">      </span><span class="nt">valueFrom</span><span class="p">:</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="nt">configMapKeyRef</span><span class="p">:</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">colors</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">favorite</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pod/shell-demo created
+</code></pre></div>
+<p><strong>5.</strong> Verify the environment variable is set inside the Pod, then delete it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>shell-demo<span class="w"> </span>--<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo $ilike&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>blue
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>shell-demo
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>pod &quot;shell-demo&quot; deleted
+</code></pre></div>
+<p><strong>6.</strong> Edit <code>simpleshell.yaml</code> to load <strong>all</strong> ConfigMap keys as environment variables using <code>envFrom</code>. Comment out the previous <code>env:</code> block and add <code>envFrom:</code> at the same indentation as <code>image:</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>vim<span class="w"> </span>simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">image</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">#     env:</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">#     - name: ilike</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1">#       valueFrom:</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1">#         configMapKeyRef:</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1">#           name: colors</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1">#           key: favorite</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">      </span><span class="nt">envFrom</span><span class="p">:</span><span class="w">                    </span><span class="c1">#&lt;-- Same indent as image: line</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">configMapRef</span><span class="p">:</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">colors</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>pod/shell-demo created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>shell-demo<span class="w"> </span>--<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;env&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>black=k
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>known as key
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>KUBERNETES_SERVICE_PORT_HTTPS=443
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>cyan=c
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>&lt;output_omitted&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>shell-demo
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>pod &quot;shell-demo&quot; deleted
+</code></pre></div>
+<hr />
+<h3 id="configmap-from-a-yaml-file">ConfigMap from a YAML file<a class="headerlink" href="#configmap-from-a-yaml-file" title="Permanent link">&para;</a></h3>
+<p><strong>7.</strong> Create a ConfigMap from a YAML file describing a car. The <code>car-map.yaml</code> file is pre-staged.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/car-map.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fast-car</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">  </span><span class="nt">car.make</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ford</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="w">  </span><span class="nt">car.model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mustang</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="w">  </span><span class="nt">car.trim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Shelby</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>car-map.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>configmap/fast-car created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>fast-car<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span><span class="nt">car.make</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ford</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="w">  </span><span class="nt">car.model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mustang</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="w">  </span><span class="nt">car.trim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Shelby</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="configmap-as-a-mounted-volume">ConfigMap as a mounted volume<a class="headerlink" href="#configmap-as-a-mounted-volume" title="Permanent link">&para;</a></h3>
+<p><strong>8.</strong> Edit <code>simpleshell.yaml</code> to mount the <code>fast-car</code> ConfigMap as a volume at <code>/etc/cars</code>. Comment out the <code>envFrom:</code> block and add the <code>volumeMounts:</code> and <code>volumes:</code> sections.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>vim<span class="w"> </span>simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="l l-Scalar l-Scalar-Plain">&lt;output_omitted&gt;</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">car-vol</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/cars</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">car-vol</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a><span class="w">      </span><span class="nt">configMap</span><span class="p">:</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fast-car</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">&lt;comment out rest of file&gt;</span>
+</code></pre></div>
+<p><strong>9.</strong> Wait, note: <code>volumes:</code> must be at the same level as <code>containers:</code> (under <code>spec:</code>), not inside <code>containers:</code>. Correct indentation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">car-vol</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/cars</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">car-vol</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="w">    </span><span class="nt">configMap</span><span class="p">:</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fast-car</span>
+</code></pre></div>
+<p><strong>10.</strong> Create the Pod and verify the volume mount exists and the ConfigMap data is accessible.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>simpleshell.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>pod/shell-demo created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>shell-demo<span class="w"> </span>--<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;df -ha |grep car&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>/dev/root   9.6G  3.2G  6.4G  34%  /etc/cars
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>shell-demo<span class="w"> </span>--<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cat /etc/cars/car.trim&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Shelby
+</code></pre></div>
+<p><strong>11.</strong> Delete the Pod and ConfigMaps.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pods<span class="w"> </span>shell-demo
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>configmap<span class="w"> </span>fast-car<span class="w"> </span>colors
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>pod &quot;shell-demo&quot; deleted
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>configmap &quot;fast-car&quot; deleted
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>configmap &quot;colors&quot; deleted
+</code></pre></div>
+<hr />
+<h2 id="exercise-92-creating-a-persistent-nfs-volume-pv">Exercise 9.2: Creating a Persistent NFS Volume (PV)<a class="headerlink" href="#exercise-92-creating-a-persistent-nfs-volume-pv" title="Permanent link">&para;</a></h2>
+<p>We will deploy an NFS server on the CP node, then create a <code>PersistentVolume</code> backed by it.</p>
+<p><strong>1.</strong> Install the NFS server software on the <strong>CP node</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nfs-kernel-server
+</code></pre></div>
+<p><strong>2.</strong> Create the shared directory and populate it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>/opt/sfw
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">1777</span><span class="w"> </span>/opt/sfw/
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>sudo<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo software &gt; /opt/sfw/hello.txt&#39;</span>
+</code></pre></div>
+<p><strong>3.</strong> Configure the NFS export. Edit <code>/etc/exports</code> and add the following line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/exports
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>/opt/sfw/ *(rw,sync,no_root_squash,subtree_check)
+</code></pre></div>
+<p><strong>4.</strong> Force the NFS server to re-read the exports file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-ra
+</code></pre></div>
+<p><strong>5.</strong> On the <strong>worker1 node</strong>, install the NFS client and verify the export is visible.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1"># SSH into worker1 first</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>ssh<span class="w"> </span>worker1
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nfs-common
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>showmount<span class="w"> </span>-e<span class="w"> </span>controller
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>Export list for controller:
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>/opt/sfw  *
+</code></pre></div>
+<p><strong>6.</strong> Test the mount from the worker1 node.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Still on worker1</span>
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>sudo<span class="w"> </span>mount<span class="w"> </span>controller:/opt/sfw<span class="w"> </span>/mnt
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>ls<span class="w"> </span>-l<span class="w"> </span>/mnt
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="nb">exit</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>total 4
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>-rw-r--r-- 1 root root 23 Aug 28 17:55 hello.txt
+</code></pre></div>
+<p><strong>7.</strong> Return to the <strong>CP node</strong>. The <code>PVol.yaml</code> file is pre-staged in your lab folder. Review it and ensure the <code>server:</code> field matches your CP node hostname.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/PVol.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolume</span>
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvvol-1</span>
+<a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a><span class="w">  </span><span class="nt">capacity</span><span class="p">:</span>
+<a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a><span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
+<a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteMany</span>
+<a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a><span class="w">  </span><span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Retain</span>
+<a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a><span class="w">  </span><span class="nt">nfs</span><span class="p">:</span>
+<a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/sfw</span>
+<a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a><span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">controller</span><span class="w">    </span><span class="c1">#&lt;-- Edit to match your CP hostname if different</span>
+<a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="w">    </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<p><strong>8.</strong> Create the PersistentVolume and verify it is <code>Available</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>PVol.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>persistentvolume/pvvol-1 created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>pvvol-1   1Gi        RWX            Retain           Available           &lt;unset&gt;
+</code></pre></div>
+<hr />
+<h2 id="exercise-93-creating-a-persistent-volume-claim-pvc">Exercise 9.3: Creating a Persistent Volume Claim (PVC)<a class="headerlink" href="#exercise-93-creating-a-persistent-volume-claim-pvc" title="Permanent link">&para;</a></h2>
+<p>Before Pods can use a PV, a <code>PersistentVolumeClaim</code> must be created. The claim finds a matching PV and binds to it.</p>
+<p><strong>1.</strong> Check for existing PVCs.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pvc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>No resources found in default namespace.
+</code></pre></div>
+<p><strong>2.</strong> Review the pre-staged <code>pvc.yaml</code> file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/pvc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
+<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-one</span>
+<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-59-6" name="__codelineno-59-6" href="#__codelineno-59-6"></a><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
+<a id="__codelineno-59-7" name="__codelineno-59-7" href="#__codelineno-59-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteMany</span>
+<a id="__codelineno-59-8" name="__codelineno-59-8" href="#__codelineno-59-8"></a><span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-59-9" name="__codelineno-59-9" href="#__codelineno-59-9"></a><span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-59-10" name="__codelineno-59-10" href="#__codelineno-59-10"></a><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200Mi</span>
+</code></pre></div>
+<p><strong>3.</strong> Create the PVC and verify it is <code>Bound</code>. Note the bound capacity is 1Gi even though only 200Mi was requested — it bound to the smallest available PV that meets the requirements.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>persistentvolumeclaim/pvc-one created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pvc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>NAME      STATUS   VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>pvc-one   Bound    pvvol-1   1Gi        RWX                           7s
+</code></pre></div>
+<p><strong>4.</strong> Verify the PV now shows <code>Bound</code> status.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM             STORAGECLASS
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>pvvol-1   1Gi        RWX            Retain           Bound    default/pvc-one   &lt;unset&gt;
+</code></pre></div>
+<p><strong>5.</strong> Review the pre-staged <code>nfs-pod.yaml</code> — a Deployment that mounts the PVC at <code>/opt</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/nfs-pod.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-nfs</span>
+<a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-67-9" name="__codelineno-67-9" href="#__codelineno-67-9"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<a id="__codelineno-67-10" name="__codelineno-67-10" href="#__codelineno-67-10"></a><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-67-12" name="__codelineno-67-12" href="#__codelineno-67-12"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-67-13" name="__codelineno-67-13" href="#__codelineno-67-13"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-67-14" name="__codelineno-67-14" href="#__codelineno-67-14"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-67-15" name="__codelineno-67-15" href="#__codelineno-67-15"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-67-16" name="__codelineno-67-16" href="#__codelineno-67-16"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-67-17" name="__codelineno-67-17" href="#__codelineno-67-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-67-18" name="__codelineno-67-18" href="#__codelineno-67-18"></a><span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<a id="__codelineno-67-19" name="__codelineno-67-19" href="#__codelineno-67-19"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-67-20" name="__codelineno-67-20" href="#__codelineno-67-20"></a><span class="w">        </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<a id="__codelineno-67-21" name="__codelineno-67-21" href="#__codelineno-67-21"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfs-vol</span>
+<a id="__codelineno-67-22" name="__codelineno-67-22" href="#__codelineno-67-22"></a><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt</span>
+<a id="__codelineno-67-23" name="__codelineno-67-23" href="#__codelineno-67-23"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-67-24" name="__codelineno-67-24" href="#__codelineno-67-24"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<a id="__codelineno-67-25" name="__codelineno-67-25" href="#__codelineno-67-25"></a><span class="w">          </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<a id="__codelineno-67-26" name="__codelineno-67-26" href="#__codelineno-67-26"></a><span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-67-27" name="__codelineno-67-27" href="#__codelineno-67-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfs-vol</span>
+<a id="__codelineno-67-28" name="__codelineno-67-28" href="#__codelineno-67-28"></a><span class="w">        </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<a id="__codelineno-67-29" name="__codelineno-67-29" href="#__codelineno-67-29"></a><span class="w">          </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-one</span>
+</code></pre></div>
+<p><strong>6.</strong> Create the Deployment and verify the Pod is running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nfs-pod.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>deployment.apps/nginx-nfs created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>nginx-nfs-1054709768-s8g28    1/1     Running   0          3m
+</code></pre></div>
+<p><strong>7.</strong> Describe the Pod and confirm the NFS volume is mounted.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nginx-nfs-pod-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>Name:       nginx-nfs-1054709768-s8g28
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>Namespace:  default
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>Node:       worker1/192.168.2.x
+<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a>&lt;output_omitted&gt;
+<a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a>Mounts:
+<a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a>  /opt from nfs-vol (rw)
+<a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a>&lt;output_omitted&gt;
+<a id="__codelineno-73-8" name="__codelineno-73-8" href="#__codelineno-73-8"></a>Volumes:
+<a id="__codelineno-73-9" name="__codelineno-73-9" href="#__codelineno-73-9"></a>  nfs-vol:
+<a id="__codelineno-73-10" name="__codelineno-73-10" href="#__codelineno-73-10"></a>    Type:       PersistentVolumeClaim (a reference to a PersistentV...
+<a id="__codelineno-73-11" name="__codelineno-73-11" href="#__codelineno-73-11"></a>    ClaimName:  pvc-one
+<a id="__codelineno-73-12" name="__codelineno-73-12" href="#__codelineno-73-12"></a>    ReadOnly:   false
+</code></pre></div>
+<hr />
+<h2 id="exercise-94-using-a-resourcequota-to-limit-pvc-count-and-usage">Exercise 9.4: Using a ResourceQuota to Limit PVC Count and Usage<a class="headerlink" href="#exercise-94-using-a-resourcequota-to-limit-pvc-count-and-usage" title="Permanent link">&para;</a></h2>
+<p>A <code>ResourceQuota</code> limits the total consumption of resources within a namespace — including storage.</p>
+<p><strong>1.</strong> Delete the existing deployment, PVC and PV to start clean.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-nfs
+<a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>pvc-one
+<a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pv<span class="w"> </span>pvvol-1
+</code></pre></div>
+<p><strong>2.</strong> Review the pre-staged <code>storage-quota.yaml</code>. It limits the namespace to 10 PVCs and 500Mi total storage.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/storage-quota.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ResourceQuota</span>
+<a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storagequota</span>
+<a id="__codelineno-76-5" name="__codelineno-76-5" href="#__codelineno-76-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-76-6" name="__codelineno-76-6" href="#__codelineno-76-6"></a><span class="w">  </span><span class="nt">hard</span><span class="p">:</span>
+<a id="__codelineno-76-7" name="__codelineno-76-7" href="#__codelineno-76-7"></a><span class="w">    </span><span class="nt">persistentvolumeclaims</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<a id="__codelineno-76-8" name="__codelineno-76-8" href="#__codelineno-76-8"></a><span class="w">    </span><span class="nt">requests.storage</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500Mi&quot;</span>
+</code></pre></div>
+<p><strong>3.</strong> Create a namespace called <code>small</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>namespace/small created
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>Name:        small
+<a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a>Status:      Active
+<a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a>No resource quota.
+<a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a>No resource limits.
+</code></pre></div>
+<p><strong>4.</strong> Create the PV and PVC in the <code>small</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>PVol.yaml
+<a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>persistentvolume/pvvol-1 created
+<a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>persistentvolumeclaim/pvc-one created
+</code></pre></div>
+<p><strong>5.</strong> Create the ResourceQuota in the <code>small</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>storage-quota.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>resourcequota/storagequota created
+</code></pre></div>
+<p><strong>6.</strong> Verify the quota is now showing in the namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>Name:    small
+<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>Status:  Active
+<a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a>
+<a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a>Resource Quotas
+<a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a> Name:                  storagequota
+<a id="__codelineno-86-6" name="__codelineno-86-6" href="#__codelineno-86-6"></a> Resource               Used    Hard
+<a id="__codelineno-86-7" name="__codelineno-86-7" href="#__codelineno-86-7"></a> --------               ---     ---
+<a id="__codelineno-86-8" name="__codelineno-86-8" href="#__codelineno-86-8"></a> persistentvolumeclaims 1       10
+<a id="__codelineno-86-9" name="__codelineno-86-9" href="#__codelineno-86-9"></a> requests.storage       200Mi   500Mi
+<a id="__codelineno-86-10" name="__codelineno-86-10" href="#__codelineno-86-10"></a>
+<a id="__codelineno-86-11" name="__codelineno-86-11" href="#__codelineno-86-11"></a>No resource limits.
+</code></pre></div>
+<p><strong>7.</strong> Remove the <code>namespace: default</code> line from <code>nfs-pod.yaml</code> so it can be applied to any namespace via the command line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>vim<span class="w"> </span>nfs-pod.yaml
+</code></pre></div>
+<p><strong>8.</strong> Deploy the nginx-nfs pod into the <code>small</code> namespace.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nfs-pod.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>deployment.apps/nginx-nfs created
+</code></pre></div>
+<p><strong>9.</strong> Verify the deployment has a running Pod.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>deploy
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a>nginx-nfs   1/1     1            1           43s
+</code></pre></div>
+<p><strong>10.</strong> Verify the Pod is running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>pod
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-93-2" name="__codelineno-93-2" href="#__codelineno-93-2"></a>nginx-nfs-2854978848-g3khf    1/1     Running   0          37s
+</code></pre></div>
+<p><strong>11.</strong> Confirm the NFS volume is mounted.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nginx-nfs-pod-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>Mounts:
+<a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a>  /opt from nfs-vol (rw)
+</code></pre></div>
+<p><strong>12.</strong> View the quota usage.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>Resource Quotas
+<a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a> Name:                  storagequota
+<a id="__codelineno-97-3" name="__codelineno-97-3" href="#__codelineno-97-3"></a> Resource               Used    Hard
+<a id="__codelineno-97-4" name="__codelineno-97-4" href="#__codelineno-97-4"></a> --------               ---     ---
+<a id="__codelineno-97-5" name="__codelineno-97-5" href="#__codelineno-97-5"></a> persistentvolumeclaims 1       10
+<a id="__codelineno-97-6" name="__codelineno-97-6" href="#__codelineno-97-6"></a> requests.storage       200Mi   500Mi
+</code></pre></div>
+<p><strong>13.</strong> Write a 300M file to <code>/opt/sfw</code> on the host and check quota — note NFS storage usage is not counted against the deployment quota.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/opt/sfw/bigfile<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">300</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>300+0 records in
+<a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>300+0 records out
+<a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a>314572800 bytes (315 MB, 300 MiB) copied
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a>requests.storage   200Mi   500Mi
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>du<span class="w"> </span>-h<span class="w"> </span>/opt/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>301M    /opt/sfw
+<a id="__codelineno-103-2" name="__codelineno-103-2" href="#__codelineno-103-2"></a>341M    /opt/
+</code></pre></div>
+<p><strong>14.</strong> Shut down the deployment.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-nfs
+</code></pre></div>
+<p><strong>15.</strong> Check the quota — storage is still counted even with no pods running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>requests.storage   200Mi   500Mi
+</code></pre></div>
+<p><strong>16.</strong> View the PVC and PV, then delete the PVC. Note the PV policy is <code>Retain</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>pvc
+<a id="__codelineno-107-2" name="__codelineno-107-2" href="#__codelineno-107-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>pvc-one
+<a id="__codelineno-107-3" name="__codelineno-107-3" href="#__codelineno-107-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM
+<a id="__codelineno-108-2" name="__codelineno-108-2" href="#__codelineno-108-2"></a>pvvol-1   1Gi        RWX            Retain           Released   small/pvc-one
+</code></pre></div>
+<p><strong>17.</strong> Manually provisioned PVs default to <code>Retain</code>. Delete and recreate the PV, then use <code>kubectl patch</code> to change the policy to <code>Delete</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pv<span class="w"> </span>pvvol-1
+<a id="__codelineno-109-2" name="__codelineno-109-2" href="#__codelineno-109-2"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>PVol.yaml
+<a id="__codelineno-109-3" name="__codelineno-109-3" href="#__codelineno-109-3"></a>kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span>pvvol-1<span class="w"> </span>-p<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-109-4" name="__codelineno-109-4" href="#__codelineno-109-4"></a><span class="w">  </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Delete&quot;}}&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>persistentvolume/pvvol-1 patched
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv/pvvol-1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM
+<a id="__codelineno-112-2" name="__codelineno-112-2" href="#__codelineno-112-2"></a>pvvol-1   1Gi        RWX            Delete           Available
+</code></pre></div>
+<p><strong>18.</strong> Create the PVC again and verify quota usage.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc.yaml
+<a id="__codelineno-113-2" name="__codelineno-113-2" href="#__codelineno-113-2"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a>requests.storage   200Mi   500Mi
+</code></pre></div>
+<p><strong>19.</strong> Delete the quota and recreate it with a lower <code>requests.storage</code> of <code>100Mi</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>delete<span class="w"> </span>resourcequota<span class="w"> </span>storagequota
+<a id="__codelineno-115-2" name="__codelineno-115-2" href="#__codelineno-115-2"></a>vim<span class="w"> </span>storage-quota.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-116-2" name="__codelineno-116-2" href="#__codelineno-116-2"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">requests.storage</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span><span class="w">    </span><span class="c1">#&lt;-- Edit from 500Mi</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>storage-quota.yaml
+<a id="__codelineno-117-2" name="__codelineno-117-2" href="#__codelineno-117-2"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>persistentvolumeclaims   1       10
+<a id="__codelineno-118-2" name="__codelineno-118-2" href="#__codelineno-118-2"></a>requests.storage         200Mi   100Mi
+</code></pre></div>
+<p><strong>20.</strong> The quota is already exceeded. Add a <code>LimitRange</code> to enforce resource constraints (reuse from Chapter 4).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>limitrange/low-resource-range created
+</code></pre></div>
+<p><strong>21.</strong> View the namespace — it now shows both quota and limits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>Resource Limits
+<a id="__codelineno-122-2" name="__codelineno-122-2" href="#__codelineno-122-2"></a> Type       Resource   Min   Max   Default Request   Default Limit
+<a id="__codelineno-122-3" name="__codelineno-122-3" href="#__codelineno-122-3"></a> ----       --------   ---   ---   ---------------   -------------
+<a id="__codelineno-122-4" name="__codelineno-122-4" href="#__codelineno-122-4"></a> Container  cpu        -     -     500m              1
+<a id="__codelineno-122-5" name="__codelineno-122-5" href="#__codelineno-122-5"></a> Container  memory     -     -     100Mi             500Mi
+</code></pre></div>
+<p><strong>22.</strong> Recreate the PV with <code>Recycle</code> policy and attempt to create the PVC. Because the quota limit is exceeded the PVC will be rejected.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pv<span class="w"> </span>pvvol-1
+<a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>vim<span class="w"> </span>PVol.yaml<span class="w">    </span><span class="c1"># change persistentVolumeReclaimPolicy to Recycle</span>
+<a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>PVol.yaml
+<a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM
+<a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>pvvol-1   1Gi        RWX            Recycle          Available
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>Error from server (Forbidden): error when creating &quot;pvc.yaml&quot;:
+<a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>persistentvolumeclaims &quot;pvc-one&quot; is forbidden: exceeded quota:
+<a id="__codelineno-126-3" name="__codelineno-126-3" href="#__codelineno-126-3"></a>storagequota, requested: requests.storage=200Mi, used:
+<a id="__codelineno-126-4" name="__codelineno-126-4" href="#__codelineno-126-4"></a>requests.storage=0, limited: requests.storage=100Mi
+</code></pre></div>
+<p><strong>23.</strong> Edit the ResourceQuota to increase <code>requests.storage</code> back to <code>500Mi</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>edit<span class="w"> </span>resourcequota
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-128-3" name="__codelineno-128-3" href="#__codelineno-128-3"></a><span class="w">  </span><span class="nt">hard</span><span class="p">:</span>
+<a id="__codelineno-128-4" name="__codelineno-128-4" href="#__codelineno-128-4"></a><span class="w">    </span><span class="nt">persistentvolumeclaims</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<a id="__codelineno-128-5" name="__codelineno-128-5" href="#__codelineno-128-5"></a><span class="w">    </span><span class="nt">requests.storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span><span class="w">    </span><span class="c1">#&lt;-- Edit back to 500Mi</span>
+</code></pre></div>
+<p><strong>24.</strong> Create the PVC and Deployment again — they should now succeed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc.yaml
+<a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nfs-pod.yaml
+</code></pre></div>
+<p><strong>25.</strong> View namespace settings and confirm everything is running.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>pod
+<a id="__codelineno-130-2" name="__codelineno-130-2" href="#__codelineno-130-2"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>ns<span class="w"> </span>small
+</code></pre></div>
+<p><strong>26.</strong> Delete the Deployment, PVC, then observe the PV status — the <code>Recycle</code> policy scrubs the data automatically.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-nfs
+<a id="__codelineno-131-2" name="__codelineno-131-2" href="#__codelineno-131-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>pvc-one
+<a id="__codelineno-131-3" name="__codelineno-131-3" href="#__codelineno-131-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>small<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM
+<a id="__codelineno-132-2" name="__codelineno-132-2" href="#__codelineno-132-2"></a>pvvol-1   1Gi        RWX            Recycle          Available
+</code></pre></div>
+<p><strong>27.</strong> Remove all remaining resources from this exercise.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pv<span class="w"> </span>pvvol-1
+</code></pre></div>
+<hr />
+<h2 id="exercise-95-using-storageclass-to-dynamically-provision-a-volume">Exercise 9.5: Using StorageClass to Dynamically Provision a Volume<a class="headerlink" href="#exercise-95-using-storageclass-to-dynamically-provision-a-volume" title="Permanent link">&para;</a></h2>
+<p>A <code>StorageClass</code> enables <strong>dynamic provisioning</strong> — PVs are created automatically when a PVC is submitted, eliminating the need for admin-managed PVs.</p>
+<p><strong>1.</strong> Verify no StorageClass exists yet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>sc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>No resources found
+</code></pre></div>
+<p><strong>2.</strong> Deploy the <code>nfs-subdir-external-provisioner</code> via Helm. This provides an NFS-backed StorageClass.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>nfs-subdir-external-provisioner<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a><span class="w">  </span>https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+<a id="__codelineno-136-3" name="__codelineno-136-3" href="#__codelineno-136-3"></a>
+<a id="__codelineno-136-4" name="__codelineno-136-4" href="#__codelineno-136-4"></a>helm<span class="w"> </span>install<span class="w"> </span>nfs-subdir-external-provisioner<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-136-5" name="__codelineno-136-5" href="#__codelineno-136-5"></a><span class="w">  </span>nfs-subdir-external-provisioner/nfs-subdir-external-provisioner<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-136-6" name="__codelineno-136-6" href="#__codelineno-136-6"></a><span class="w">  </span>--set<span class="w"> </span>nfs.server<span class="o">=</span>controller<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-136-7" name="__codelineno-136-7" href="#__codelineno-136-7"></a><span class="w">  </span>--set<span class="w"> </span>nfs.path<span class="o">=</span>/opt/sfw/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>NAME: nfs-subdir-external-provisioner
+<a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>LAST DEPLOYED: Mon Jan  8 12:11:39 2024
+<a id="__codelineno-137-3" name="__codelineno-137-3" href="#__codelineno-137-3"></a>NAMESPACE: default
+<a id="__codelineno-137-4" name="__codelineno-137-4" href="#__codelineno-137-4"></a>STATUS: deployed
+<a id="__codelineno-137-5" name="__codelineno-137-5" href="#__codelineno-137-5"></a>REVISION: 1
+<a id="__codelineno-137-6" name="__codelineno-137-6" href="#__codelineno-137-6"></a>TEST SUITE: None
+</code></pre></div>
+<p><strong>3.</strong> Verify the provisioner created a StorageClass automatically.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>sc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a>NAME         PROVISIONER                                    RECLAIMPOLICY   VOLUMEBINDINGMODE
+<a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>nfs-client   cluster.local/nfs-subdir-external-provisioner Delete          Immediate
+</code></pre></div>
+<p><strong>4.</strong> Confirm there are no existing PVs or PVCs.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv,pvc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>No resources found
+</code></pre></div>
+<p><strong>5.</strong> Review the pre-staged <code>pvc-sc.yaml</code> — note it references the StorageClass by name.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/pvc-sc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
+<a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-143-4" name="__codelineno-143-4" href="#__codelineno-143-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-two</span>
+<a id="__codelineno-143-5" name="__codelineno-143-5" href="#__codelineno-143-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-143-6" name="__codelineno-143-6" href="#__codelineno-143-6"></a><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfs-client</span>
+<a id="__codelineno-143-7" name="__codelineno-143-7" href="#__codelineno-143-7"></a><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
+<a id="__codelineno-143-8" name="__codelineno-143-8" href="#__codelineno-143-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteMany</span>
+<a id="__codelineno-143-9" name="__codelineno-143-9" href="#__codelineno-143-9"></a><span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-143-10" name="__codelineno-143-10" href="#__codelineno-143-10"></a><span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-143-11" name="__codelineno-143-11" href="#__codelineno-143-11"></a><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200Mi</span>
+</code></pre></div>
+<p><strong>6.</strong> Create the PVC and observe that a PV is dynamically provisioned immediately.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pvc-sc.yaml
+<a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv,pvc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a>NAME                                         CAPACITY   ACCESS MODES   RECLAIM   POLICY   STATUS   CLAIM
+<a id="__codelineno-145-2" name="__codelineno-145-2" href="#__codelineno-145-2"></a>persistentvolume/pvc-71149612-33f1-4b18...   200Mi      RWX            Delete             Bound    default/pvc-two
+<a id="__codelineno-145-3" name="__codelineno-145-3" href="#__codelineno-145-3"></a>
+<a id="__codelineno-145-4" name="__codelineno-145-4" href="#__codelineno-145-4"></a>NAME                       STATUS   VOLUME                             CAPACITY   ACCESS MODES   STORAGECLASS
+<a id="__codelineno-145-5" name="__codelineno-145-5" href="#__codelineno-145-5"></a>persistentvolumeclaim/pvc-two   Bound  pvc-71149612-33f1-4b18...   200Mi      RWX            nfs-client
+</code></pre></div>
+<p><strong>7.</strong> Review the pre-staged <code>pod-sc.yaml</code> — a Pod that mounts the PVC.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-146-1" name="__codelineno-146-1" href="#__codelineno-146-1"></a>cat<span class="w"> </span>~/lfs458/ch09-volumes/pod-sc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-147-1" name="__codelineno-147-1" href="#__codelineno-147-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-147-2" name="__codelineno-147-2" href="#__codelineno-147-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<a id="__codelineno-147-3" name="__codelineno-147-3" href="#__codelineno-147-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-147-4" name="__codelineno-147-4" href="#__codelineno-147-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web-server</span>
+<a id="__codelineno-147-5" name="__codelineno-147-5" href="#__codelineno-147-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-147-6" name="__codelineno-147-6" href="#__codelineno-147-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-147-7" name="__codelineno-147-7" href="#__codelineno-147-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-147-8" name="__codelineno-147-8" href="#__codelineno-147-8"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web-container</span>
+<a id="__codelineno-147-9" name="__codelineno-147-9" href="#__codelineno-147-9"></a><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<a id="__codelineno-147-10" name="__codelineno-147-10" href="#__codelineno-147-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfs-volume</span>
+<a id="__codelineno-147-11" name="__codelineno-147-11" href="#__codelineno-147-11"></a><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/share/nginx/html</span>
+<a id="__codelineno-147-12" name="__codelineno-147-12" href="#__codelineno-147-12"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-147-13" name="__codelineno-147-13" href="#__codelineno-147-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfs-volume</span>
+<a id="__codelineno-147-14" name="__codelineno-147-14" href="#__codelineno-147-14"></a><span class="w">    </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<a id="__codelineno-147-15" name="__codelineno-147-15" href="#__codelineno-147-15"></a><span class="w">      </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-two</span>
+</code></pre></div>
+<p><strong>8.</strong> Create the Pod.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-148-1" name="__codelineno-148-1" href="#__codelineno-148-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pod-sc.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-149-1" name="__codelineno-149-1" href="#__codelineno-149-1"></a>pod/web-server created
+</code></pre></div>
+<p><strong>9.</strong> Write a file and copy it into the Pod's volume mount path.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Welcome to the demo of storage class&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>index.html
+<a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>kubectl<span class="w"> </span>cp<span class="w"> </span>index.html<span class="w"> </span>web-server:/usr/share/nginx/html
+</code></pre></div>
+<p><strong>10.</strong> Verify the file was saved to the NFS server directly (not in the ephemeral container layer).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a>ls<span class="w"> </span>-l<span class="w"> </span>/opt/sfw/default-pvc-two-pvc-&lt;Tab&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a>-rw-rw-r-- 1 guru guru 37 Jan  8 13:08 index.html
+</code></pre></div>
+<p><strong>11.</strong> Clean up the Pod and PVC.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod/web-server<span class="w"> </span>pvc/pvc-two
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a>pod &quot;web-server&quot; deleted
+<a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a>persistentvolumeclaim &quot;pvc-two&quot; deleted
+</code></pre></div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.top", "navigation.tabs", "search.highlight", "search.suggest", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

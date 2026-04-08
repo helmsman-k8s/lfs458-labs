@@ -1,0 +1,66 @@
+site_name: LFS458 - Kubernetes Administration Lab Guide
+site_description: Student lab guide for LFS458 / CKA preparation
+site_author: HADAR TRAINING
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - content.code.copy
+    - navigation.sections
+    - navigation.top
+    - navigation.tabs
+    - search.highlight
+    - search.suggest
+    - toc.integrate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Chapter 3 - Install Kubernetes: ch03_labs.md
+  - Chapter 4 - Architecture: ch04_labs.md
+  - Chapter 5 - API Access: ch05_labs.md
+  - Chapter 6 - API Objects: ch06_labs.md
+  - Chapter 7 - Deployments: ch07_labs.md
+  - Chapter 8 - Helm & Kustomize: ch08_labs.md
+  - Chapter 9 - Volumes & Data: ch09_labs.md
+  - Chapter 10 - Services: ch10_labs.md
+  - Chapter 11 - Ingress: ch11_labs.md
+  - Chapter 12 - Scheduling: ch12_labs.md
+  - Chapter 13 - Troubleshooting: ch13_labs.md
+  - Chapter 14 - Custom Resources: ch14_labs.md
+  - Chapter 15 - Security: ch15_labs.md
+  - Chapter 16 - High Availability: ch16_labs.md
+
+plugins:
+  - search
+  - with-pdf:
+      author: HADAR TRAINING
+      copyright: HADAR TRAINING 2025
+      cover_title: LFS458 / CKA Lab Guide
+      cover_subtitle: Kubernetes Administration
+      output_path: /home/guru/lfs458-guide.pdf
