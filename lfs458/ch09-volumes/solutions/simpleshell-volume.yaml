@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simpleshell
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    envFrom:
+    - configMapRef:
+        name: shell-config
+    volumeMounts:
+    - name: data-vol
+      mountPath: /mnt/data
+  volumes:
+  - name: data-vol
+    hostPath:
+      path: /tmp/lab-data
+      type: DirectoryOrCreate

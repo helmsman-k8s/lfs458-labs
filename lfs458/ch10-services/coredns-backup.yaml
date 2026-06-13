@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        rewrite stop {
+            name regex (.*)\.test\.io {1}.default.svc.cluster.local
+            answer name (.*)\.default\.svc\.cluster\.local {1}.test.io
+            }
+        errors
+        health {
+           lameduck 5s
+        }
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           fallthrough in-addr.arpa ip6.arpa
+           ttl 30
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf {
+           max_concurrent 1000
+        }
+        cache 30 {
+           disable success cluster.local
+           disable denial cluster.local
+        }
+        loop
+        reload
+        loadbalance
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2026-03-27T20:42:18Z"
+  name: coredns
+  namespace: kube-system
+  resourceVersion: "510020"
+  uid: 20c584ed-7c94-4110-ab1b-a8355656e73e

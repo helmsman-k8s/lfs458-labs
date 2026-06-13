@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: date-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      # TODO: Add activeDeadlineSeconds: 10
+      template:
+        metadata:
+          labels:
+            app: date-job
+        spec:
+          containers:
+          - name: resting
+            image: busybox
+            command: ["/bin/sleep"]
+            args: ["5"]
+          restartPolicy: Never

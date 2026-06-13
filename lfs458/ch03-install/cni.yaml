@@ -1,0 +1,18 @@
+# Calico CNI — Tigera Operator manifest
+# This replaces the original Flannel manifest.
+#
+# Installation order:
+#   1. kubectl create -f cni.yaml              (installs the Tigera Operator)
+#   2. kubectl apply -f calico-custom-resources.yaml  (configures pod CIDR 10.244.0.0/16)
+#
+# The operator manifest is fetched directly from the official Calico release.
+# Pinned to v3.29.1 for reproducibility.
+#
+# Source:
+#   https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+#
+# In the lab, run:
+#   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+#
+# Then apply the custom resources in calico-custom-resources.yaml.
+# See ch03_labs.md Lab 3.5 for step-by-step instructions.

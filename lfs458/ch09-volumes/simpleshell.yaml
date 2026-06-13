@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simpleshell
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    # TODO Stage 1: Add envFrom referencing a ConfigMap named shell-config
+    # TODO Stage 2: Add a volumeMount and corresponding volume

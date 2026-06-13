@@ -1,0 +1,28 @@
+# Calico custom resources — configure pod CIDR to 10.244.0.0/16
+# This matches the podSubnet in kubeadm-config.yaml and avoids
+# overlap with the node network (192.168.2.x).
+#
+# Apply AFTER the Tigera Operator is installed and ready:
+#   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+#   kubectl rollout status deployment tigera-operator -n tigera-operator
+#   kubectl apply -f calico-custom-resources.yaml
+
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    ipPools:
+    - name: default-ipv4-ippool
+      blockSize: 26
+      cidr: 10.244.0.0/16
+      encapsulation: VXLANCrossSubnet
+      natOutgoing: Enabled
+      nodeSelector: all()
+---
+apiVersion: operator.tigera.io/v1
+kind: APIServer
+metadata:
+  name: default
+spec: {}

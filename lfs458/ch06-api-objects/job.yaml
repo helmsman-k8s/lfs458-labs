@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleepy
+spec:
+  # TODO Step 1: Add   completions: 5
+  # TODO Step 2: Add   parallelism: 2
+  # TODO Step 3: Add   activeDeadlineSeconds: 15
+  template:
+    spec:
+      containers:
+      - name: resting
+        image: busybox
+        command: ["/bin/sleep"]
+        args: ["3"]
+      restartPolicy: Never

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hog
+  name: hog
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hog
+  template:
+    metadata:
+      labels:
+        app: hog
+    spec:
+      containers:
+      - image: vish/stress
+        imagePullPolicy: Always
+        name: stress
+        args:
+        - "--vm"
+        - "1"
+        - "--vm-bytes"
+        - "100M"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "50Mi"
+          limits:
+            cpu: "500m"
+            memory: "200Mi"

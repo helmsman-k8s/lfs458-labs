@@ -1,0 +1,50 @@
+site_name: LFS458 - Kubernetes Administration Lab Guide
+site_author: VEGA TRAINING
+site_description: Lab exercises for the LFS458 Kubernetes Administration course
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+
+extra:
+  generator: false
+
+copyright: "&copy; 2025 VEGA TRAINING"
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - "Ch 03: Install Kubernetes": ch03_labs.md
+  - "Ch 04: Architecture": ch04_labs.md
+  - "Ch 05: API Access": ch05_labs.md
+  - "Ch 06: API Objects": ch06_labs.md
+  - "Ch 07: Deployments": ch07_labs.md
+  - "Ch 08: Helm & Kustomize": ch08_labs.md
+  - "Ch 09: Volumes": ch09_labs.md
+  - "Ch 10: Services": ch10_labs.md
+  - "Ch 11: Ingress": ch11_labs.md
+  - "Ch 12: Scheduling": ch12_labs.md
+  - "Ch 13: Troubleshooting": ch13_labs.md
+  - "Ch 14: Custom Resources": ch14_labs.md
+  - "Ch 15: Security": ch15_labs.md
+  - "Ch 16: High Availability": ch16_labs.md
