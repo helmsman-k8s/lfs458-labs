@@ -1,195 +1,206 @@
-# Chapter 14: Custom Resources
+# Chapter 14: Custom Resource Definition
 
-## Overview
-
-In this lab you will:
-
-- Create a Custom Resource Definition (CRD)
-- Create instances of the custom resource
-- Explore CRD validation and versioning
-- Understand how operators use CRDs
+**Working directory: `~/lfs458/ch14-crd/`**
 
 ---
 
-## Lab 14.1 — Create a CRD
+## Exercise 14.1: Create a Custom Resource Definition
 
-Define a CRD for a fictional `BackupPolicy` resource:
+A **Custom Resource Definition (CRD)** extends the Kubernetes API with new object types without writing a full API server. Once a CRD is registered, you can create, list, describe and delete instances of the new resource using standard `kubectl` commands.
 
 ```bash
-cat <<EOF | kubectl apply -f -
+cd ~/lfs458/ch14-crd/
+```
+
+**1.** View the existing CRDs in the cluster. You will see CRDs created by Calico from previous labs.
+
+```bash
+kubectl get crd --all-namespaces
+```
+
+```
+NAME                                          CREATED AT
+authorizationpolicies.policy.linkerd.io       2024-08-28T11:30:34Z
+bgpconfigurations.crd.projectcalico.org       2024-08-28T08:58:54Z
+bgppeers.crd.projectcalico.org                2024-08-28T08:58:57Z
+<output_omitted>
+```
+
+**2.** Examine one of the existing CRDs to understand their structure. Copy the Calico custom resources YAML from Chapter 3 and inspect it, then describe the CRD to see the full spec.
+
+```bash
+cp ~/lfs458/ch03-install/calico-custom-resources.yaml .
+less calico-custom-resources.yaml
+kubectl describe crd installations.operator.tigera.io
+```
+
+```
+Name:         installations.operator.tigera.io
+Namespace:
+Labels:       <none>
+API Version:  apiextensions.k8s.io/v1
+Kind:         CustomResourceDefinition
+<output_omitted>
+```
+
+**3.** Review the pre-staged `crd.yaml` file. It defines a new `CronTab` resource in the `stable.example.com` group with OpenAPI v3 schema validation.
+
+```bash
+cat ~/lfs458/ch14-crd/crd.yaml
+```
+
+```yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: backuppolicies.vega.training
+  # name must match the spec fields below: <plural>.<group>
+  name: crontabs.stable.example.com
 spec:
-  group: vega.training
+  # group name for REST API: /apis/<group>/<version>
+  group: stable.example.com
   versions:
-  - name: v1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          spec:
-            type: object
-            required:
-            - schedule
-            - retentionDays
-            properties:
-              schedule:
-                type: string
-                description: "Cron expression for backup schedule"
-              retentionDays:
-                type: integer
-                minimum: 1
-                maximum: 365
-                description: "Number of days to retain backups"
-              target:
-                type: string
-                description: "Target resource or namespace"
+    - name: v1
+      # Each version can be enabled/disabled by the Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                cronSpec:
+                  type: string
+                image:
+                  type: string
+                replicas:
+                  type: integer
+  # either Namespaced or Cluster
   scope: Namespaced
   names:
-    plural: backuppolicies
-    singular: backuppolicy
-    kind: BackupPolicy
+    # plural name used in the URL: /apis/<group>/<version>/<plural>
+    plural: crontabs
+    # singular name used as an alias on the CLI and for display
+    singular: crontab
+    # kind is normally the CamelCased singular type
+    kind: CronTab
+    # shortNames allow shorter string to match your resource on the CLI
     shortNames:
-    - bp
-EOF
+    - ct
 ```
 
-Verify the CRD is registered:
+**4.** Register the new CRD with the cluster.
 
 ```bash
-kubectl get crd backuppolicies.vega.training
-kubectl api-resources | grep vega
+kubectl create -f crd.yaml
 ```
 
----
+```
+customresourcedefinition.apiextensions.k8s.io/crontabs.stable.example.com created
+```
 
-## Lab 14.2 — Create Custom Resource Instances
-
-Create a `BackupPolicy` object:
+**5.** List all CRDs and verify the new one appears. Then describe it to see the full details.
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: vega.training/v1
-kind: BackupPolicy
+kubectl get crd
+```
+
+```
+NAME                                          CREATED AT
+<output_omitted>
+crontabs.stable.example.com                  2024-08-13T03:18:07Z
+<output_omitted>
+```
+
+```bash
+kubectl describe crd crontab<Tab>
+```
+
+```
+Name:         crontabs.stable.example.com
+Namespace:
+Labels:       <none>
+Annotations:  <none>
+API Version:  apiextensions.k8s.io/v1
+Kind:         CustomResourceDefinition
+<output_omitted>
+```
+
+**6.** Review the pre-staged `new-crontab.yaml` — an instance of the new `CronTab` resource type. The `apiVersion` uses the group and version from the CRD, and `kind` matches the CamelCased kind.
+
+```bash
+cat ~/lfs458/ch14-crd/new-crontab.yaml
+```
+
+```yaml
+apiVersion: "stable.example.com/v1"
+     # This is from the group and version of new CRD
+kind: CronTab
+     # The kind from the new CRD
 metadata:
-  name: daily-backup
-  namespace: default
+  name: new-cron-object
 spec:
-  schedule: "0 2 * * *"
-  retentionDays: 30
-  target: "default"
-EOF
+  cronSpec: "*/5 * * * *"
+  image: some-cron-image
+     #Does not exist
 ```
 
-Work with it using standard kubectl commands:
+**7.** Create the new CronTab object and verify it can be accessed using both the full kind and the shortname `ct`.
 
 ```bash
-kubectl get backuppolicies
-kubectl get bp
-kubectl describe backuppolicy daily-backup
-kubectl get backuppolicy daily-backup -o yaml
+kubectl create -f new-crontab.yaml
 ```
 
-Create another instance:
+```
+crontab.example.com/new-cron-object created
+```
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: vega.training/v1
-kind: BackupPolicy
-metadata:
-  name: hourly-backup
-  namespace: default
-spec:
-  schedule: "0 * * * *"
-  retentionDays: 7
-  target: "kube-system"
-EOF
+kubectl get CronTab
+```
 
-kubectl get bp
+```
+NAME              AGE
+new-cron-object   22s
+```
+
+```bash
+kubectl get ct
+```
+
+```
+NAME              AGE
+new-cron-object   29s
+```
+
+```bash
+kubectl describe ct
+```
+
+```
+Name:         new-cron-object
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+API Version:  stable.example.com/v1
+Kind:         CronTab
+<output_omitted>
+Spec:
+  Cron Spec:  */5 * * * *
+  Image:      some-cron-image
+Events:       <none>
+```
+
+**8.** Delete the CRD. This automatically removes all instances of the resource as well.
+
+```bash
+kubectl delete -f crd.yaml
+```
+
+```
+customresourcedefinition.apiextensions.k8s.io "crontabs.stable.example.com" deleted
 ```
 
 ---
-
-## Lab 14.3 — CRD Validation
-
-Try to create an invalid resource (retentionDays exceeds the maximum of 365):
-
-```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: vega.training/v1
-kind: BackupPolicy
-metadata:
-  name: invalid-backup
-  namespace: default
-spec:
-  schedule: "0 0 * * *"
-  retentionDays: 999
-EOF
-```
-
-You should see a validation error from the API server.
-
-Try one missing the required `schedule` field:
-
-```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: vega.training/v1
-kind: BackupPolicy
-metadata:
-  name: missing-schedule
-  namespace: default
-spec:
-  retentionDays: 7
-EOF
-```
-
-Again, a validation error.
-
----
-
-## Lab 14.4 — Watch and List Custom Resources
-
-```bash
-# List with label selector (works the same as built-in resources)
-kubectl get bp -l environment=prod 2>/dev/null || echo "No labeled resources"
-
-# Add a label and filter
-kubectl label backuppolicy daily-backup environment=prod
-kubectl get bp -l environment=prod
-
-# Use jsonpath to extract fields
-kubectl get bp daily-backup -o jsonpath='{.spec.schedule}'
-echo ""
-```
-
----
-
-## Lab 14.5 — Clean Up
-
-```bash
-kubectl delete bp --all
-kubectl delete crd backuppolicies.vega.training
-```
-
-Verify the CRD and all instances are gone:
-
-```bash
-kubectl get crd | grep vega
-kubectl api-resources | grep vega
-```
-
----
-
-## Understanding Operators
-
-A **Kubernetes Operator** extends the control plane by:
-
-1. Defining one or more CRDs that represent the desired state of an application
-2. Running a controller (a Deployment) that watches those CRDs
-3. Reconciling the actual state of the cluster to match the desired state declared in the custom resources
-
-Popular operators include the Prometheus Operator, Cert-Manager, and the CloudNativePG PostgreSQL Operator. The CRD + controller pattern you practiced in this lab is exactly what they use internally.

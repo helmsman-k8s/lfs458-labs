@@ -1,101 +1,66 @@
-# LFS458 — Kubernetes Administration Lab Guide
+# LFS458 - Kubernetes Administration Lab Guide
 
-Welcome to the **Vega Training** lab guide for the LFS458 Kubernetes Administration course.
+Welcome to the student lab guide for **LFS458 / CKA preparation**, delivered by **VEGA TRAINING**.
 
 ---
 
-## Lab Topology
+## How to use this guide
 
-Each student environment consists of **three VMs** on a shared `/24` network. The hostnames are fixed; only the IP addresses differ per student.
+Each chapter corresponds to a section of the LFS458 course. Follow the exercises in order - later chapters build on earlier ones.
 
-| Role | Hostname | IP Address |
-|------|----------|------------|
-| Control Plane | `controller` | *assigned by your instructor* |
-| Worker 1 | `worker1` | *assigned by your instructor* |
-| Worker 2 | `worker2` | *assigned by your instructor* |
+Work on your assigned lab nodes:
+
+| Node | Hostname | IP | Role |
+|------|----------|----|------|
+| Control Plane | `controller` | *assigned by instructor* | Kubernetes control plane |
+| Worker 1 | `worker1` | *assigned by instructor* | Worker node |
+| Worker 2 | `worker2` | *assigned by instructor* | Worker node |
 
 !!! tip "Finding your IPs"
-    Run `ip addr show` on each node to find its IP. Use `/etc/hosts` to map hostnames so you can `ssh controller`, `ssh worker1`, etc. without remembering IPs:
-    ```
-    <controller-ip>   controller
-    <worker1-ip>      worker1
-    <worker2-ip>      worker2
-    ```
+    Run `ip addr show` on each node, or check `/etc/hosts` if your instructor pre-populated it.
+
+Your username on all nodes is `guru` (password: `work`).
 
 ---
 
-## Lab Environment
+## Lab topology
 
-| Component | Version |
-|-----------|---------|
-| OS | Ubuntu 22.04 LTS |
-| Kubernetes | 1.33.1 |
-| Container Runtime | containerd |
-| CNI | Calico (pod CIDR: 10.244.0.0/16) |
-| CRI Socket | `/run/containerd/containerd.sock` |
+| Component | Value |
+|-----------|-------|
+| Kubernetes version | **1.33.1** |
+| Container runtime | **containerd** |
+| CNI | **Calico** (10.244.0.0/16) |
+| OS | Ubuntu 22.04 |
+| Control plane endpoint | `controller:6443` |
 
 ---
 
-## Quick Reference
-
-### Kubectl Tips
-
+## Quick reference
 ```bash
-# Get all resources in all namespaces
-kubectl get all -A
+# Check cluster status
+kubectl get nodes
+kubectl get pods --all-namespaces
 
-# Watch pods in real time
-kubectl get pods -w
+# Check component logs
+journalctl -u kubelet -f
 
-# Describe a resource for event/error detail
-kubectl describe pod <pod-name>
+# Lab files location
+ls ~/lfs458/
 
-# Execute a command in a running container
-kubectl exec -it <pod-name> -- bash
-
-# Extract a field with jsonpath (use instead of copy-pasting names)
-POD=$(kubectl get pod -l app=nginx -o jsonpath='{.items[0].metadata.name}')
-echo "Pod name: $POD"
-```
-
-### Shell Variable Patterns
-
-Throughout these labs, use shell variables to capture dynamic values instead of copy-pasting names or IPs. This makes every command reproducible regardless of your specific environment:
-
-```bash
-# Capture a pod name
-POD=$(kubectl get pod -l app=<label> -o jsonpath='{.items[0].metadata.name}')
-
-# Capture a service ClusterIP
-SVC_IP=$(kubectl get svc <svc-name> -o jsonpath='{.spec.clusterIP}')
-
-# Capture a NodePort
-NODE_PORT=$(kubectl get svc <svc-name> -o jsonpath='{.spec.ports[0].nodePort}')
-
-# Capture an endpoint IP
-ENDPOINT_IP=$(kubectl get endpoints <svc-name> -o jsonpath='{.subsets[0].addresses[0].ip}')
+# Switch context
+kubectl config get-contexts
+kubectl config use-context <name>
 ```
 
 ---
 
-## Lab Files
+!!! tip "Lab files"
+    All pre-staged YAML files for each chapter are in `~/lfs458/chXX-*/`.
+    Simulation test scripts are in `~/chXX_sim.sh`.
 
-All YAML manifests are in subdirectories under `lfs458/` in the repository root, organized by chapter. Each chapter that requires editing a manifest also has a `solutions/` subfolder with the completed version.
+!!! warning "Node names"
+    This guide uses `controller`, `worker1`, `worker2` ? not the generic `cp`/`worker` names used in the upstream LFS458 material.
 
-```
-lfs458/
-├── ch03-install/
-├── ch04-architecture/
-│   └── solutions/
-├── ch06-api-objects/
-│   └── solutions/
-├── ch07-deployments/
-│   └── solutions/
-├── ch09-volumes/
-│   └── solutions/
-├── ch10-services/
-│   └── solutions/
-├── ch15-security/
-│   └── solutions/
-└── ...
-```
+---
+
+*VEGA TRAINING © 2025 - Validated on Kubernetes 1.33.1, April 2026*
