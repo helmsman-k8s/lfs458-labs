@@ -225,7 +225,7 @@ kubectl exec $NFS_POD -- cat /usr/share/nginx/html/index.html
 ```bash
 kubectl delete pod nginx-nfs
 kubectl delete pvc nfs-pvc
-kubectl delete pv nfs-pv
+kubectl delete pv pvvol-1
 ```
 
 ---

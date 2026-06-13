@@ -187,8 +187,9 @@ Update the image:
 
 ```bash
 kubectl set image ds/ds-one nginx=nginx:1.26
-kubectl rollout status ds/ds-one
 ```
+
+> **Note:** `rollout status` is not supported for `OnDelete` DaemonSets — pods are only updated when you delete them manually.
 
 With `OnDelete`, pods are only updated when you delete them manually:
 

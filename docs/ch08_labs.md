@@ -96,8 +96,8 @@ kubectl top pods -A
 
 ```bash
 kubectl create deployment php-apache \
-  --image=registry.k8s.io/hpa-example \
-  --requests=cpu=200m
+  --image=registry.k8s.io/hpa-example
+kubectl set resources deployment php-apache --requests=cpu=200m
 
 kubectl expose deployment php-apache --port=80
 ```
@@ -106,7 +106,7 @@ Create the HPA:
 
 ```bash
 kubectl autoscale deployment php-apache \
-  --cpu-percent=50 \
+  --cpu=50% \
   --min=1 \
   --max=10
 
@@ -183,7 +183,7 @@ EOF
 
 ```bash
 cat <<EOF > ~/kustomize/overlays/dev/kustomization.yaml
-bases:
+resources:
 - ../../base
 patches:
 - patch: |-
@@ -204,7 +204,7 @@ EOF
 
 ```bash
 cat <<EOF > ~/kustomize/overlays/prod/kustomization.yaml
-bases:
+resources:
 - ../../base
 patches:
 - patch: |-
