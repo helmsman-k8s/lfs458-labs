@@ -151,7 +151,21 @@ sudo crictl config \
 
 ### Step 4 — Initialise the cluster
 
-**13.** Review the kubeadm config file.
+**13.** Verify that `/etc/hosts` has the correct entries for the cluster hostnames.
+
+```bash
+grep -E 'controller|worker1|worker2' /etc/hosts
+```
+
+```
+192.168.x.x  controller
+192.168.x.x  worker1
+192.168.x.x  worker2
+```
+
+> If these lines are missing, ask your instructor — the lab environment should be pre-configured.
+
+**14.** Review the kubeadm config file.
 
 ```bash
 cat ~/lfs458/ch03-install/kubeadm-config.yaml
@@ -166,7 +180,7 @@ networking:
   podSubnet: 10.244.0.0/16
 ```
 
-**14.** Initialise the cluster. This takes 2–3 minutes.
+**15.** Initialise the cluster. This takes 2–3 minutes.
 
 ```bash
 sudo cp ~/lfs458/ch03-install/kubeadm-config.yaml /root/
@@ -180,7 +194,7 @@ sudo kubeadm init --config=/root/kubeadm-config.yaml \
 > sudo kubeadm token create --print-join-command
 > ```
 
-**15.** Set up kubectl access.
+**16.** Set up kubectl access.
 
 ```bash
 mkdir -p $HOME/.kube
@@ -188,7 +202,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-**16.** Enable kubectl bash completion.
+**17.** Enable kubectl bash completion.
 
 ```bash
 source <(kubectl completion bash)
@@ -199,7 +213,7 @@ echo "source <(kubectl completion bash)" >> $HOME/.bashrc
 
 ### Step 5 — Install the network plugin (Calico)
 
-**17.** Install the Tigera Operator — this manages the Calico lifecycle.
+**18.** Install the Tigera Operator — this manages the Calico lifecycle.
 
 ```bash
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
@@ -219,7 +233,7 @@ Wait for the operator to be ready:
 kubectl rollout status deployment tigera-operator -n tigera-operator --timeout=120s
 ```
 
-**18.** Apply the Calico custom resources. This configures the pod CIDR as `10.244.0.0/16`, which matches `kubeadm-config.yaml` and avoids overlap with the node network.
+**19.** Apply the Calico custom resources. This configures the pod CIDR as `10.244.0.0/16`, which matches `kubeadm-config.yaml` and avoids overlap with the node network.
 
 ```bash
 kubectl apply -f ~/lfs458/ch03-install/calico-custom-resources.yaml
@@ -230,7 +244,7 @@ installation.operator.tigera.io/default created
 apiserver.operator.tigera.io/default created
 ```
 
-**19.** Watch Calico come up. This takes 1–2 minutes.
+**20.** Watch Calico come up. This takes 1–2 minutes.
 
 ```bash
 watch kubectl get pods -n calico-system
@@ -437,23 +451,3 @@ kubectl delete svc nginx
 ## Exercise 3.5: Access from Outside the Cluster
 
 **1.** Use `exec` to inspect environment variables inside a running pod.
-
-```bash
-kubectl run testpod --image=nginx
-# Wait for it to be running
-kubectl wait --for=condition=Ready pod/testpod --timeout=60s
-kubectl exec testpod -- printenv | grep KUBERNETES
-```
-
-```
-KUBERNETES_SERVICE_PORT=443
-KUBERNETES_SERVICE_HOST=10.96.0.1
-```
-
-**2.** Clean up.
-
-```bash
-kubectl delete pod testpod
-```
-
----

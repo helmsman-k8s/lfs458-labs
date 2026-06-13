@@ -250,6 +250,8 @@ pod/coredns-5d78c9869d-4h2bs evicted
 node/controller drained
 ```
 
+> **Note:** If the drain loops with `Cannot evict pod as it would violate the pod's disruption budget` errors, wait — it will resolve automatically once a replacement pod starts on a worker node (typically 2–3 minutes).
+
 **8.** Review the upgrade plan. Read through the output to understand what will change.
 
 ```bash
@@ -506,9 +508,10 @@ kubectl get node
 ```
 
 ```
-NAME     STATUS                     ROLES           AGE    VERSION
+NAME         STATUS                     ROLES           AGE    VERSION
 controller   Ready                      control-plane   118m   v1.34.1
 worker1      Ready,SchedulingDisabled   <none>          70m    v1.34.1
+worker2      Ready                      <none>          68m    v1.33.1
 ```
 
 **29.** Uncordon the worker node to allow pods to be scheduled on it again.
@@ -528,9 +531,25 @@ kubectl get nodes
 ```
 
 ```
-NAME     STATUS   ROLES           AGE    VERSION
+NAME         STATUS   ROLES           AGE    VERSION
 controller   Ready    control-plane   119m   v1.34.1
 worker1      Ready    <none>          71m    v1.34.1
+worker2      Ready    <none>          69m    v1.33.1
+```
+
+**31.** Repeat steps 18–30 for **worker2**. The procedure is identical — SSH into worker2 and follow the same upgrade sequence.
+
+Once complete, verify all three nodes are on the same version:
+
+```bash
+kubectl get nodes
+```
+
+```
+NAME         STATUS   ROLES           AGE    VERSION
+controller   Ready    control-plane   125m   v1.34.1
+worker1      Ready    <none>          77m    v1.34.1
+worker2      Ready    <none>          75m    v1.34.1
 ```
 
 ---
@@ -632,6 +651,8 @@ kubectl replace -f hog.yaml
 ```
 deployment.apps/hog replaced
 ```
+
+> **Note:** If you see `the object has been modified; please apply your changes to the latest version`, the deployment controller updated the object between your `kubectl get` and `kubectl replace`. Re-run the `kubectl get deployment hog -o yaml > hog.yaml` command and reapply your edits.
 
 **6.** Verify the deployment now shows the memory resource limits.
 

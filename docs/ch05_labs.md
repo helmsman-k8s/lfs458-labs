@@ -167,9 +167,12 @@ kubectl get endpoints
 ```
 
 ```
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
 NAME         ENDPOINTS           AGE
 kubernetes   192.168.2.x:6443    3h
 ```
+
+> **Note:** The deprecation warning is expected on Kubernetes 1.33+ and can be ignored.
 
 **2.** Run the same command prefixed with `strace`. Near the end of the output you will see several `openat` calls referencing the local discovery cache directory. Redirect to a file and grep if the output is too large.
 
@@ -180,7 +183,7 @@ strace kubectl get endpoints
 ```
 execve("/usr/bin/kubectl", ["kubectl", "get", "endpoints"], [/*....
 ....
-openat(AT_FDCWD, "/home/guru/.kube/cache/discovery/k8scp_6443..
+openat(AT_FDCWD, "/home/guru/.kube/cache/discovery/controller_6443..
 <output_omitted>
 ```
 
@@ -192,11 +195,11 @@ ls
 ```
 
 ```
-k8scp_6443
+controller_6443
 ```
 
 ```bash
-cd k8scp_6443/
+cd controller_6443/
 ls
 ```
 
@@ -273,12 +276,12 @@ python3 -m json.tool v1/serverresources.json | grep -A 4 shortNames
 **8.** Use the shortName to verify it works.
 
 ```bash
-kubectl get EndpointSlice
+kubectl get ep
 ```
 
 ```
-NAME         ADDRESSTYPE   PORTS   ENDPOINTS      AGE
-kubernetes   IPv4          6443    192.168.2.x    3h
+NAME         ENDPOINTS           AGE
+kubernetes   10.96.0.1:6443      3h
 ```
 
 **9.** Count how many objects are in the v1 API group.

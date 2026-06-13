@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:J6A5+Xgn2rn2ntj3bRJWVfqA/quwih5b2jK+7SYbacc' helmsman@192.168.10.111 ' *)",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:J6A5+Xgn2rn2ntj3bRJWVfqA/quwih5b2jK+7SYbacc' helmsman@192.168.10.111 'sudo kubeadm token create --print-join-command')",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:J6A5+Xgn2rn2ntj3bRJWVfqA/quwih5b2jK+7SYbacc' helmsman@192.168.10.111 'kubectl drain worker1 --ignore-daemonsets 2>&1')",
+      "Bash(echo \"---DRAIN_RESULT: $?\")",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:1eBDzHds1TJqJ8jAcE0jA2w0O+VkzCZTZMGhIKMlafU' helmsman@192.168.10.112 ' *)",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:J6A5+Xgn2rn2ntj3bRJWVfqA/quwih5b2jK+7SYbacc' helmsman@192.168.10.111 'kubectl drain worker2 --ignore-daemonsets 2>&1 | tail -5')",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:tSP/ZIMdfJegu3j2Np7yjqHcz/XZgXNth1zDPMyJc74' helmsman@192.168.10.113 ' *)",
+      "Bash(plink -batch -pw work -hostkey 'ssh-ed25519 255 SHA256:J6A5+Xgn2rn2ntj3bRJWVfqA/quwih5b2jK+7SYbacc' helmsman@192.168.10.111 'sleep 5 && kubectl uncordon worker2 && kubectl get nodes')"
+    ]
+  }
+}
