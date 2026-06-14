@@ -230,7 +230,16 @@ controller       228m         11%    2357Mi          31%
 worker1   76m          3%     1385Mi          18%
 ```
 
-**6.** You can also query the metrics API directly using the TLS PEM files generated in the Chapter 5 exercise.
+**6.** You can also query the metrics API directly using TLS certificates from your kubeconfig. Generate the PEM files first, then run the curl.
+
+```bash
+export client=$(grep client-cert $HOME/.kube/config | cut -d" " -f 6)
+export key=$(grep client-key-data $HOME/.kube/config | cut -d" " -f 6)
+export auth=$(grep certificate-authority-data $HOME/.kube/config | cut -d" " -f 6)
+echo $client | base64 -d - > ./client.pem
+echo $key | base64 -d - > ./client-key.pem
+echo $auth | base64 -d - > ./ca.pem
+```
 
 ```bash
 curl --cert ./client.pem \

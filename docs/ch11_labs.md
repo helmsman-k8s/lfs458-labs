@@ -135,13 +135,13 @@ kubectl get crd | grep gateway
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.5.1/deploy/crds.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.5.1/deploy/nodeport/deploy.yaml
 
-kubectl rollout status deployment ngf-nginx-gateway-fabric -n nginx-gateway --timeout=120s
+kubectl rollout status deployment nginx-gateway -n nginx-gateway --timeout=120s
 ```
 
 Get the Gateway ports:
 
 ```bash
-GW_HTTP=$(kubectl get svc ngf-nginx-gateway-fabric -n nginx-gateway \
+GW_HTTP=$(kubectl get svc nginx-gateway -n nginx-gateway \
   -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 echo "Gateway HTTP NodePort: $GW_HTTP"
 ```

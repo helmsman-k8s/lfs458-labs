@@ -3,16 +3,17 @@ kind: Deployment
 metadata:
   name: nginx-one
   labels:
-    app: nginx-one
+    system: secondary
+  namespace: accounting
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: nginx-one
+      system: secondary
+  replicas: 2
   template:
     metadata:
       labels:
-        app: nginx-one
+        system: secondary
     spec:
       containers:
       - image: nginx:1.20.1
@@ -21,3 +22,5 @@ spec:
         ports:
         - containerPort: 80
           protocol: TCP
+      nodeSelector:
+        system: secondOne

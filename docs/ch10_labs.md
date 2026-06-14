@@ -172,6 +172,8 @@ service/nginx-one exposed
 kubectl -n accounting get ep nginx-one
 ```
 
+> **Note:** The `Warning: v1 Endpoints is deprecated` message is expected on Kubernetes 1.33+ and can be ignored.
+
 ```
 NAME        ENDPOINTS                                 AGE
 nginx-one   192.168.1.72:8080,192.168.1.73:8080      47s

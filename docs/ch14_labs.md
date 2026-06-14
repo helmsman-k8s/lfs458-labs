@@ -154,7 +154,7 @@ kubectl create -f new-crontab.yaml
 ```
 
 ```
-crontab.example.com/new-cron-object created
+crontab.stable.example.com/new-cron-object created
 ```
 
 ```bash
