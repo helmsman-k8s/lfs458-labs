@@ -18,7 +18,9 @@ In this lab you will:
 
 HAProxy will distribute API server traffic across all control plane nodes on port 6443.
 
-### Install HAProxy (on a dedicated LB node or the controller)
+> **Note:** HAProxy must run on a **dedicated load balancer node** — it cannot run on the controller itself. Both HAProxy and `kube-apiserver` bind to port 6443, so they cannot coexist on the same host. This lab requires a 4th VM. In a standard 3-node training environment this lab is demonstrated by the instructor rather than executed by students.
+
+### Install HAProxy (dedicated LB node required)
 
 ```bash
 sudo apt-get install -y haproxy
