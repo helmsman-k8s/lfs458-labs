@@ -6,10 +6,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Student lab guide for LFS458 / CKA preparation">
+        <meta name="description" content="Lab exercises for the LFS458 Kubernetes Administration course">
       
       
-        <meta name="author" content="HADAR TRAINING">
+        <meta name="author" content="VEGA TRAINING">
       
       
       
@@ -27,7 +27,7 @@
     
     
       
-        <title>Chapter 12 - Scheduling - LFS458 - Kubernetes Administration Lab Guide</title>
+        <title>Ch 12: Scheduling - LFS458 - Kubernetes Administration Lab Guide</title>
       
     
     
@@ -64,12 +64,10 @@
   
     
     
-      
     
     
     
-    
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -112,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Chapter 12 - Scheduling
+              Ch 12: Scheduling
             
           </span>
         </div>
@@ -120,33 +118,7 @@
     </div>
     
       
-        <form class="md-header__option" data-md-component="palette">
-  
     
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
-      </label>
-    
-  
-</form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -174,8 +146,6 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -238,7 +208,7 @@
   
     
   
-  Chapter 3 - Install Kubernetes
+  Ch 03: Install Kubernetes
 
       </a>
     </li>
@@ -257,7 +227,7 @@
   
     
   
-  Chapter 4 - Architecture
+  Ch 04: Architecture
 
       </a>
     </li>
@@ -276,7 +246,7 @@
   
     
   
-  Chapter 5 - API Access
+  Ch 05: API Access
 
       </a>
     </li>
@@ -295,7 +265,7 @@
   
     
   
-  Chapter 6 - API Objects
+  Ch 06: API Objects
 
       </a>
     </li>
@@ -314,7 +284,7 @@
   
     
   
-  Chapter 7 - Deployments
+  Ch 07: Deployments
 
       </a>
     </li>
@@ -333,7 +303,7 @@
   
     
   
-  Chapter 8 - Helm & Kustomize
+  Ch 08: Helm & Kustomize
 
       </a>
     </li>
@@ -352,7 +322,7 @@
   
     
   
-  Chapter 9 - Volumes & Data
+  Ch 09: Volumes
 
       </a>
     </li>
@@ -371,7 +341,7 @@
   
     
   
-  Chapter 10 - Services
+  Ch 10: Services
 
       </a>
     </li>
@@ -390,7 +360,7 @@
   
     
   
-  Chapter 11 - Ingress
+  Ch 11: Ingress
 
       </a>
     </li>
@@ -411,7 +381,7 @@
   
     
   
-  Chapter 12 - Scheduling
+  Ch 12: Scheduling
 
       </a>
     </li>
@@ -430,7 +400,7 @@
   
     
   
-  Chapter 13 - Troubleshooting
+  Ch 13: Troubleshooting
 
       </a>
     </li>
@@ -449,7 +419,7 @@
   
     
   
-  Chapter 14 - Custom Resources
+  Ch 14: Custom Resources
 
       </a>
     </li>
@@ -468,7 +438,7 @@
   
     
   
-  Chapter 15 - Security
+  Ch 15: Security
 
       </a>
     </li>
@@ -487,7 +457,7 @@
   
     
   
-  Chapter 16 - High Availability
+  Ch 16: High Availability
 
       </a>
     </li>
@@ -514,9 +484,7 @@
   
 
 
-  
-
-<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="LFS458 - Kubernetes Administration Lab Guide" class="md-nav__button md-logo" aria-label="LFS458 - Kubernetes Administration Lab Guide" data-md-component="logo">
       
@@ -570,7 +538,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 3 - Install Kubernetes
+    Ch 03: Install Kubernetes
   
 
     
@@ -597,7 +565,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 4 - Architecture
+    Ch 04: Architecture
   
 
     
@@ -624,7 +592,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 5 - API Access
+    Ch 05: API Access
   
 
     
@@ -651,7 +619,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 6 - API Objects
+    Ch 06: API Objects
   
 
     
@@ -678,7 +646,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 7 - Deployments
+    Ch 07: Deployments
   
 
     
@@ -705,7 +673,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 8 - Helm & Kustomize
+    Ch 08: Helm & Kustomize
   
 
     
@@ -732,7 +700,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 9 - Volumes & Data
+    Ch 09: Volumes
   
 
     
@@ -759,7 +727,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 10 - Services
+    Ch 10: Services
   
 
     
@@ -786,7 +754,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 11 - Ingress
+    Ch 11: Ingress
   
 
     
@@ -822,7 +790,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 12 - Scheduling
+    Ch 12: Scheduling
   
 
     
@@ -840,7 +808,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 12 - Scheduling
+    Ch 12: Scheduling
   
 
     
@@ -866,10 +834,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exercise-121-assign-pods-using-labels" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 12.1: Assign Pods Using Labels
+        Overview
       
     </span>
   </a>
@@ -877,22 +845,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#exercise-122-using-taints-to-control-pod-deployment" class="md-nav__link">
+  <a href="#lab-121-nodeselector" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 12.2: Using Taints to Control Pod Deployment
+        Lab 12.1 — nodeSelector
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exercise 12.2: Using Taints to Control Pod Deployment">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-122-node-affinity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 12.2 — Node Affinity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-123-taints-and-tolerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 12.3 — Taints and Tolerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab 12.3 — Taints and Tolerations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#prefernoschedule-taint" class="md-nav__link">
+  <a href="#prefernoschedule" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PreferNoSchedule taint
+        PreferNoSchedule
       
     </span>
   </a>
@@ -900,10 +890,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#noschedule-taint" class="md-nav__link">
+  <a href="#noschedule" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NoSchedule taint
+        NoSchedule
       
     </span>
   </a>
@@ -911,10 +901,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#noexecute-taint" class="md-nav__link">
+  <a href="#noexecute" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NoExecute taint
+        NoExecute
       
     </span>
   </a>
@@ -948,7 +938,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 13 - Troubleshooting
+    Ch 13: Troubleshooting
   
 
     
@@ -975,7 +965,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 14 - Custom Resources
+    Ch 14: Custom Resources
   
 
     
@@ -1002,7 +992,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 15 - Security
+    Ch 15: Security
   
 
     
@@ -1029,7 +1019,7 @@
   <span class="md-ellipsis">
     
   
-    Chapter 16 - High Availability
+    Ch 16: High Availability
   
 
     
@@ -1049,6 +1039,115 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-121-nodeselector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 12.1 — nodeSelector
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-122-node-affinity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 12.2 — Node Affinity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-123-taints-and-tolerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 12.3 — Taints and Tolerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab 12.3 — Taints and Tolerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prefernoschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PreferNoSchedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoSchedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noexecute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoExecute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           
             <div class="md-content" data-md-component="content">
@@ -1060,334 +1159,148 @@
 
 
 <h1 id="chapter-12-scheduling">Chapter 12: Scheduling<a class="headerlink" href="#chapter-12-scheduling" title="Permanent link">&para;</a></h1>
-<p><strong>Working directory: <code>~/lfs458/ch12-scheduling/</code></strong></p>
-<hr />
-<h2 id="exercise-121-assign-pods-using-labels">Exercise 12.1: Assign Pods Using Labels<a class="headerlink" href="#exercise-121-assign-pods-using-labels" title="Permanent link">&para;</a></h2>
-<p>The scheduler places Pods on nodes based on available resources. You can influence placement using <code>nodeSelector</code>, <code>nodeAffinity</code>, and <code>podAffinity</code> rules. In this exercise we use labels and <code>nodeSelector</code> to pin Pods to specific nodes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch12-scheduling/
-</code></pre></div>
-<p><strong>1.</strong> Verify both nodes are <code>Ready</code> and note their current state.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>NAME     STATUS   ROLES           AGE   VERSION
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>controller       Ready    control-plane   44h   v1.34.1
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>worker1   Ready    &lt;none&gt;          43h   v1.34.1
-</code></pre></div>
-<p><strong>2.</strong> View the current labels and taints on all nodes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>nodes<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A5<span class="w"> </span>-i<span class="w"> </span>label
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Labels:   beta.kubernetes.io/arch=amd64
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>          beta.kubernetes.io/os=linux
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>          kubernetes.io/arch=amd64
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>          kubernetes.io/hostname=controller
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>          kubernetes.io/os=linux
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>          node-role.kubernetes.io/control-plane=
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>--
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>Labels:   beta.kubernetes.io/arch=amd64
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>          beta.kubernetes.io/os=linux
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>          kubernetes.io/arch=amd64
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>          kubernetes.io/hostname=worker1
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>          kubernetes.io/os=linux
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>          system=secondOne
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>nodes<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>taint
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Taints:   &lt;none&gt;
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Taints:   &lt;none&gt;
-</code></pre></div>
-<p><strong>3.</strong> Count how many containers are currently running on each node. Note the numbers — you will compare them after scheduling. Open a second terminal connected to the worker1 node.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>24
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>21
-</code></pre></div>
-<p><strong>4.</strong> Label the CP node as VIP hardware and the worker1 as other hardware.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>nodes<span class="w"> </span>controller<span class="w"> </span><span class="nv">status</span><span class="o">=</span>vip
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>node/controller labeled
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span><span class="nv">status</span><span class="o">=</span>other
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>node/worker1 labeled
-</code></pre></div>
-<p><strong>5.</strong> Verify the labels are set.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>NAME     STATUS   ROLES           AGE   VERSION   LABELS
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>controller       Ready    control-plane   35h   v1.34.1   ...,status=vip
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>worker1   Ready    &lt;none&gt;          35h   v1.34.1   ...,status=other,system=secondOne
-</code></pre></div>
-<p><strong>6.</strong> Review the pre-staged <code>vip.yaml</code> — a Pod with four busybox containers that sleep indefinitely, with a <code>nodeSelector</code> targeting <code>status=vip</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>cat<span class="w"> </span>~/lfs458/ch12-scheduling/vip.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip1</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span>
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1000000&quot;</span>
-<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip2</span>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
-<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span>
-<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1000000&quot;</span>
-<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip3</span>
-<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
-<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span>
-<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1000000&quot;</span>
-<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip4</span>
-<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
-<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span>
-<a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1000000&quot;</span>
-<a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="w">  </span><span class="nt">nodeSelector</span><span class="p">:</span>
-<a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vip</span>
-</code></pre></div>
-<p><strong>7.</strong> Deploy the pod and verify the four containers land on the CP node.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>vip.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>pod/vip created
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>28   # Four more than before (controller)
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>21   # Unchanged — no new containers on worker1
-</code></pre></div>
-<p><strong>8.</strong> Delete the pod and comment out the <code>nodeSelector</code> lines in <code>vip.yaml</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>vip
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>vim<span class="w"> </span>vip.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain"># nodeSelector</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="c1">#   status: vip</span>
-</code></pre></div>
-<p><strong>9.</strong> Recreate the pod. Without a <code>nodeSelector</code> containers can now land on either node.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>vip.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>pod/vip created
-</code></pre></div>
-<p><strong>10.</strong> Check the container counts on both nodes. They should now be more evenly spread.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>24
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>25
-</code></pre></div>
-<p><strong>11.</strong> Create an <code>other.yaml</code> for non-VIP pods by copying <code>vip.yaml</code>, substituting names, and uncommenting the <code>nodeSelector</code> with <code>status=other</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>cp<span class="w"> </span>vip.yaml<span class="w"> </span>other.yaml
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/vip/other/g&#39;</span><span class="w"> </span>other.yaml
-<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>vim<span class="w"> </span>other.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">nodeSelector</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">other</span><span class="w">    </span><span class="c1">#&lt;-- Uncomment and set to other</span>
-</code></pre></div>
-<p><strong>12.</strong> Create the other pod and verify containers land on the worker1 node.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>other.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>pod/other created
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>24    # controller unchanged
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>25    # worker1 increased
-</code></pre></div>
-<p><strong>13.</strong> Clean up both pods.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pods<span class="w"> </span>vip<span class="w"> </span>other
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
-</code></pre></div>
-<hr />
-<h2 id="exercise-122-using-taints-to-control-pod-deployment">Exercise 12.2: Using Taints to Control Pod Deployment<a class="headerlink" href="#exercise-122-using-taints-to-control-pod-deployment" title="Permanent link">&para;</a></h2>
-<p><strong>Taints</strong> repel Pods from nodes. Only Pods with a matching <strong>toleration</strong> can be scheduled on a tainted node. There are three taint effects:</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>In this lab you will:</p>
 <ul>
-<li><code>NoSchedule</code> — do not schedule new Pods here (existing Pods unaffected)</li>
-<li><code>PreferNoSchedule</code> — avoid this node if possible, but will use it if needed</li>
-<li><code>NoExecute</code> — evict existing Pods and stop scheduling new ones here</li>
+<li>Use <code>nodeSelector</code> to pin pods to specific nodes</li>
+<li>Work with node labels</li>
+<li>Apply Taints and Tolerations (<code>PreferNoSchedule</code>, <code>NoSchedule</code>, <code>NoExecute</code>)</li>
+<li>Understand how the scheduler makes placement decisions</li>
 </ul>
-<p><strong>1.</strong> Review the pre-staged <code>taint.yaml</code> — a Deployment of 8 nginx replicas.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>cat<span class="w"> </span>~/lfs458/ch12-scheduling/taint.yaml
+<hr />
+<h2 id="lab-121-nodeselector">Lab 12.1 — nodeSelector<a class="headerlink" href="#lab-121-nodeselector" title="Permanent link">&para;</a></h2>
+<p>Label a node:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span><span class="nv">disktype</span><span class="o">=</span>ssd
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>disktype
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">taint-deployment</span>
-<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
-<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
-<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-<a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-<a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.20.1</span>
-<a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
-<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<p>Create a pod that requires <code>disktype=ssd</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s">apiVersion: v1</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s">kind: Pod</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s">metadata:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s">  name: ssd-pod</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s">spec:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s">  nodeSelector:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s">    disktype: ssd</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s">  containers:</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s">  - name: nginx</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s">    image: nginx</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s">EOF</span>
 </code></pre></div>
-<p><strong>2.</strong> Deploy it and note the container counts on both nodes. You should see roughly 3 on the CP and 5 on the worker1 (your numbers may differ).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>taint.yaml
+<p>Verify it landed on <code>worker1</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>ssd-pod<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>deployment.apps/taint-deployment created
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx
-<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>27    # controller
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>17    # worker1
-</code></pre></div>
-<p><strong>3.</strong> Check the container grep output on the CP to confirm nginx pods are present, then check the worker1.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx
-</code></pre></div>
-<p><strong>4.</strong> Delete the deployment and confirm containers return to baseline.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>taint-deployment
-<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>21
+<p>Delete and remove the label:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>ssd-pod
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span>disktype-
 </code></pre></div>
 <hr />
-<h3 id="prefernoschedule-taint">PreferNoSchedule taint<a class="headerlink" href="#prefernoschedule-taint" title="Permanent link">&para;</a></h3>
-<p><strong>5.</strong> Taint the worker1 node with <code>PreferNoSchedule</code> — new pods will prefer to avoid it but can still land there if needed.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="w">  </span><span class="nv">bubba</span><span class="o">=</span>value:PreferNoSchedule
+<h2 id="lab-122-node-affinity">Lab 12.2 — Node Affinity<a class="headerlink" href="#lab-122-node-affinity" title="Permanent link">&para;</a></h2>
+<p>Node Affinity is a more expressive replacement for <code>nodeSelector</code>.</p>
+<p>Label nodes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span><span class="nv">zone</span><span class="o">=</span>west
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">zone</span><span class="o">=</span>east
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>node/worker1 tainted
+<p>Create a pod with <code>preferredDuringSchedulingIgnoredDuringExecution</code> (soft requirement):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="s">apiVersion: v1</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="s">kind: Pod</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="s">metadata:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="s">  name: affinity-pod</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="s">spec:</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="s">  affinity:</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="s">    nodeAffinity:</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="s">      preferredDuringSchedulingIgnoredDuringExecution:</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="s">      - weight: 100</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="s">        preference:</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="s">          matchExpressions:</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="s">          - key: zone</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="s">            operator: In</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="s">            values:</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="s">            - west</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="s">  containers:</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="s">  - name: nginx</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="s">    image: nginx</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="s">EOF</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>node<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Taint
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>affinity-pod<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>Taints:   bubba=value:PreferNoSchedule
-<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>Taints:   &lt;none&gt;
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>taint.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>deployment.apps/taint-deployment created
-</code></pre></div>
-<p><strong>6.</strong> Check container distribution. More containers should land on the CP, but the worker1 still gets some since <code>PreferNoSchedule</code> is not absolute.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>21    # controller (roughly same)
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>23    # worker1 still got some
-</code></pre></div>
-<p>Delete the deployment after recording the numbers.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>taint-deployment
-</code></pre></div>
-<hr />
-<h3 id="noschedule-taint">NoSchedule taint<a class="headerlink" href="#noschedule-taint" title="Permanent link">&para;</a></h3>
-<p><strong>7.</strong> Remove the previous taint and replace it with <code>NoSchedule</code>. New containers will not be scheduled on the worker1 at all (DaemonSet pods are exempt).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span>bubba-
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>node/worker1 untainted
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a><span class="w">  </span><span class="nv">bubba</span><span class="o">=</span>value:NoSchedule
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>node/worker1 tainted
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>taint.yaml
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>deployment.apps/taint-deployment created
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>21    # controller
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>23    # worker1: no new nginx containers, only daemonset pods
-</code></pre></div>
-<p><strong>8.</strong> Verify no new nginx containers are on the worker1.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx
-</code></pre></div>
-<p><strong>9.</strong> Remove the <code>NoSchedule</code> taint and delete the deployment. Without any taint containers spread across both nodes again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>taint-deployment
-<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span>bubba-
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>node/worker1 untainted
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>taint.yaml
-<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>node<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Taint
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>Taints:   &lt;none&gt;
-<a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a>Taints:   &lt;none&gt;
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>27    # controller - more containers spread across both
-</code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>17
+<p>Clean up:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>affinity-pod
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span>zone-
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span>zone-
 </code></pre></div>
 <hr />
-<h3 id="noexecute-taint">NoExecute taint<a class="headerlink" href="#noexecute-taint" title="Permanent link">&para;</a></h3>
-<p><strong>10.</strong> Apply <code>NoExecute</code> to the worker1 node. This will evict existing Pods from the worker1 and prevent new scheduling.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a><span class="w">  </span><span class="nv">bubba</span><span class="o">=</span>value:NoExecute
+<h2 id="lab-123-taints-and-tolerations">Lab 12.3 — Taints and Tolerations<a class="headerlink" href="#lab-123-taints-and-tolerations" title="Permanent link">&para;</a></h2>
+<h3 id="prefernoschedule">PreferNoSchedule<a class="headerlink" href="#prefernoschedule" title="Permanent link">&para;</a></h3>
+<p>Apply a <code>PreferNoSchedule</code> taint to <code>worker2</code> — the scheduler will try to avoid it but will use it if necessary:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">gpu</span><span class="o">=</span>true:PreferNoSchedule
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A3<span class="w"> </span>Taints
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>node &quot;worker1&quot; tainted
+<p>Deploy many replicas and observe where they land:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>no-pref<span class="w"> </span>--image<span class="o">=</span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">6</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>no-pref<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<p>Most pods should land on <code>controller</code> and <code>worker1</code>; some may land on <code>worker2</code>.</p>
+<p>Remove the taint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">gpu</span><span class="o">=</span>true:PreferNoSchedule-
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>no-pref
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>37    # controller: pods evacuated from worker1 land here
+<h3 id="noschedule">NoSchedule<a class="headerlink" href="#noschedule" title="Permanent link">&para;</a></h3>
+<p><code>NoSchedule</code> is a hard rule — no new pods will be scheduled on the tainted node unless they tolerate the taint.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">gpu</span><span class="o">=</span>true:NoSchedule
 </code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<p>Deploy without a toleration — pods should NOT land on <code>worker2</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>no-sched<span class="w"> </span>--image<span class="o">=</span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">4</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>no-sched<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>5     # worker1: only essential daemonset containers remain
+<p>Now deploy with a toleration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="s">apiVersion: apps/v1</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s">kind: Deployment</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="s">metadata:</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="s">  name: tolerates-gpu</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s">spec:</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="s">  replicas: 4</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="s">  selector:</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="s">    matchLabels:</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="s">      app: tolerates-gpu</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="s">  template:</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="s">    metadata:</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="s">      labels:</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="s">        app: tolerates-gpu</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="s">    spec:</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="s">      tolerations:</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="s">      - key: gpu</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="s">        operator: Equal</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="s">        value: &quot;true&quot;</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="s">        effect: NoSchedule</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="s">      containers:</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="s">      - name: nginx</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="s">        image: nginx</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="s">EOF</span>
 </code></pre></div>
-<p><strong>11.</strong> Remove the <code>NoExecute</code> taint. Note that containers do NOT automatically return to the worker1 — they stay on the CP where they were rescheduled.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>worker1<span class="w"> </span>bubba-
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>tolerates-gpu<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>node/worker1 untainted
+<p>These pods can land on <code>worker2</code>.</p>
+<p>Remove the taint and clean up:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">gpu</span><span class="o">=</span>true:NoSchedule-
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>no-sched<span class="w"> </span>tolerates-gpu
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<h3 id="noexecute">NoExecute<a class="headerlink" href="#noexecute" title="Permanent link">&para;</a></h3>
+<p><code>NoExecute</code> evicts already-running pods that lack the toleration.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>evict-test<span class="w"> </span>--image<span class="o">=</span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">4</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>evict-test<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>32    # controller still has extra containers
+<p>Note some pods on <code>worker2</code>. Now taint it with <code>NoExecute</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">maintenance</span><span class="o">=</span>true:NoExecute
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>evict-test<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span>-w
 </code></pre></div>
-<p>On the <strong>worker1 node</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<p>Pods on <code>worker2</code> will be evicted immediately and rescheduled on the other nodes.</p>
+<p>Remove the taint and clean up:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">maintenance</span><span class="o">=</span>true:NoExecute-
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>evict-test
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>6     # worker1 still low — containers don&#39;t migrate back
-</code></pre></div>
-<p><strong>12.</strong> Remove the deployment to free cluster resources.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>taint-deployment
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>deployment.apps &quot;taint-deployment&quot; deleted
-</code></pre></div>
-<hr />
 
 
 
@@ -1422,11 +1335,10 @@
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
+    <div class="md-copyright__highlight">
+      &copy; 2025 VEGA TRAINING
+    </div>
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
   
 </div>
       
@@ -1443,7 +1355,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.top", "navigation.tabs", "search.highlight", "search.suggest", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
