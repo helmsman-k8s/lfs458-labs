@@ -878,6 +878,9 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>disktype
 </code></pre></div>
 <p>Create a pod that requires <code>disktype=ssd</code>:</p>
+<blockquote>
+<p><strong>Emergency fallback:</strong> <code>kubectl apply -f ~/lfs458/ch12-scheduling/solutions/ssd-pod.yaml</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s">apiVersion: v1</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s">kind: Pod</span>
@@ -906,6 +909,9 @@
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span><span class="nv">zone</span><span class="o">=</span>east
 </code></pre></div>
 <p>Create a pod with <code>preferredDuringSchedulingIgnoredDuringExecution</code> (soft requirement):</p>
+<blockquote>
+<p><strong>Emergency fallback:</strong> <code>kubectl apply -f ~/lfs458/ch12-scheduling/solutions/affinity-pod.yaml</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="s">apiVersion: v1</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="s">kind: Pod</span>
@@ -959,6 +965,9 @@
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>no-sched<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
 <p>Now deploy with a toleration:</p>
+<blockquote>
+<p><strong>Emergency fallback:</strong> <code>kubectl apply -f ~/lfs458/ch12-scheduling/solutions/tolerates-gpu.yaml</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="s">apiVersion: apps/v1</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s">kind: Deployment</span>

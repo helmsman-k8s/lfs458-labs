@@ -1122,6 +1122,9 @@
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pv
 </code></pre></div>
 <h3 id="create-a-persistentvolumeclaim">Create a PersistentVolumeClaim<a class="headerlink" href="#create-a-persistentvolumeclaim" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Emergency fallback:</strong> If the commands below fail, <code>kubectl apply -f ~/lfs458/ch09-volumes/solutions/nfs-pvc.yaml</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="s">apiVersion: v1</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="s">kind: PersistentVolumeClaim</span>
@@ -1139,6 +1142,9 @@
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>nfs-pvc
 </code></pre></div>
 <h3 id="use-the-pvc-in-a-pod">Use the PVC in a pod<a class="headerlink" href="#use-the-pvc-in-a-pod" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Emergency fallback:</strong> If the commands below fail, <code>kubectl apply -f ~/lfs458/ch09-volumes/solutions/nfs-pod.yaml</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s">apiVersion: v1</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s">kind: Pod</span>

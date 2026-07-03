@@ -909,7 +909,7 @@
 <a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
 <a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>&lt;output_omitted&gt;
 </code></pre></div>
-<p><strong>13.</strong> Delete the deployment, fix the port in the YAML to <code>80</code>, and recreate it.</p>
+<p><strong>13.</strong> Delete the deployment, fix the port in the YAML to <code>80</code>, and recreate it. If you get stuck, the completed file is at <code>~/lfs458/ch10-services/solutions/nginx-one-port80.yaml</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-one
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>deployment.apps &quot;nginx-one&quot; deleted

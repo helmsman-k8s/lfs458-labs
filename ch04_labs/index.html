@@ -1272,7 +1272,7 @@
 <a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a>I1102 16:16:42.639064  1 main.go:29] Allocated &quot;0&quot; memory
 </code></pre></div>
 <p><strong>8.</strong> Open a second and third terminal to access both CP and worker nodes. Run <code>top</code> on each to monitor resource usage. The <strong>stress</strong> command is not consuming resources yet since no <code>args:</code> have been set.</p>
-<p><strong>9.</strong> Edit <code>hog.yaml</code> to add CPU and memory consumption arguments for the <strong>stress</strong> container. The <code>args:</code> entry should be indented at the same level as <code>resources:</code>.</p>
+<p><strong>9.</strong> Edit <code>hog.yaml</code> to add CPU and memory consumption arguments for the <strong>stress</strong> container. The <code>args:</code> entry should be indented at the same level as <code>resources:</code>. If you get stuck, the completed file is at <code>~/lfs458/ch04-architecture/solutions/hog-with-resources.yaml</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>vim<span class="w"> </span>hog.yaml
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
