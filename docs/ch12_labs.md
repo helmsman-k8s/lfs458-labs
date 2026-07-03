@@ -22,6 +22,8 @@ kubectl get nodes --show-labels | grep disktype
 
 Create a pod that requires `disktype=ssd`:
 
+> **Emergency fallback:** `kubectl apply -f ~/lfs458/ch12-scheduling/solutions/ssd-pod.yaml`
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -64,6 +66,8 @@ kubectl label node worker2 zone=east
 ```
 
 Create a pod with `preferredDuringSchedulingIgnoredDuringExecution` (soft requirement):
+
+> **Emergency fallback:** `kubectl apply -f ~/lfs458/ch12-scheduling/solutions/affinity-pod.yaml`
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -145,6 +149,8 @@ kubectl get pods -l app=no-sched -o wide
 ```
 
 Now deploy with a toleration:
+
+> **Emergency fallback:** `kubectl apply -f ~/lfs458/ch12-scheduling/solutions/tolerates-gpu.yaml`
 
 ```bash
 cat <<EOF | kubectl apply -f -

@@ -168,6 +168,8 @@ kubectl get pv
 
 ### Create a PersistentVolumeClaim
 
+> **Emergency fallback:** If the commands below fail, `kubectl apply -f ~/lfs458/ch09-volumes/solutions/nfs-pvc.yaml`
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -187,6 +189,8 @@ kubectl get pvc nfs-pvc
 ```
 
 ### Use the PVC in a pod
+
+> **Emergency fallback:** If the commands below fail, `kubectl apply -f ~/lfs458/ch09-volumes/solutions/nfs-pod.yaml`
 
 ```bash
 cat <<EOF | kubectl apply -f -

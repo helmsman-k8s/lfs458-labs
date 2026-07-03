@@ -6,8 +6,7 @@
 - 15.3 Admission Controllers
 
 ## Pre-staged files
-- role-dev.yaml   - RBAC Role for development namespace
-- rolebind.yaml   - RoleBinding for DevDan user
+- solutions/ - Completed RBAC role for the production namespace exercise
 
 ## Notes
 - Always back up kube-apiserver.yaml before editing:

@@ -694,7 +694,7 @@ I1102 16:16:42.639064  1 main.go:29] Allocated "0" memory
 
 **8.** Open a second and third terminal to access both CP and worker nodes. Run `top` on each to monitor resource usage. The **stress** command is not consuming resources yet since no `args:` have been set.
 
-**9.** Edit `hog.yaml` to add CPU and memory consumption arguments for the **stress** container. The `args:` entry should be indented at the same level as `resources:`.
+**9.** Edit `hog.yaml` to add CPU and memory consumption arguments for the **stress** container. The `args:` entry should be indented at the same level as `resources:`. If you get stuck, the completed file is at `~/lfs458/ch04-architecture/solutions/hog-with-resources.yaml`.
 
 ```bash
 vim hog.yaml

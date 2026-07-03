@@ -201,7 +201,7 @@ curl 192.168.1.72:80
 <output_omitted>
 ```
 
-**13.** Delete the deployment, fix the port in the YAML to `80`, and recreate it.
+**13.** Delete the deployment, fix the port in the YAML to `80`, and recreate it. If you get stuck, the completed file is at `~/lfs458/ch10-services/solutions/nginx-one-port80.yaml`.
 
 ```bash
 kubectl -n accounting delete deploy nginx-one

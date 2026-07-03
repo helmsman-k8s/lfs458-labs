@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tolerates-gpu
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: tolerates-gpu
+  template:
+    metadata:
+      labels:
+        app: tolerates-gpu
+    spec:
+      tolerations:
+      - key: gpu
+        operator: Equal
+        value: "true"
+        effect: NoSchedule
+      containers:
+      - name: nginx
+        image: nginx

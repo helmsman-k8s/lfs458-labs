@@ -6,4 +6,5 @@
 - 8.3 Working with Kustomize
 
 ## Pre-staged files
-- hpa-deploy.yaml - Deployment with resource requests for HPA exercise
+- metrics-server/ - Metrics Server manifests (required for HPA)
+- myapp/          - Kustomize base and overlays for Exercise 8.3

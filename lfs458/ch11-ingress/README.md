@@ -6,8 +6,11 @@
 - 11.3 Gateway API (NGINX Gateway Fabric)
 
 ## Pre-staged files
-- ingress.yaml   - Ingress resource for Ex 11.2
-- nettool.yaml   - Ubuntu pod for testing
-- books.yaml     - Deployment + Service for Gateway API exercise
-- gateway.yaml   - Gateway resource for Ex 11.3
-- httproute.yaml - HTTPRoute resource for Ex 11.3
+- ingress-nginx/ - NGINX Ingress Controller Helm values
+
+All resources are created inline in the lab guide.
+
+## Emergency fallback files (solutions/)
+- solutions/apps-ingress.yaml   - Complete Ingress for Lab 11.1
+- solutions/main-gateway.yaml   - GatewayClass + Gateway for Lab 11.2
+- solutions/gw-app-route.yaml   - HTTPRoute for Lab 11.2

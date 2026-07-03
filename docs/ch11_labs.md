@@ -53,6 +53,8 @@ kubectl expose deployment app2 --port=80
 
 ### Create an Ingress resource
 
+> **Emergency fallback:** If the heredoc below fails, `kubectl apply -f ~/lfs458/ch11-ingress/solutions/apps-ingress.yaml`
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
@@ -197,6 +199,8 @@ spec:
       port: 80
 EOF
 ```
+
+> **Emergency fallbacks:** `kubectl apply -f ~/lfs458/ch11-ingress/solutions/main-gateway.yaml` and `kubectl apply -f ~/lfs458/ch11-ingress/solutions/gw-app-route.yaml`
 
 Test:
 
