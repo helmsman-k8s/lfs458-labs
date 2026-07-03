@@ -35,17 +35,17 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - "Ch 03: Install Kubernetes": ch03_labs.md
-  - "Ch 04: Architecture": ch04_labs.md
-  - "Ch 05: API Access": ch05_labs.md
-  - "Ch 06: API Objects": ch06_labs.md
-  - "Ch 07: Deployments": ch07_labs.md
-  - "Ch 08: Helm & Kustomize": ch08_labs.md
-  - "Ch 09: Volumes": ch09_labs.md
-  - "Ch 10: Services": ch10_labs.md
-  - "Ch 11: Ingress": ch11_labs.md
-  - "Ch 12: Scheduling": ch12_labs.md
-  - "Ch 13: Troubleshooting": ch13_labs.md
-  - "Ch 14: Custom Resources": ch14_labs.md
-  - "Ch 15: Security": ch15_labs.md
-  - "Ch 16: High Availability": ch16_labs.md
+  - "Chapter 3: Install Kubernetes": ch03_labs.md
+  - "Chapter 4: Architecture": ch04_labs.md
+  - "Chapter 5: API Access": ch05_labs.md
+  - "Chapter 6: API Objects": ch06_labs.md
+  - "Chapter 7: Deployments": ch07_labs.md
+  - "Chapter 8: Helm & Kustomize": ch08_labs.md
+  - "Chapter 9: Volumes": ch09_labs.md
+  - "Chapter 10: Services": ch10_labs.md
+  - "Chapter 11: Ingress": ch11_labs.md
+  - "Chapter 12: Scheduling": ch12_labs.md
+  - "Chapter 13: Troubleshooting": ch13_labs.md
+  - "Chapter 14: Custom Resources": ch14_labs.md
+  - "Chapter 15: Security": ch15_labs.md
+  - "Chapter 16: High Availability": ch16_labs.md
