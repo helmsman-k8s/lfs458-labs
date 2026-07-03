@@ -5,13 +5,14 @@ site_description: Lab exercises for the LFS458 Kubernetes Administration course
 theme:
   name: material
   palette:
+    scheme: slate
     primary: indigo
     accent: indigo
   font:
     text: Roboto
     code: Roboto Mono
   features:
-    - navigation.tabs
+    - navigation.sections
     - navigation.top
     - content.code.copy
 

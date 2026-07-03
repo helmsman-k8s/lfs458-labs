@@ -451,3 +451,22 @@ kubectl delete svc nginx
 ## Exercise 3.5: Access from Outside the Cluster
 
 **1.** Use `exec` to inspect environment variables inside a running pod.
+
+```bash
+kubectl run testpod --image=nginx
+kubectl wait --for=condition=Ready pod/testpod --timeout=60s
+kubectl exec testpod -- printenv | grep KUBERNETES
+```
+
+```
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_SERVICE_HOST=10.96.0.1
+```
+
+**2.** Clean up.
+
+```bash
+kubectl delete pod testpod
+```
+
+---

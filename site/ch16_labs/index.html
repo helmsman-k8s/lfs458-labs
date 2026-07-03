@@ -963,10 +963,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#install-haproxy-on-a-dedicated-lb-node-or-the-controller" class="md-nav__link">
+  <a href="#install-haproxy-dedicated-lb-node-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install HAProxy (on a dedicated LB node or the controller)
+        Install HAProxy (dedicated LB node required)
       
     </span>
   </a>
@@ -1141,10 +1141,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#install-haproxy-on-a-dedicated-lb-node-or-the-controller" class="md-nav__link">
+  <a href="#install-haproxy-dedicated-lb-node-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install HAProxy (on a dedicated LB node or the controller)
+        Install HAProxy (dedicated LB node required)
       
     </span>
   </a>
@@ -1294,7 +1294,10 @@
 <hr />
 <h2 id="lab-161-haproxy-load-balancer">Lab 16.1 — HAProxy Load Balancer<a class="headerlink" href="#lab-161-haproxy-load-balancer" title="Permanent link">&para;</a></h2>
 <p>HAProxy will distribute API server traffic across all control plane nodes on port 6443.</p>
-<h3 id="install-haproxy-on-a-dedicated-lb-node-or-the-controller">Install HAProxy (on a dedicated LB node or the controller)<a class="headerlink" href="#install-haproxy-on-a-dedicated-lb-node-or-the-controller" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Note:</strong> HAProxy must run on a <strong>dedicated load balancer node</strong> — it cannot run on the controller itself. Both HAProxy and <code>kube-apiserver</code> bind to port 6443, so they cannot coexist on the same host. This lab requires a 4th VM. In a standard 3-node training environment this lab is demonstrated by the instructor rather than executed by students.</p>
+</blockquote>
+<h3 id="install-haproxy-dedicated-lb-node-required">Install HAProxy (dedicated LB node required)<a class="headerlink" href="#install-haproxy-dedicated-lb-node-required" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>haproxy
 </code></pre></div>
 <h3 id="configure-haproxy">Configure HAProxy<a class="headerlink" href="#configure-haproxy" title="Permanent link">&para;</a></h3>

@@ -562,10 +562,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lab-topology" class="md-nav__link">
+  <a href="#how-to-use-this-guide" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab Topology
+        How to use this guide
       
     </span>
   </a>
@@ -573,10 +573,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-environment" class="md-nav__link">
+  <a href="#lab-topology" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab Environment
+        Lab topology
       
     </span>
   </a>
@@ -587,46 +587,7 @@
   <a href="#quick-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Reference
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Reference">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kubectl-tips" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kubectl Tips
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shell-variable-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Shell Variable Patterns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lab-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lab Files
+        Quick reference
       
     </span>
   </a>
@@ -1046,10 +1007,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lab-topology" class="md-nav__link">
+  <a href="#how-to-use-this-guide" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab Topology
+        How to use this guide
       
     </span>
   </a>
@@ -1057,10 +1018,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-environment" class="md-nav__link">
+  <a href="#lab-topology" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab Environment
+        Lab topology
       
     </span>
   </a>
@@ -1071,46 +1032,7 @@
   <a href="#quick-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Reference
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Reference">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kubectl-tips" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kubectl Tips
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shell-variable-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Shell Variable Patterns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lab-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lab Files
+        Quick reference
       
     </span>
   </a>
@@ -1134,129 +1056,107 @@
 
 
 
-<h1 id="lfs458-kubernetes-administration-lab-guide">LFS458 — Kubernetes Administration Lab Guide<a class="headerlink" href="#lfs458-kubernetes-administration-lab-guide" title="Permanent link">&para;</a></h1>
-<p>Welcome to the <strong>Vega Training</strong> lab guide for the LFS458 Kubernetes Administration course.</p>
+<h1 id="lfs458-kubernetes-administration-lab-guide">LFS458 - Kubernetes Administration Lab Guide<a class="headerlink" href="#lfs458-kubernetes-administration-lab-guide" title="Permanent link">&para;</a></h1>
+<p>Welcome to the student lab guide for <strong>LFS458 / CKA preparation</strong>, delivered by <strong>VEGA TRAINING</strong>.</p>
 <hr />
-<h2 id="lab-topology">Lab Topology<a class="headerlink" href="#lab-topology" title="Permanent link">&para;</a></h2>
-<p>Each student environment consists of <strong>three VMs</strong> on a shared <code>/24</code> network. The hostnames are fixed; only the IP addresses differ per student.</p>
+<h2 id="how-to-use-this-guide">How to use this guide<a class="headerlink" href="#how-to-use-this-guide" title="Permanent link">&para;</a></h2>
+<p>Each chapter corresponds to a section of the LFS458 course. Follow the exercises in order - later chapters build on earlier ones.</p>
+<p>Work on your assigned lab nodes:</p>
 <table>
 <thead>
 <tr>
-<th>Role</th>
+<th>Node</th>
 <th>Hostname</th>
-<th>IP Address</th>
+<th>IP</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Control Plane</td>
 <td><code>controller</code></td>
-<td><em>assigned by your instructor</em></td>
+<td><em>assigned by instructor</em></td>
+<td>Kubernetes control plane</td>
 </tr>
 <tr>
 <td>Worker 1</td>
 <td><code>worker1</code></td>
-<td><em>assigned by your instructor</em></td>
+<td><em>assigned by instructor</em></td>
+<td>Worker node</td>
 </tr>
 <tr>
 <td>Worker 2</td>
 <td><code>worker2</code></td>
-<td><em>assigned by your instructor</em></td>
+<td><em>assigned by instructor</em></td>
+<td>Worker node</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Finding your IPs</p>
-<p>Run <code>ip addr show</code> on each node to find its IP. Use <code>/etc/hosts</code> to map hostnames so you can <code>ssh controller</code>, <code>ssh worker1</code>, etc. without remembering IPs:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;controller-ip&gt;   controller
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&lt;worker1-ip&gt;      worker1
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>&lt;worker2-ip&gt;      worker2
-</code></pre></div></p>
+<p>Run <code>ip addr show</code> on each node, or check <code>/etc/hosts</code> if your instructor pre-populated it.</p>
 </div>
+<p>Your username on all nodes is <code>guru</code> (password: <code>work</code>).</p>
 <hr />
-<h2 id="lab-environment">Lab Environment<a class="headerlink" href="#lab-environment" title="Permanent link">&para;</a></h2>
+<h2 id="lab-topology">Lab topology<a class="headerlink" href="#lab-topology" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Component</th>
-<th>Version</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>OS</td>
-<td>Ubuntu 22.04 LTS</td>
+<td>Kubernetes version</td>
+<td><strong>1.33.1</strong></td>
 </tr>
 <tr>
-<td>Kubernetes</td>
-<td>1.33.1</td>
-</tr>
-<tr>
-<td>Container Runtime</td>
-<td>containerd</td>
+<td>Container runtime</td>
+<td><strong>containerd</strong></td>
 </tr>
 <tr>
 <td>CNI</td>
-<td>Calico (pod CIDR: 10.244.0.0/16)</td>
+<td><strong>Calico</strong> (10.244.0.0/16)</td>
 </tr>
 <tr>
-<td>CRI Socket</td>
-<td><code>/run/containerd/containerd.sock</code></td>
+<td>OS</td>
+<td>Ubuntu 22.04</td>
+</tr>
+<tr>
+<td>Control plane endpoint</td>
+<td><code>controller:6443</code></td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<h3 id="kubectl-tips">Kubectl Tips<a class="headerlink" href="#kubectl-tips" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Get all resources in all namespaces</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>-A
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Watch pods in real time</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Describe a resource for event/error detail</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;pod-name&gt;
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Execute a command in a running container</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>bash
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Extract a field with jsonpath (use instead of copy-pasting names)</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>nginx<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Pod name: </span><span class="nv">$POD</span><span class="s2">&quot;</span>
-</code></pre></div>
-<h3 id="shell-variable-patterns">Shell Variable Patterns<a class="headerlink" href="#shell-variable-patterns" title="Permanent link">&para;</a></h3>
-<p>Throughout these labs, use shell variables to capture dynamic values instead of copy-pasting names or IPs. This makes every command reproducible regardless of your specific environment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Capture a pod name</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>&lt;label&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Capture a service ClusterIP</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">SVC_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>&lt;svc-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.clusterIP}&#39;</span><span class="k">)</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Capture a NodePort</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nv">NODE_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>&lt;svc-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[0].nodePort}&#39;</span><span class="k">)</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Capture an endpoint IP</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nv">ENDPOINT_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints<span class="w"> </span>&lt;svc-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.subsets[0].addresses[0].ip}&#39;</span><span class="k">)</span>
+<h2 id="quick-reference">Quick reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check cluster status</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--all-namespaces
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Check component logs</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>journalctl<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span>-f
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Lab files location</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>ls<span class="w"> </span>~/lfs458/
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># Switch context</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>kubectl<span class="w"> </span>config<span class="w"> </span>get-contexts
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>&lt;name&gt;
 </code></pre></div>
 <hr />
-<h2 id="lab-files">Lab Files<a class="headerlink" href="#lab-files" title="Permanent link">&para;</a></h2>
-<p>All YAML manifests are in subdirectories under <code>lfs458/</code> in the repository root, organized by chapter. Each chapter that requires editing a manifest also has a <code>solutions/</code> subfolder with the completed version.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>lfs458/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── ch03-install/
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── ch04-architecture/
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   └── solutions/
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── ch06-api-objects/
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   └── solutions/
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>├── ch07-deployments/
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   └── solutions/
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>├── ch09-volumes/
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   └── solutions/
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>├── ch10-services/
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   └── solutions/
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>├── ch15-security/
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│   └── solutions/
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>└── ...
-</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Lab files</p>
+<p>All pre-staged YAML files for each chapter are in <code>~/lfs458/chXX-*/</code>.
+Simulation test scripts are in <code>~/chXX_sim.sh</code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Node names</p>
+<p>This guide uses <code>controller</code>, <code>worker1</code>, <code>worker2</code> ? not the generic <code>cp</code>/<code>worker</code> names used in the upstream LFS458 material.</p>
+</div>
+<hr />
+<p><em>VEGA TRAINING © 2025 - Validated on Kubernetes 1.33.1, April 2026</em></p>
 
 
 
