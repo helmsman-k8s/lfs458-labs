@@ -828,7 +828,7 @@
 <p><strong>1.</strong> View the <strong>kubelet</strong> service logs using <code>journalctl</code>. The kubelet is the primary node agent and its logs are essential for diagnosing pod scheduling and startup issues.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>journalctl<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>...
 </code></pre></div>
 <p><strong>2.</strong> Major Kubernetes processes run inside containers. Use <code>find</code> to locate the <strong>kube-apiserver</strong> log on disk.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*apiserver*log&quot;</span>
@@ -839,7 +839,7 @@
 <p><strong>3.</strong> View the apiserver log file directly.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>less<span class="w"> </span>/var/log/containers/kube-apiserver-controller_kube-system_kube-apiserver-&lt;Tab&gt;
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>...
 </code></pre></div>
 <p><strong>4.</strong> Search for and review log files for other cluster agents: <code>coredns</code>, <code>kube-proxy</code>, and others.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*coredns*log&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
@@ -889,7 +889,7 @@
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>kube-proxy-qhc4f
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>kube-proxy-s56hl
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>kube-scheduler-f-controller
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>&lt;output_omitted&gt;
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>...
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>logs<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>kube-apiserver-controller
@@ -898,7 +898,7 @@
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>I1119 02:31:14.933023   1 server.go:623] external host was not specified, using 10.128.0.3
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>I1119 02:31:14.933356   1 server.go:149] Version: v1.29.1
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>I1119 02:31:15.595131   1 plugins.go:158] Loaded 11 mutating admission controller(s)
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>&lt;output_omitted&gt;
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>...
 </code></pre></div>
 <p><strong>3.</strong> View the logs of other pods in your cluster. The <code>--previous</code> flag shows logs from a previously crashed container, which is essential for post-mortem debugging.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>logs<span class="w"> </span>kube-scheduler-f-controller
@@ -926,7 +926,7 @@
 <p><strong>2.</strong> Check the metrics-server pod. It may show <code>0/1</code> initially — it needs <code>--kubelet-insecure-tls</code> to become ready.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>...
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>metrics-server-fc6d4999b-b9rjj   0/1   Running   0   42s
 </code></pre></div>
 <p><strong>3.</strong> Edit the metrics-server deployment to add the <code>--kubelet-insecure-tls</code> flag. The <code>--kubelet-preferred-address-types</code> line may also be needed in some environments.</p>
@@ -958,7 +958,7 @@
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>calico-system   calico-kube-controllers-7b9dcdcc5-qg6zd   2m           6Mi
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>calico-system   calico-node-dr279                          23m          22Mi
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>kube-system   coredns-5644d7b6d9-k7kts                 2m           6Mi
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>&lt;output_omitted&gt;
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>...
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>kubectl<span class="w"> </span>top<span class="w"> </span>nodes
 </code></pre></div>
@@ -996,7 +996,7 @@
 <a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="w">        </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2414744Ki&quot;</span>
 <a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="w">      </span><span class="p">}</span>
 <a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_omi</span><span class="kc">tte</span><span class="err">d&gt;</span>
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="err">...</span>
 </code></pre></div>
 <hr />
 <h3 id="configure-the-kubernetes-dashboard">Configure the Kubernetes Dashboard<a class="headerlink" href="#configure-the-kubernetes-dashboard" title="Permanent link">&para;</a></h3>
@@ -1027,7 +1027,7 @@
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">  </span>-n<span class="w"> </span>kubernetes-dashboard
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>eyJlxvezoLAilithbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2...
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>&lt;output_omitted&gt;
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>...
 </code></pre></div>
 <p><strong>5.</strong> After logging in, explore the dashboard. Switch namespace to <code>kube-system</code> to see infrastructure pods and their CPU/memory usage graphs. Try scaling a deployment up and down and observe the dashboard respond in real time.</p>
 <hr />
