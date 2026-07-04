@@ -23,7 +23,7 @@ NAME                                          CREATED AT
 authorizationpolicies.policy.linkerd.io       2024-08-28T11:30:34Z
 bgpconfigurations.crd.projectcalico.org       2024-08-28T08:58:54Z
 bgppeers.crd.projectcalico.org                2024-08-28T08:58:57Z
-<output_omitted>
+...
 ```
 
 **2.** Examine one of the existing CRDs to understand their structure. Copy the Calico custom resources YAML from Chapter 3 and inspect it, then describe the CRD to see the full spec.
@@ -40,7 +40,7 @@ Namespace:
 Labels:       <none>
 API Version:  apiextensions.k8s.io/v1
 Kind:         CustomResourceDefinition
-<output_omitted>
+...
 ```
 
 **3.** Review the pre-staged `crd.yaml` file. It defines a new `CronTab` resource in the `stable.example.com` group with OpenAPI v3 schema validation.
@@ -109,9 +109,9 @@ kubectl get crd
 
 ```
 NAME                                          CREATED AT
-<output_omitted>
+...
 crontabs.stable.example.com                  2024-08-13T03:18:07Z
-<output_omitted>
+...
 ```
 
 ```bash
@@ -125,7 +125,7 @@ Labels:       <none>
 Annotations:  <none>
 API Version:  apiextensions.k8s.io/v1
 Kind:         CustomResourceDefinition
-<output_omitted>
+...
 ```
 
 **6.** Review the pre-staged `new-crontab.yaml` — an instance of the new `CronTab` resource type. The `apiVersion` uses the group and version from the CRD, and `kind` matches the CamelCased kind.
@@ -186,7 +186,7 @@ Labels:       <none>
 Annotations:  <none>
 API Version:  stable.example.com/v1
 Kind:         CronTab
-<output_omitted>
+...
 Spec:
   Cron Spec:  */5 * * * *
   Image:      some-cron-image

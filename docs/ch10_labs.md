@@ -54,7 +54,7 @@ kubectl get nodes --show-labels
 ```
 
 ```
-<output_omitted>
+...
 ```
 
 **3.** Attempt to create the Deployment. It should fail because the `accounting` namespace does not exist yet.
@@ -198,7 +198,7 @@ curl 192.168.1.72:80
 <html>
 <head>
 <title>Welcome to nginx!</title>
-<output_omitted>
+...
 ```
 
 **13.** Delete the deployment, fix the port in the YAML to `80`, and recreate it. If you get stuck, the completed file is at `~/lfs458/ch10-services/solutions/nginx-one-port80.yaml`.
@@ -282,7 +282,7 @@ curl http://controller:<nodeport>
 <html>
 <head>
 <title>Welcome to nginx!</title>
-<output_omitted>
+...
 ```
 
 **5.** You can also access the service from outside the lab using the public IP of any node and the NodePort. Find your public IP if needed.
@@ -351,7 +351,7 @@ dig
 ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 3394
 ;; SERVER: 10.96.0.10#53(10.96.0.10)
 ;; Query time: 4 msec
-<output_omitted>
+...
 ```
 
 **(c)** Check `/etc/resolv.conf` — the first search domain is `default.svc.cluster.local` since the Pod is in the `default` namespace.
@@ -388,7 +388,7 @@ curl service-lab.accounting.svc.cluster.local.
 <html>
 <head>
 <title>Welcome to nginx!</title>
-<output_omitted>
+...
 ```
 
 **(f)** Try using just the short service name. It fails because `nettool` is in the `default` namespace and `service-lab` is in `accounting`.
@@ -412,7 +412,7 @@ curl service-lab.accounting
 <html>
 <head>
 <title>Welcome to nginx!</title>
-<output_omitted>
+...
 ```
 
 **(h)** Exit the container.

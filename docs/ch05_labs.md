@@ -18,9 +18,7 @@ cd ~/lfs458/ch05-api-access/
 less $HOME/.kube/config
 ```
 
-```
-<output_omitted>
-```
+You will see the cluster's server address, and three base64-encoded certificates: `certificate-authority-data`, `client-certificate-data`, and `client-key-data`. Press `q` to exit.
 
 **2.** Create variables from the certificate information in the config file. Begin with the `client-certificate-data` key.
 
@@ -29,13 +27,7 @@ export client=$(grep client-cert $HOME/.kube/config | cut -d" " -f 6)
 echo $client
 ```
 
-```
-LSOtLS1CRUdJTiBDRVJUSUZJQ0FURSOtLSOtCk1JSUM4akNDQWRxZOF3SUJ
-BZOlJRy9wbC9rWEpNdmd3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFRO
-ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB4TnpFeU1UTXhOelEyTXpKY
-UZ3MHhPREV5TVRNeE56UTJNelJhTURReApGekFWQmdOVkJBb1REbk41YzNS
-<output_omitted>
-```
+You will see a long base64 string — this is your cluster's client certificate. The value will be unique to your cluster.
 
 **3.** Collect the `client-key-data` as the `key` variable.
 
@@ -44,9 +36,7 @@ export key=$(grep client-key-data $HOME/.kube/config | cut -d" " -f 6)
 echo $key
 ```
 
-```
-<output_omitted>
-```
+You will see another long base64 string — your client private key.
 
 **4.** Set the `auth` variable with the `certificate-authority-data` key.
 
@@ -55,9 +45,7 @@ export auth=$(grep certificate-authority-data $HOME/.kube/config | cut -d" " -f 
 echo $auth
 ```
 
-```
-<output_omitted>
-```
+You will see another long base64 string — the cluster's Certificate Authority (CA).
 
 **5.** Decode and save the three keys as PEM files for use with `curl`.
 
@@ -91,10 +79,12 @@ curl --cert ./client.pem \
   "kind": "PodList",
   "apiVersion": "v1",
   "metadata": {
-    "selfLink": "/api/v1/pods",
     "resourceVersion": "239414"
   },
-<output_omitted>
+  "items": [
+    ...all running pods listed as JSON objects...
+  ]
+}
 ```
 
 **8.** Now use `curl` to create a new pod using a JSON file. The `curlpod.json` file is already staged in your lab folder. Review it first.
@@ -141,7 +131,12 @@ curl --cert ./client.pem \
   "apiVersion": "v1",
   "metadata": {
     "name": "curlpod",
-<output_omitted>
+    ...
+  },
+  "status": {
+    "phase": "Pending"
+  }
+}
 ```
 
 **10.** Verify the new pod exists and is running.
@@ -183,8 +178,8 @@ strace kubectl get endpoints
 ```
 execve("/usr/bin/kubectl", ["kubectl", "get", "endpoints"], [/*....
 ....
-openat(AT_FDCWD, "/home/guru/.kube/cache/discovery/controller_6443..
-<output_omitted>
+openat(AT_FDCWD, "/home/guru/.kube/cache/discovery/controller_6443/...
+... many system calls ...
 ```
 
 **3.** Change to the cache discovery directory and explore its contents.
@@ -228,7 +223,7 @@ find .
 ./storage.k8s.io/v1
 ./storage.k8s.io/v1/serverresources.json
 ./rbac.authorization.k8s.io
-<output_omitted>
+... (one entry per API group)
 ```
 
 **5.** View the objects available in version 1 of the API. For each object you can see the verbs (actions) available.
@@ -252,7 +247,7 @@ python3 -m json.tool v1/serverresources.json
                 "create"
             ]
         },
-<output_omitted>
+...
 ```
 
 **6.** Pipe through `less` to navigate the output more easily.
@@ -297,7 +292,7 @@ python3 -m json.tool v1/serverresources.json | grep kind
             "kind": "ConfigMap",
             "kind": "Endpoints",
             "kind": "Event",
-<output_omitted>
+... (many more resource kinds)
 ```
 
 **10.** Look at the `apps/v1` API group — it contains nine more resource types.
@@ -312,7 +307,7 @@ python3 -m json.tool apps/v1/serverresources.json | grep kind
             "kind": "DaemonSet",
             "kind": "DaemonSet",
             "kind": "Deployment",
-<output_omitted>
+... (more resource kinds)
 ```
 
 **11.** Return to the home directory and delete the `curlpod` to recoup system resources.

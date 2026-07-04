@@ -19,7 +19,7 @@ journalctl -u kubelet | less
 ```
 
 ```
-<output_omitted>
+...
 ```
 
 **2.** Major Kubernetes processes run inside containers. Use `find` to locate the **kube-apiserver** log on disk.
@@ -40,7 +40,7 @@ sudo less /var/log/containers/kube-apiserver-controller_kube-system_kube-apiserv
 ```
 
 ```
-<output_omitted>
+...
 ```
 
 **4.** Search for and review log files for other cluster agents: `coredns`, `kube-proxy`, and others.
@@ -111,7 +111,7 @@ kube-controller-manager-controller
 kube-proxy-qhc4f
 kube-proxy-s56hl
 kube-scheduler-f-controller
-<output_omitted>
+...
 ```
 
 ```bash
@@ -124,7 +124,7 @@ Flag --insecure-port has been deprecated, This flag will be removed in a future 
 I1119 02:31:14.933023   1 server.go:623] external host was not specified, using 10.128.0.3
 I1119 02:31:14.933356   1 server.go:149] Version: v1.29.1
 I1119 02:31:15.595131   1 plugins.go:158] Loaded 11 mutating admission controller(s)
-<output_omitted>
+...
 ```
 
 **3.** View the logs of other pods in your cluster. The `--previous` flag shows logs from a previously crashed container, which is essential for post-mortem debugging.
@@ -170,7 +170,7 @@ kubectl -n kube-system get pods
 ```
 
 ```
-<output_omitted>
+...
 metrics-server-fc6d4999b-b9rjj   0/1   Running   0   42s
 ```
 
@@ -217,7 +217,7 @@ NAMESPACE     NAME                                      CPU(cores)   MEMORY(byte
 calico-system   calico-kube-controllers-7b9dcdcc5-qg6zd   2m           6Mi
 calico-system   calico-node-dr279                          23m          22Mi
 kube-system   coredns-5644d7b6d9-k7kts                 2m           6Mi
-<output_omitted>
+...
 ```
 
 ```bash
@@ -266,7 +266,7 @@ curl --cert ./client.pem \
         "memory": "2414744Ki"
       }
     },
-<output_omitted>
+...
 ```
 
 ---
@@ -321,7 +321,7 @@ kubectl create token kubernetes-dashboard \
 
 ```
 eyJlxvezoLAilithbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2...
-<output_omitted>
+...
 ```
 
 **5.** After logging in, explore the dashboard. Switch namespace to `kube-system` to see infrastructure pods and their CPU/memory usage graphs. Try scaling a deployment up and down and observe the dashboard respond in real time.

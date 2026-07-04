@@ -46,7 +46,7 @@ NAME:
 
 USAGE:
         etcdctl [flags]
-<output_omitted>
+...
 ```
 
 **(b)** Find the TLS certificate files needed to authenticate with etcd. Newer etcd images are minimised so `find` and `ls` may not be available — use `echo` instead.
@@ -169,7 +169,7 @@ sudo apt update
 ```
 
 ```
-<output_omitted>
+...
 ```
 
 **2.** Update the Kubernetes apt repository to point to the new minor version you want to upgrade to. Replace `33` with `34` to target v1.34.
@@ -188,7 +188,7 @@ sudo apt-cache madison kubeadm
 ```
 kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
 kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
-<output_omitted>
+...
 ```
 
 **4.** Remove the hold on **kubeadm** and upgrade it to the next release's first patch (update 1).
@@ -209,7 +209,7 @@ sudo apt-get install -y kubeadm=1.34.1-1.1
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
-<output_omitted>
+...
 ```
 
 **5.** Hold the package again to prevent unintended upgrades.
@@ -266,7 +266,7 @@ sudo kubeadm upgrade plan
 [upgrade/versions] kubeadm version: v1.34.1
 [upgrade/versions] Target version: v1.34.1
 [upgrade/versions] Latest version in the v1.34 series: v1.34.1
-<output_omitted>
+...
 ```
 
 **9.** Apply the upgrade. Answer **y** when prompted. This will take several minutes.
@@ -283,7 +283,7 @@ sudo kubeadm upgrade apply v1.34.1
 [upgrade/versions] kubeadm version: v1.34.1
 [upgrade] Are you sure you want to proceed? [y/N]: y
 [upgrade/prepull] Pulling images required for setting up a Kubernetes cluster
-<output_omitted>
+...
 ```
 
 **10.** Check node status. The CP should show `Ready,SchedulingDisabled` and still show the old version until kubelet is upgraded.
@@ -317,7 +317,7 @@ sudo apt-get install -y kubelet=1.34.1-1.1 kubectl=1.34.1-1.1
 
 ```
 Reading package lists... Done
-<output_omitted>
+...
 ```
 
 **13.** Hold the packages again.
@@ -405,7 +405,7 @@ sudo apt-cache madison kubeadm
 kubeadm | 1.34.2-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
 kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
 kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
-<output_omitted>
+...
 ```
 
 **21.** Install the updated kubeadm on the worker.
@@ -415,7 +415,7 @@ sudo apt-get update && sudo apt-get install -y kubeadm=1.34.1-1.1
 ```
 
 ```
-<output_omitted>
+...
 Setting up kubeadm (1.34.1-1.1) ...
 ```
 
@@ -478,7 +478,7 @@ sudo apt-get install -y kubelet=1.34.1-1.1 kubectl=1.34.1-1.1
 
 ```
 Reading package lists... Done
-<output_omitted>
+...
 Setting up kubectl (1.34.1-1.1) ...
 Setting up kubelet (1.34.1-1.1) ...
 ```
@@ -592,7 +592,7 @@ Name:       hog
 Namespace:  default
 Labels:     app=hog
 Annotations: deployment.kubernetes.io/revision: 1
-<output_omitted>
+...
 ```
 
 ```bash
@@ -603,7 +603,7 @@ kubectl get deployment hog -o yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-<output_omitted>
+...
   template:
     metadata:
       creationTimestamp: null
@@ -615,7 +615,7 @@ metadata:
         imagePullPolicy: Always
         name: stress
         resources: {}
-<output_omitted>
+...
 ```
 
 **3.** Save the deployment YAML to a file.
@@ -875,7 +875,7 @@ kubectl -n low-usage-limit \
 ```
 
 ```yaml
-<output_omitted>
+...
 spec:
   containers:
   - image: vish/stress
@@ -889,7 +889,7 @@ spec:
         cpu: 500m
         memory: 100Mi
     terminationMessagePath: /dev/termination-log
-<output_omitted>
+...
 ```
 
 **9.** Copy `hog.yaml` to a new file and add a `namespace:` line so the deployment runs in `low-usage-limit`. Delete the `selfLink:` line if it exists.
