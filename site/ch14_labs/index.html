@@ -732,7 +732,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>authorizationpolicies.policy.linkerd.io       2024-08-28T11:30:34Z
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>bgpconfigurations.crd.projectcalico.org       2024-08-28T08:58:54Z
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>bgppeers.crd.projectcalico.org                2024-08-28T08:58:57Z
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>&lt;output_omitted&gt;
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>...
 </code></pre></div>
 <p><strong>2.</strong> Examine one of the existing CRDs to understand their structure. Copy the Calico custom resources YAML from Chapter 3 and inspect it, then describe the CRD to see the full spec.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cp<span class="w"> </span>~/lfs458/ch03-install/calico-custom-resources.yaml<span class="w"> </span>.
@@ -744,7 +744,7 @@
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Labels:       &lt;none&gt;
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>API Version:  apiextensions.k8s.io/v1
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Kind:         CustomResourceDefinition
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>&lt;output_omitted&gt;
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>...
 </code></pre></div>
 <p><strong>3.</strong> Review the pre-staged <code>crd.yaml</code> file. It defines a new <code>CronTab</code> resource in the <code>stable.example.com</code> group with OpenAPI v3 schema validation.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>~/lfs458/ch14-crd/crd.yaml
@@ -798,9 +798,9 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>crd
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>NAME                                          CREATED AT
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>&lt;output_omitted&gt;
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>...
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>crontabs.stable.example.com                  2024-08-13T03:18:07Z
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>&lt;output_omitted&gt;
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>...
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>crd<span class="w"> </span>crontab&lt;Tab&gt;
 </code></pre></div>
@@ -810,7 +810,7 @@
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Annotations:  &lt;none&gt;
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>API Version:  apiextensions.k8s.io/v1
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>Kind:         CustomResourceDefinition
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>&lt;output_omitted&gt;
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>...
 </code></pre></div>
 <p><strong>6.</strong> Review the pre-staged <code>new-crontab.yaml</code> — an instance of the new <code>CronTab</code> resource type. The <code>apiVersion</code> uses the group and version from the CRD, and <code>kind</code> matches the CamelCased kind.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cat<span class="w"> </span>~/lfs458/ch14-crd/new-crontab.yaml
@@ -849,7 +849,7 @@
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Annotations:  &lt;none&gt;
 <a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>API Version:  stable.example.com/v1
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>Kind:         CronTab
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>&lt;output_omitted&gt;
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>...
 <a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>Spec:
 <a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>  Cron Spec:  */5 * * * *
 <a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>  Image:      some-cron-image

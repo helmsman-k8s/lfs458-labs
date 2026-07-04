@@ -750,210 +750,209 @@
 <p><strong>1.</strong> Review the kubectl configuration file. We will use the three certificates and the API server address from this file.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>less<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;output_omitted&gt;
-</code></pre></div>
+<p>You will see the cluster's server address, and three base64-encoded certificates: <code>certificate-authority-data</code>, <code>client-certificate-data</code>, and <code>client-key-data</code>. Press <code>q</code> to exit.</p>
 <p><strong>2.</strong> Create variables from the certificate information in the config file. Begin with the <code>client-certificate-data</code> key.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">client</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-cert<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$client</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">client</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-cert<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$client</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>LSOtLS1CRUdJTiBDRVJUSUZJQ0FURSOtLSOtCk1JSUM4akNDQWRxZOF3SUJ
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>BZOlJRy9wbC9rWEpNdmd3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFRO
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB4TnpFeU1UTXhOelEyTXpKY
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>UZ3MHhPREV5TVRNeE56UTJNelJhTURReApGekFWQmdOVkJBb1REbk41YzNS
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>&lt;output_omitted&gt;
-</code></pre></div>
+<p>You will see a long base64 string — this is your cluster's client certificate. The value will be unique to your cluster.</p>
 <p><strong>3.</strong> Collect the <code>client-key-data</code> as the <code>key</code> variable.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-key-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$key</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-key-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$key</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&lt;output_omitted&gt;
-</code></pre></div>
+<p>You will see another long base64 string — your client private key.</p>
 <p><strong>4.</strong> Set the <code>auth</code> variable with the <code>certificate-authority-data</code> key.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">auth</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>certificate-authority-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$auth</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">auth</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>certificate-authority-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$auth</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt;output_omitted&gt;
-</code></pre></div>
+<p>You will see another long base64 string — the cluster's Certificate Authority (CA).</p>
 <p><strong>5.</strong> Decode and save the three keys as PEM files for use with <code>curl</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$client</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./client.pem
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$key</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./client-key.pem
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$auth</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./ca.pem
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$client</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./client.pem
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$key</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./client-key.pem
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$auth</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>./ca.pem
 </code></pre></div>
 <p><strong>6.</strong> Pull the API server URL from the config file.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>server
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>server
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>server: https://controller:6443
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>server: https://controller:6443
 </code></pre></div>
 <p><strong>7.</strong> Use <code>curl</code> with the PEM files to connect to the API server and list pods. Use the server address from the previous step.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>--cert<span class="w"> </span>./client.pem<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--key<span class="w"> </span>./client-key.pem<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--cacert<span class="w"> </span>./ca.pem<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>https://controller:6443/api/v1/pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PodList&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">&quot;resourceVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;239414&quot;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="err">...all</span><span class="w"> </span><span class="err">ru</span><span class="kc">nn</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">pods</span><span class="w"> </span><span class="err">lis</span><span class="kc">te</span><span class="err">d</span><span class="w"> </span><span class="err">as</span><span class="w"> </span><span class="err">JSON</span><span class="w"> </span><span class="err">objec</span><span class="kc">ts</span><span class="err">...</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>8.</strong> Now use <code>curl</code> to create a new pod using a JSON file. The <code>curlpod.json</code> file is already staged in your lab folder. Review it first.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>~/lfs458/ch05-api-access/curlpod.json
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pod&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curlpod&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="nt">&quot;labels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examplepod&quot;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="nt">&quot;spec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">        </span><span class="nt">&quot;containers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">            </span><span class="nt">&quot;ports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;containerPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">}]</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">        </span><span class="p">}]</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>9.</strong> Use <code>curl</code> with an XPOST call to create the pod from the JSON file. There will be a lot of output — the last few lines should show a <code>Pending</code> phase as the pod begins creation.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>curl<span class="w"> </span>--cert<span class="w"> </span>./client.pem<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>--key<span class="w"> </span>./client-key.pem<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>--cacert<span class="w"> </span>./ca.pem<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>https://controller:6443/api/v1/pods
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>https://controller:6443/api/v1/namespaces/default/pods<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span>-XPOST<span class="w"> </span>-H<span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>-d@curlpod.json
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PodList&quot;</span><span class="p">,</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pod&quot;</span><span class="p">,</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">&quot;selfLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/pods&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">&quot;resourceVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;239414&quot;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curlpod&quot;</span><span class="p">,</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="err">...</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_omi</span><span class="kc">tte</span><span class="err">d&gt;</span>
-</code></pre></div>
-<p><strong>8.</strong> Now use <code>curl</code> to create a new pod using a JSON file. The <code>curlpod.json</code> file is already staged in your lab folder. Review it first.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>~/lfs458/ch05-api-access/curlpod.json
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pod&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curlpod&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">        </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">        </span><span class="nt">&quot;labels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examplepod&quot;</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="nt">&quot;spec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">        </span><span class="nt">&quot;containers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">            </span><span class="nt">&quot;ports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;containerPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">}]</span>
-<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">        </span><span class="p">}]</span>
-<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="p">}</span>
-</code></pre></div>
-<p><strong>9.</strong> Use <code>curl</code> with an XPOST call to create the pod from the JSON file. There will be a lot of output — the last few lines should show a <code>Pending</code> phase as the pod begins creation.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>curl<span class="w"> </span>--cert<span class="w"> </span>./client.pem<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>--key<span class="w"> </span>./client-key.pem<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>--cacert<span class="w"> </span>./ca.pem<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span>https://controller:6443/api/v1/namespaces/default/pods<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span>-XPOST<span class="w"> </span>-H<span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span>-d@curlpod.json
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">{</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pod&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curlpod&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_omi</span><span class="kc">tte</span><span class="err">d&gt;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="nt">&quot;phase&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pending&quot;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="p">}</span>
 </code></pre></div>
 <p><strong>10.</strong> Verify the new pod exists and is running.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>NAME       READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>curlpod    1/1     Running   0          45s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>NAME       READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>curlpod    1/1     Running   0          45s
 </code></pre></div>
 <hr />
 <h2 id="exercise-52-explore-api-calls">Exercise 5.2: Explore API Calls<a class="headerlink" href="#exercise-52-explore-api-calls" title="Permanent link">&para;</a></h2>
 <p><strong>1.</strong> Use <strong>strace</strong> to observe what API calls <code>kubectl</code> makes under the hood. Install strace if not present, then check current endpoints.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>strace
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>strace
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>NAME         ENDPOINTS           AGE
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>kubernetes   192.168.2.x:6443    3h
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>NAME         ENDPOINTS           AGE
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>kubernetes   192.168.2.x:6443    3h
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> The deprecation warning is expected on Kubernetes 1.33+ and can be ignored.</p>
 </blockquote>
 <p><strong>2.</strong> Run the same command prefixed with <code>strace</code>. Near the end of the output you will see several <code>openat</code> calls referencing the local discovery cache directory. Redirect to a file and grep if the output is too large.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>strace<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>strace<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>execve(&quot;/usr/bin/kubectl&quot;, [&quot;kubectl&quot;, &quot;get&quot;, &quot;endpoints&quot;], [/*....
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>....
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>openat(AT_FDCWD, &quot;/home/guru/.kube/cache/discovery/controller_6443..
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>execve(&quot;/usr/bin/kubectl&quot;, [&quot;kubectl&quot;, &quot;get&quot;, &quot;endpoints&quot;], [/*....
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>....
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>openat(AT_FDCWD, &quot;/home/guru/.kube/cache/discovery/controller_6443/...
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>... many system calls ...
 </code></pre></div>
 <p><strong>3.</strong> Change to the cache discovery directory and explore its contents.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">cd</span><span class="w"> </span>/home/guru/.kube/cache/discovery/
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>ls
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">cd</span><span class="w"> </span>/home/guru/.kube/cache/discovery/
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>ls
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>controller_6443
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>controller_6443
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">cd</span><span class="w"> </span>controller_6443/
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>ls
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">cd</span><span class="w"> </span>controller_6443/
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>ls
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>admissionregistration.k8s.io   certificates.k8s.io   node.k8s.io
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>apiextensions.k8s.io            coordination.k8s.io   policy
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>apiregistration.k8s.io          crd.projectcalico.org  rbac.authorization.k8s.io
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>apps                            discovery.k8s.io      scheduling.k8s.io
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>authentication.k8s.io           events.k8s.io         servergroups.json
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>authorization.k8s.io            extensions            storage.k8s.io
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>autoscaling                     flowcontrol.apiserver.k8s.io   v1
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>batch                           networking.k8s.io
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>admissionregistration.k8s.io   certificates.k8s.io   node.k8s.io
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>apiextensions.k8s.io            coordination.k8s.io   policy
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>apiregistration.k8s.io          crd.projectcalico.org  rbac.authorization.k8s.io
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>apps                            discovery.k8s.io      scheduling.k8s.io
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>authentication.k8s.io           events.k8s.io         servergroups.json
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>authorization.k8s.io            extensions            storage.k8s.io
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>autoscaling                     flowcontrol.apiserver.k8s.io   v1
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>batch                           networking.k8s.io
 </code></pre></div>
 <p><strong>4.</strong> List the sub-files recursively.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>find<span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>find<span class="w"> </span>.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>.
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>./storage.k8s.io
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>./storage.k8s.io/v1beta1
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>./storage.k8s.io/v1beta1/serverresources.json
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>./storage.k8s.io/v1
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>./storage.k8s.io/v1/serverresources.json
-<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>./rbac.authorization.k8s.io
-<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>.
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>./storage.k8s.io
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>./storage.k8s.io/v1beta1
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>./storage.k8s.io/v1beta1/serverresources.json
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>./storage.k8s.io/v1
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>./storage.k8s.io/v1/serverresources.json
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>./rbac.authorization.k8s.io
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>... (one entry per API group)
 </code></pre></div>
 <p><strong>5.</strong> View the objects available in version 1 of the API. For each object you can see the verbs (actions) available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="p">{</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">    </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span><span class="nt">&quot;groupVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;APIResourceList&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">    </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">            </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Binding&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bindings&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">            </span><span class="nt">&quot;namespaced&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="w">            </span><span class="nt">&quot;singularName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a><span class="w">            </span><span class="nt">&quot;verbs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="w">                </span><span class="s2">&quot;create&quot;</span>
-<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="w">            </span><span class="p">]</span>
-<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a><span class="w">        </span><span class="p">},</span>
-<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a><span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_omi</span><span class="kc">tte</span><span class="err">d&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">{</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span><span class="nt">&quot;groupVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;APIResourceList&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">    </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">            </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Binding&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bindings&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="w">            </span><span class="nt">&quot;namespaced&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="w">            </span><span class="nt">&quot;singularName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">            </span><span class="nt">&quot;verbs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="w">                </span><span class="s2">&quot;create&quot;</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="w">            </span><span class="p">]</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a><span class="err">...</span>
 </code></pre></div>
 <p><strong>6.</strong> Pipe through <code>less</code> to navigate the output more easily.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
 </code></pre></div>
 <p><strong>7.</strong> Find the <code>shortNames</code> for resources — these are the abbreviated names you can use with <code>kubectl</code>. Look for the endpoint shortname.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">4</span><span class="w"> </span>shortNames
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">4</span><span class="w"> </span>shortNames
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="nt">&quot;shortNames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="w">    </span><span class="s2">&quot;ep&quot;</span>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="p">],</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nt">&quot;shortNames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w">    </span><span class="s2">&quot;ep&quot;</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="p">],</span>
 </code></pre></div>
 <p><strong>8.</strong> Use the shortName to verify it works.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ep
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>ep
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>NAME         ENDPOINTS           AGE
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>kubernetes   10.96.0.1:6443      3h
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>NAME         ENDPOINTS           AGE
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>kubernetes   10.96.0.1:6443      3h
 </code></pre></div>
 <p><strong>9.</strong> Count how many objects are in the v1 API group.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kind
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kind
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>    &quot;kind&quot;: &quot;APIResourceList&quot;,
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>            &quot;kind&quot;: &quot;Binding&quot;,
-<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>            &quot;kind&quot;: &quot;ComponentStatus&quot;,
-<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>            &quot;kind&quot;: &quot;ConfigMap&quot;,
-<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>            &quot;kind&quot;: &quot;Endpoints&quot;,
-<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>            &quot;kind&quot;: &quot;Event&quot;,
-<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>    &quot;kind&quot;: &quot;APIResourceList&quot;,
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>            &quot;kind&quot;: &quot;Binding&quot;,
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>            &quot;kind&quot;: &quot;ComponentStatus&quot;,
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>            &quot;kind&quot;: &quot;ConfigMap&quot;,
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>            &quot;kind&quot;: &quot;Endpoints&quot;,
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>            &quot;kind&quot;: &quot;Event&quot;,
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>... (many more resource kinds)
 </code></pre></div>
 <p><strong>10.</strong> Look at the <code>apps/v1</code> API group — it contains nine more resource types.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>apps/v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kind
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span>apps/v1/serverresources.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kind
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>    &quot;kind&quot;: &quot;APIResourceList&quot;,
-<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>            &quot;kind&quot;: &quot;ControllerRevision&quot;,
-<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>            &quot;kind&quot;: &quot;DaemonSet&quot;,
-<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>            &quot;kind&quot;: &quot;DaemonSet&quot;,
-<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>            &quot;kind&quot;: &quot;Deployment&quot;,
-<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>&lt;output_omitted&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>    &quot;kind&quot;: &quot;APIResourceList&quot;,
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>            &quot;kind&quot;: &quot;ControllerRevision&quot;,
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>            &quot;kind&quot;: &quot;DaemonSet&quot;,
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>            &quot;kind&quot;: &quot;DaemonSet&quot;,
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>            &quot;kind&quot;: &quot;Deployment&quot;,
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>... (more resource kinds)
 </code></pre></div>
 <p><strong>11.</strong> Return to the home directory and delete the <code>curlpod</code> to recoup system resources.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>po<span class="w"> </span>curlpod
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>po<span class="w"> </span>curlpod
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>pod &quot;curlpod&quot; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>pod &quot;curlpod&quot; deleted
 </code></pre></div>
 <p><strong>12.</strong> Take a look at other files in the cache directory as time permits to understand the full API surface.</p>
 <hr />

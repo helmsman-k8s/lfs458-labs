@@ -52,6 +52,9 @@ nav:
 
 
 
+extra_css:
+  - stylesheets/pdf.css
+
 plugins:
   - search
   - with-pdf:
