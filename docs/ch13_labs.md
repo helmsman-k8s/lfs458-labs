@@ -142,69 +142,21 @@ The **Metrics Server** exposes a standard API that `kubectl top` and the HPA con
 
 ---
 
-### Configure Metrics Server
+### Verify Metrics Server
 
-**1.** If the metrics-server is not already installed, deploy it from the official components manifest.
+> **Note:** The metrics-server was already installed in Lab 8.3 via Helm with the `--kubelet-insecure-tls` flag. Verify it is still running before continuing — do NOT reinstall it.
 
-```bash
-kubectl create -f \
-  https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-```
-
-```
-serviceaccount/metrics-server created
-clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
-clusterrole.rbac.authorization.k8s.io/system:metrics-server created
-rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
-clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
-clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
-service/metrics-server created
-deployment.apps/metrics-server created
-apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
-```
-
-**2.** Check the metrics-server pod. It may show `0/1` initially — it needs `--kubelet-insecure-tls` to become ready.
+**1.** Confirm the metrics-server pod is running.
 
 ```bash
-kubectl -n kube-system get pods
+kubectl -n kube-system get pods | grep metrics-server
 ```
 
 ```
-...
-metrics-server-fc6d4999b-b9rjj   0/1   Running   0   42s
+metrics-server-fc6d4999b-b9rjj   1/1   Running   0   2d
 ```
 
-**3.** Edit the metrics-server deployment to add the `--kubelet-insecure-tls` flag. The `--kubelet-preferred-address-types` line may also be needed in some environments.
-
-```bash
-kubectl -n kube-system edit deployment metrics-server
-```
-
-```yaml
-....
-spec:
-  containers:
-  - args:
-    - --cert-dir=/tmp
-    - --secure-port=4443
-    - --kubelet-insecure-tls                                              #<-- Add this line
-    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname   #<-- May be needed
-    image: k8s.gcr.io/metrics-server/metrics-server:v0.3.7
-....
-```
-
-**4.** Verify the metrics-server pod starts and the logs show it is serving.
-
-```bash
-kubectl -n kube-system logs metrics-server-<Tab>
-```
-
-```
-I0207 14:08:13.383209   1 serving.go:312] Generated self-signed cert
-  (/tmp/apiserver.crt, /tmp/apiserver.key)
-I0207 14:08:14.078360   1 secure_serving.go:116] Serving securely on
-  [::]:4443
-```
+If the pod shows `0/1` or is missing, go back to Lab 8.3 and reinstall via Helm.
 
 **5.** Test that metrics are working. It can take up to a minute for metrics to populate.
 

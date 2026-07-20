@@ -65,8 +65,8 @@ kubectl get csr devdan -o jsonpath='{.status.certificate}' | base64 -d > ~/devda
 
 ```bash
 kubectl config set-credentials devdan \
-  --client-certificate=~/devdan/devdan.crt \
-  --client-key=~/devdan/devdan.key
+  --client-certificate=$HOME/devdan/devdan.crt \
+  --client-key=$HOME/devdan/devdan.key
 
 kubectl config set-context devdan-context \
   --cluster=$(kubectl config current-context | xargs kubectl config view --raw -o jsonpath='{.current-context}' 2>/dev/null || kubectl config view -o jsonpath='{.clusters[0].name}') \

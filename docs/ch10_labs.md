@@ -175,8 +175,8 @@ kubectl -n accounting get ep nginx-one
 > **Note:** The `Warning: v1 Endpoints is deprecated` message is expected on Kubernetes 1.33+ and can be ignored.
 
 ```
-NAME        ENDPOINTS                                 AGE
-nginx-one   192.168.1.72:8080,192.168.1.73:8080      47s
+NAME        ENDPOINTS                                   AGE
+nginx-one   10.244.1.5:8080,10.244.2.3:8080            47s
 ```
 
 **12.** Test access on port 8080 (nginx is not listening there) then on port 80 (nginx default). Use the Pod IP from the endpoint output above.

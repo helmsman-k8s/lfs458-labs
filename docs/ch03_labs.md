@@ -418,19 +418,32 @@ NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 nginx   1/1     1            1           8s
 ```
 
-**2.** Expose it as a LoadBalancer service.
+**2.** Expose it as a NodePort service.
 
 ```bash
-kubectl expose deployment nginx --type=LoadBalancer --port=80
+kubectl expose deployment nginx --type=NodePort --port=80
 kubectl get svc nginx
 ```
 
 ```
-NAME    TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)        AGE
-nginx   LoadBalancer   10.x.x.x     192.168.2.x    80:xxxxx/TCP   6s
+NAME    TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+nginx   NodePort   10.96.x.x     <none>        80:3xxxx/TCP   6s
 ```
 
-**3.** Open a browser and navigate to the `EXTERNAL-IP`. You should see the nginx welcome page.
+**3.** Get the assigned NodePort and test with curl.
+
+```bash
+NODE_PORT=$(kubectl get svc nginx -o jsonpath='{.spec.ports[0].nodePort}')
+curl http://controller:$NODE_PORT
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+...
+```
 
 **4.** Scale the deployment.
 

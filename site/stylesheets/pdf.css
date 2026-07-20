@@ -1,0 +1,27 @@
+/* Fix admonition icon alignment in PDF output */
+.admonition {
+    page-break-inside: avoid;
+}
+
+.admonition > .admonition-title {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+}
+
+.admonition > .admonition-title::before {
+    display: none !important;
+}
+
+/* Ensure code blocks don't overflow in PDF */
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Fix table overflow */
+table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
