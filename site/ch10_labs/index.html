@@ -895,8 +895,8 @@
 <blockquote>
 <p><strong>Note:</strong> The <code>Warning: v1 Endpoints is deprecated</code> message is expected on Kubernetes 1.33+ and can be ignored.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>NAME        ENDPOINTS                                 AGE
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>nginx-one   192.168.1.72:8080,192.168.1.73:8080      47s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>NAME        ENDPOINTS                                   AGE
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>nginx-one   10.244.1.5:8080,10.244.2.3:8080            47s
 </code></pre></div>
 <p><strong>12.</strong> Test access on port 8080 (nginx is not listening there) then on port 80 (nginx default). Use the Pod IP from the endpoint output above.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>curl<span class="w"> </span><span class="m">192</span>.168.1.72:8080

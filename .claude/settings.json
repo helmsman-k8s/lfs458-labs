@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo y | plink *)",
+      "Bash(plink *)",
+      "Bash(pscp *)",
+      "Bash(powershell -Command *)",
+      "Bash(ping *)"
+    ]
+  }
+}

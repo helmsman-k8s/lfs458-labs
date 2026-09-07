@@ -2,7 +2,7 @@
 # =============================================================================
 # LFS458 Lab Environment Setup Script
 # Run this on EACH NODE before class (controller, worker1, worker2)
-# Ubuntu 22.04 | kubeadm 1.33.1 | containerd | Calico CNI
+# Ubuntu 22.04 | kubeadm 1.36.1 | containerd | Calico CNI
 # Usage: sudo bash setup_lab_environment.sh [username]
 # =============================================================================
 

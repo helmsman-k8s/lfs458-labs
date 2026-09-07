@@ -26,18 +26,14 @@ sudo grep data-dir /etc/kubernetes/manifests/etcd.yaml
   - --data-dir=/var/lib/etcd
 ```
 
-**2.** Log into the etcd container to explore the **etcdctl** options. Use Tab to complete the container name — it has the node name appended to it.
+**2.** Explore the **etcdctl** options. Use Tab to complete the container name — it has the node name appended to it.
 
-```bash
-kubectl -n kube-system exec -it etcd-controller -- sh
-```
-
-> The following sub-steps (a), (b), (c) run **inside the etcd container shell**.
+> **Important:** The etcd image is *distroless* — it contains **no shell**. `kubectl exec ... -- sh` will fail with an executable-not-found error. Run `etcdctl` directly as the command instead.
 
 **(a)** View the arguments and options available to `etcdctl`.
 
 ```bash
-etcdctl -h
+kubectl -n kube-system exec etcd-controller -- etcdctl --help
 ```
 
 ```
@@ -49,33 +45,27 @@ USAGE:
 ...
 ```
 
-**(b)** Find the TLS certificate files needed to authenticate with etcd. Newer etcd images are minimised so `find` and `ls` may not be available — use `echo` instead.
+**(b)** Find the TLS certificate files needed to authenticate with etcd. Since there is no shell in the container, list them from the **node** instead — they are mounted into the container from this path.
 
 ```bash
-cd /etc/kubernetes/pki/etcd
-echo *
+sudo ls /etc/kubernetes/pki/etcd/
 ```
 
 ```
-ca.crt ca.key healthcheck-client.crt healthcheck-client.key
-peer.crt peer.key server.crt server.key
+ca.crt  ca.key  healthcheck-client.crt  healthcheck-client.key
+peer.crt  peer.key  server.crt  server.key
 ```
 
-**(c)** Exit the container shell.
+> **Why flags, not environment variables:** without a shell you cannot use the `ETCDCTL_API=3 ETCDCTL_CACERT=... etcdctl` form, because that syntax is a shell feature. Each call must pass its TLS material as **flags**, as shown below. `etcdctl` v3.4+ already defaults to API v3, so `ETCDCTL_API=3` is no longer needed.
+
+**3.** Check the health of the etcd database using the loopback IP and port 2379. You do not need to type out the backslashes — they only continue the line.
 
 ```bash
-exit
-```
-
-**3.** Check the health of the etcd database using the loopback IP and port 2379. Pass the peer cert, key, and CA as environment variables. You do not need to type out the comments or backslashes.
-
-```bash
-kubectl -n kube-system exec -it etcd-controller -- sh \
-  -c "ETCDCTL_API=3 \
-  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
-  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
-  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
-  etcdctl endpoint health"
+kubectl -n kube-system exec etcd-controller -- etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  endpoint health
 ```
 
 ```
@@ -85,12 +75,11 @@ https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 11.94
 **4.** Determine how many databases are part of the cluster. Three or five members are common in production for 50%+1 quorum. In our single-node exercise environment you will only see one.
 
 ```bash
-kubectl -n kube-system exec -it etcd-controller -- sh \
-  -c "ETCDCTL_API=3 \
-  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
-  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
-  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
-  etcdctl --endpoints=https://127.0.0.1:2379 member list"
+kubectl -n kube-system exec etcd-controller -- etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --endpoints=https://127.0.0.1:2379 member list
 ```
 
 ```
@@ -101,12 +90,11 @@ https://192.168.2.x:2379, false
 **5.** View the member list in table format using the `-w table` option.
 
 ```bash
-kubectl -n kube-system exec -it etcd-controller -- sh \
-  -c "ETCDCTL_API=3 \
-  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
-  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
-  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
-  etcdctl --endpoints=https://127.0.0.1:2379 member list -w table"
+kubectl -n kube-system exec etcd-controller -- etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --endpoints=https://127.0.0.1:2379 member list -w table
 ```
 
 ```
@@ -120,12 +108,11 @@ kubectl -n kube-system exec -it etcd-controller -- sh \
 **6.** Back up the etcd database using the `snapshot` argument. The snapshot is saved inside the container's data directory `/var/lib/etcd/`.
 
 ```bash
-kubectl -n kube-system exec -it etcd-controller -- sh \
-  -c "ETCDCTL_API=3 \
-  ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
-  ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
-  ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
-  etcdctl --endpoints=https://127.0.0.1:2379 snapshot save /var/lib/etcd/snapshot.db"
+kubectl -n kube-system exec etcd-controller -- etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --endpoints=https://127.0.0.1:2379 snapshot save /var/lib/etcd/snapshot.db
 ```
 
 ```
@@ -172,26 +159,33 @@ sudo apt update
 ...
 ```
 
-**2.** Update the Kubernetes apt repository to point to the new minor version you want to upgrade to. Replace `33` with `34` to target v1.34.
+**2.** In this exercise we perform a **patch upgrade** (1.36.1 → 1.36.2), staying within the same minor release. Because the apt repository is already pinned to `v1.36`, no repository change is required — simply refresh the package metadata.
 
 ```bash
-sudo sed -i 's/v1.33/v1.34/g' /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 ```
 
-**3.** View the available kubeadm packages to confirm the target version is available.
+> **Note:** For a **minor** upgrade (for example 1.36 → 1.37) you would first have to repoint the repository, because each minor release is published in its own repository:
+> ```bash
+> sudo sed -i 's/v1.36/v1.37/g' /etc/apt/sources.list.d/kubernetes.list
+> sudo apt-get update
+> ```
+> Kubernetes only supports upgrading **one minor version at a time**.
+
+**3.** View the available kubeadm packages to confirm the target patch version is available.
 
 ```bash
 sudo apt-cache madison kubeadm
 ```
 
 ```
-kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
-kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
 ...
 ```
 
-**4.** Remove the hold on **kubeadm** and upgrade it to the next release's first patch (update 1).
+**4.** Remove the hold on **kubeadm** and upgrade it to the target patch release.
 
 ```bash
 sudo apt-mark unhold kubeadm
@@ -202,7 +196,7 @@ Canceled hold on kubeadm.
 ```
 
 ```bash
-sudo apt-get install -y kubeadm=1.34.1-1.1
+sudo apt-get install -y kubeadm=1.36.2-2.1
 ```
 
 ```
@@ -229,7 +223,7 @@ sudo kubeadm version
 ```
 
 ```
-kubeadm version: &version.Info{Major:"1", Minor:"34", GitVersion:"v1.34.1", ...}
+kubeadm version: &version.Info{Major:"1", Minor:"36", GitVersion:"v1.36.2", ...}
 ```
 
 **7.** Drain the CP node to evict as many pods as possible before upgrading. DaemonSet pods such as Calico must remain.
@@ -262,25 +256,25 @@ sudo kubeadm upgrade plan
 [preflight] Running pre-flight checks.
 [upgrade/config] Reading configuration from the cluster...
 [upgrade] Running cluster health checks
-[upgrade/versions] Cluster version: v1.33.1
-[upgrade/versions] kubeadm version: v1.34.1
-[upgrade/versions] Target version: v1.34.1
-[upgrade/versions] Latest version in the v1.34 series: v1.34.1
+[upgrade/versions] Cluster version: v1.36.1
+[upgrade/versions] kubeadm version: v1.36.2
+[upgrade/versions] Target version: v1.36.2
+[upgrade/versions] Latest version in the v1.36 series: v1.36.2
 ...
 ```
 
 **9.** Apply the upgrade. Answer **y** when prompted. This will take several minutes.
 
 ```bash
-sudo kubeadm upgrade apply v1.34.1
+sudo kubeadm upgrade apply v1.36.2
 ```
 
 ```
 [preflight] Running pre-flight checks.
 [upgrade/config] Reading configuration from the cluster...
-[upgrade/version] You have chosen to change the cluster version to "v1.34.1"
-[upgrade/versions] Cluster version: v1.33.1
-[upgrade/versions] kubeadm version: v1.34.1
+[upgrade/version] You have chosen to change the cluster version to "v1.36.2"
+[upgrade/versions] Cluster version: v1.36.1
+[upgrade/versions] kubeadm version: v1.36.2
 [upgrade] Are you sure you want to proceed? [y/N]: y
 [upgrade/prepull] Pulling images required for setting up a Kubernetes cluster
 ...
@@ -294,8 +288,8 @@ kubectl get node
 
 ```
 NAME     STATUS                     ROLES           AGE    VERSION
-controller   Ready,SchedulingDisabled   control-plane   109m   v1.33.1
-worker1      Ready                      <none>          61m    v1.33.1
+controller   Ready,SchedulingDisabled   control-plane   109m   v1.36.1
+worker1      Ready                      <none>          61m    v1.36.1
 ```
 
 **11.** Release the hold on **kubelet** and **kubectl**.
@@ -312,7 +306,7 @@ Canceled hold on kubectl.
 **12.** Upgrade both packages to match kubeadm.
 
 ```bash
-sudo apt-get install -y kubelet=1.34.1-1.1 kubectl=1.34.1-1.1
+sudo apt-get install -y kubelet=1.36.2-2.1 kubectl=1.36.2-2.1
 ```
 
 ```
@@ -346,8 +340,8 @@ kubectl get node
 
 ```
 NAME     STATUS                     ROLES           AGE    VERSION
-controller   Ready,SchedulingDisabled   control-plane   113m   v1.34.1
-worker1      Ready                      <none>          65m    v1.33.1
+controller   Ready,SchedulingDisabled   control-plane   113m   v1.36.2
+worker1      Ready                      <none>          65m    v1.36.1
 ```
 
 **16.** Make the CP available for scheduling again.
@@ -368,8 +362,8 @@ kubectl get node
 
 ```
 NAME     STATUS   ROLES           AGE    VERSION
-controller   Ready    control-plane   114m   v1.34.1
-worker1      Ready    <none>          66m    v1.33.1
+controller   Ready    control-plane   114m   v1.36.2
+worker1      Ready    <none>          66m    v1.36.1
 ```
 
 ---
@@ -388,35 +382,34 @@ sudo apt-mark unhold kubeadm
 Canceled hold on kubeadm.
 ```
 
-**19.** Update the apt repository to point to v1.34, then update package metadata.
+**19.** Refresh the package metadata. As on the control plane, the repository is already pinned to `v1.36`, so no repository change is needed for a patch upgrade.
 
 ```bash
-sudo sed -i 's/v1.33/v1.34/g' /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 ```
 
-**20.** View available packages to confirm the target version.
+**20.** View available packages to confirm the target patch version.
 
 ```bash
 sudo apt-cache madison kubeadm
 ```
 
 ```
-kubeadm | 1.34.2-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
-kubeadm | 1.34.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
-kubeadm | 1.34.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.34/deb  Packages
+kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
 ...
 ```
 
 **21.** Install the updated kubeadm on the worker.
 
 ```bash
-sudo apt-get update && sudo apt-get install -y kubeadm=1.34.1-1.1
+sudo apt-get update && sudo apt-get install -y kubeadm=1.36.2-2.1
 ```
 
 ```
 ...
-Setting up kubeadm (1.34.1-1.1) ...
+Setting up kubeadm (1.36.2-2.1) ...
 ```
 
 **22.** Hold kubeadm again.
@@ -473,14 +466,14 @@ Canceled hold on kubectl.
 ```
 
 ```bash
-sudo apt-get install -y kubelet=1.34.1-1.1 kubectl=1.34.1-1.1
+sudo apt-get install -y kubelet=1.36.2-2.1 kubectl=1.36.2-2.1
 ```
 
 ```
 Reading package lists... Done
 ...
-Setting up kubectl (1.34.1-1.1) ...
-Setting up kubelet (1.34.1-1.1) ...
+Setting up kubectl (1.36.2-2.1) ...
+Setting up kubelet (1.36.2-2.1) ...
 ```
 
 **26.** Hold the packages again.
@@ -509,9 +502,9 @@ kubectl get node
 
 ```
 NAME         STATUS                     ROLES           AGE    VERSION
-controller   Ready                      control-plane   118m   v1.34.1
-worker1      Ready,SchedulingDisabled   <none>          70m    v1.34.1
-worker2      Ready                      <none>          68m    v1.33.1
+controller   Ready                      control-plane   118m   v1.36.2
+worker1      Ready,SchedulingDisabled   <none>          70m    v1.36.2
+worker2      Ready                      <none>          68m    v1.36.1
 ```
 
 **29.** Uncordon the worker node to allow pods to be scheduled on it again.
@@ -532,9 +525,9 @@ kubectl get nodes
 
 ```
 NAME         STATUS   ROLES           AGE    VERSION
-controller   Ready    control-plane   119m   v1.34.1
-worker1      Ready    <none>          71m    v1.34.1
-worker2      Ready    <none>          69m    v1.33.1
+controller   Ready    control-plane   119m   v1.36.2
+worker1      Ready    <none>          71m    v1.36.2
+worker2      Ready    <none>          69m    v1.36.1
 ```
 
 **31.** Repeat steps 18–30 for **worker2**. The procedure is identical — SSH into worker2 and follow the same upgrade sequence.
@@ -547,9 +540,9 @@ kubectl get nodes
 
 ```
 NAME         STATUS   ROLES           AGE    VERSION
-controller   Ready    control-plane   125m   v1.34.1
-worker1      Ready    <none>          77m    v1.34.1
-worker2      Ready    <none>          75m    v1.34.1
+controller   Ready    control-plane   125m   v1.36.2
+worker1      Ready    <none>          77m    v1.36.2
+worker2      Ready    <none>          75m    v1.36.2
 ```
 
 ---
@@ -632,7 +625,7 @@ vim hog.yaml
 
 ```yaml
 ....
-        name: hog
+        name: stress
         resources:             # Edit to remove {}
           limits:              # Add these 4 lines
             memory: "4Gi"

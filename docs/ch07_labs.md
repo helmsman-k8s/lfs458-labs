@@ -93,13 +93,22 @@ kubectl get pods -l app=webserver -w
 
 ```bash
 kubectl set image deployment/webserver nginx=nginx:1.26
-kubectl rollout status deployment webserver
 ```
 
-Watch the update progress — old pods are terminated one by one as new ones become ready:
+Watch the update progress — old pods are terminated one by one as new ones become ready. Press `Ctrl+C` once the pod count settles:
 
 ```bash
 kubectl get pods -l app=webserver -w
+```
+
+Confirm the rollout has finished:
+
+```bash
+kubectl rollout status deployment webserver
+```
+
+```
+deployment "webserver" successfully rolled out
 ```
 
 Verify the new image is running:

@@ -122,7 +122,7 @@ kubectl -n kube-system logs \
 ```
 Flag --insecure-port has been deprecated, This flag will be removed in a future version.
 I1119 02:31:14.933023   1 server.go:623] external host was not specified, using 10.128.0.3
-I1119 02:31:14.933356   1 server.go:149] Version: v1.29.1
+I1119 02:31:14.933356   1 server.go:149] Version: v1.36.2
 I1119 02:31:15.595131   1 plugins.go:158] Loaded 11 mutating admission controller(s)
 ...
 ```
@@ -138,7 +138,7 @@ kubectl -n kube-system logs etcd-controller
 
 ## Exercise 13.3: Adding Tools for Monitoring and Metrics
 
-The **Metrics Server** exposes a standard API that `kubectl top` and the HPA controller use. If you installed it in Chapter 8 (Exercise 8.1) it should already be running — skip step 1 if so.
+The **Metrics Server** exposes a standard API that `kubectl top` and the HPA controller use. It was installed in Chapter 8 (Lab 8.3), so here we only verify it and then query it.
 
 ---
 
@@ -158,7 +158,7 @@ metrics-server-fc6d4999b-b9rjj   1/1   Running   0   2d
 
 If the pod shows `0/1` or is missing, go back to Lab 8.3 and reinstall via Helm.
 
-**5.** Test that metrics are working. It can take up to a minute for metrics to populate.
+**2.** Test that metrics are working. It can take up to a minute for metrics to populate.
 
 ```bash
 sleep 120 ; kubectl top pod --all-namespaces
@@ -182,7 +182,7 @@ controller       228m         11%    2357Mi          31%
 worker1   76m          3%     1385Mi          18%
 ```
 
-**6.** You can also query the metrics API directly using TLS certificates from your kubeconfig. Generate the PEM files first, then run the curl.
+**3.** You can also query the metrics API directly using TLS certificates from your kubeconfig. Generate the PEM files first, then run the curl.
 
 ```bash
 export client=$(grep client-cert $HOME/.kube/config | cut -d" " -f 6)

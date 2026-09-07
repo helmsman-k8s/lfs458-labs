@@ -27,7 +27,7 @@ Your username on all nodes is `guru` (password: `work`).
 
 | Component | Value |
 |-----------|-------|
-| Kubernetes version | **1.33.1** |
+| Kubernetes version | **1.36.1** (upgraded to **1.36.2** in Chapter 4) |
 | Container runtime | **containerd** |
 | CNI | **Calico** (10.244.0.0/16) |
 | OS | Ubuntu 22.04 |
@@ -63,4 +63,4 @@ kubectl config use-context <name>
 
 ---
 
-*VEGA TRAINING © 2025 - Validated on Kubernetes 1.33.1, April 2026*
+*VEGA TRAINING © 2026 - Validated on Kubernetes 1.36, August 2026*

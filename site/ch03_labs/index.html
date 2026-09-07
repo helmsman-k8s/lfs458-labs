@@ -1201,34 +1201,43 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 <a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>nginx   1/1     1            1           8s
 </code></pre></div>
-<p><strong>2.</strong> Expose it as a LoadBalancer service.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--type<span class="o">=</span>LoadBalancer<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span>
+<p><strong>2.</strong> Expose it as a NodePort service.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--type<span class="o">=</span>NodePort<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span>
 <a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>NAME    TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)        AGE
-<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>nginx   LoadBalancer   10.x.x.x     192.168.2.x    80:xxxxx/TCP   6s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>NAME    TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>nginx   NodePort   10.96.x.x     &lt;none&gt;        80:3xxxx/TCP   6s
 </code></pre></div>
-<p><strong>3.</strong> Open a browser and navigate to the <code>EXTERNAL-IP</code>. You should see the nginx welcome page.</p>
+<p><strong>3.</strong> Get the assigned NodePort and test with curl.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="nv">NODE_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[0].nodePort}&#39;</span><span class="k">)</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>curl<span class="w"> </span>http://controller:<span class="nv">$NODE_PORT</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Welcome to nginx!<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>...
+</code></pre></div>
 <p><strong>4.</strong> Scale the deployment.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
-<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
 <p><strong>5.</strong> Clean up.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>nginx
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>svc<span class="w"> </span>nginx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>nginx
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>svc<span class="w"> </span>nginx
 </code></pre></div>
 <hr />
 <h2 id="exercise-35-access-from-outside-the-cluster">Exercise 3.5: Access from Outside the Cluster<a class="headerlink" href="#exercise-35-access-from-outside-the-cluster" title="Permanent link">&para;</a></h2>
 <p><strong>1.</strong> Use <code>exec</code> to inspect environment variables inside a running pod.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span>run<span class="w"> </span>testpod<span class="w"> </span>--image<span class="o">=</span>nginx
-<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/testpod<span class="w"> </span>--timeout<span class="o">=</span>60s
-<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>testpod<span class="w"> </span>--<span class="w"> </span>printenv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>KUBERNETES
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>kubectl<span class="w"> </span>run<span class="w"> </span>testpod<span class="w"> </span>--image<span class="o">=</span>nginx
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/testpod<span class="w"> </span>--timeout<span class="o">=</span>60s
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>testpod<span class="w"> </span>--<span class="w"> </span>printenv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>KUBERNETES
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>KUBERNETES_SERVICE_PORT=443
-<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>KUBERNETES_SERVICE_HOST=10.96.0.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>KUBERNETES_SERVICE_PORT=443
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>KUBERNETES_SERVICE_HOST=10.96.0.1
 </code></pre></div>
 <p><strong>2.</strong> Clean up.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>testpod
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>testpod
 </code></pre></div>
 <hr />
 

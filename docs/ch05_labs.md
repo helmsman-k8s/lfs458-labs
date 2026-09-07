@@ -178,14 +178,14 @@ strace kubectl get endpoints
 ```
 execve("/usr/bin/kubectl", ["kubectl", "get", "endpoints"], [/*....
 ....
-openat(AT_FDCWD, "/home/guru/.kube/cache/discovery/controller_6443/...
+openat(AT_FDCWD, "/home/<your-user>/.kube/cache/discovery/controller_6443/...
 ... many system calls ...
 ```
 
 **3.** Change to the cache discovery directory and explore its contents.
 
 ```bash
-cd /home/guru/.kube/cache/discovery/
+cd $HOME/.kube/cache/discovery/
 ls
 ```
 

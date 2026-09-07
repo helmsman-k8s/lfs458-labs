@@ -8,6 +8,20 @@
 
 > **Run all steps on the CONTROL PLANE node (`controller`) unless stated otherwise.**
 
+!!! warning "Prerequisite — lab files must be present"
+    This chapter reads files from `~/lfs458/ch03-install/`. Your instructor stages them with `setup_lab_environment.sh` before class. Verify they exist before you start:
+
+    ```bash
+    ls ~/lfs458/ch03-install/
+    ```
+
+    If the directory is missing, run:
+
+    ```bash
+    curl -O https://raw.githubusercontent.com/helmsman-k8s/lfs458-labs/rebuild-2025/setup_lab_environment.sh
+    sudo bash setup_lab_environment.sh $USER
+    ```
+
 ---
 
 ### Step 1 — Prepare the system
@@ -123,19 +137,24 @@ sudo systemctl status containerd --no-pager
 **10.** Add the Kubernetes repository.
 
 ```bash
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key \
   | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \
-https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /" \
+https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /" \
   | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 
 **11.** Install kubeadm, kubelet and kubectl at a fixed version.
 
+> **If apt reports the version is not found**, the Debian revision suffix has changed. List what is actually available and use that exact string:
+> ```bash
+> sudo apt-cache madison kubeadm
+> ```
+
 ```bash
 sudo apt-get update
-sudo apt-get install -y kubeadm=1.33.1-1.1 kubelet=1.33.1-1.1 kubectl=1.33.1-1.1
+sudo apt-get install -y kubeadm=1.36.1-1.1 kubelet=1.36.1-1.1 kubectl=1.36.1-1.1 cri-tools
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
@@ -174,7 +193,7 @@ cat ~/lfs458/ch03-install/kubeadm-config.yaml
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
-kubernetesVersion: 1.33.1
+kubernetesVersion: 1.36.1
 controlPlaneEndpoint: "controller:6443"
 networking:
   podSubnet: 10.244.0.0/16
@@ -213,17 +232,30 @@ echo "source <(kubectl completion bash)" >> $HOME/.bashrc
 
 ### Step 5 — Install the network plugin (Calico)
 
-**18.** Install the Tigera Operator — this manages the Calico lifecycle.
+**18.** Install the Calico custom resource definitions. From Calico v3.32 the `projectcalico.org` CRDs ship in their own manifest and must be applied **before** the operator.
 
 ```bash
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml
+```
+
+```
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+...
+```
+
+**19.** Install the Tigera Operator — this manages the Calico lifecycle.
+
+```bash
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
 ```
 
 ```
 namespace/tigera-operator created
-customresourcedefinition.apiextensions.k8s.io/apiservers.operator.tigera.io created
-customresourcedefinition.apiextensions.k8s.io/installations.operator.tigera.io created
-...
+serviceaccount/tigera-operator created
+clusterrole.rbac.authorization.k8s.io/tigera-operator created
+clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
 deployment.apps/tigera-operator created
 ```
 
@@ -233,7 +265,9 @@ Wait for the operator to be ready:
 kubectl rollout status deployment tigera-operator -n tigera-operator --timeout=120s
 ```
 
-**19.** Apply the Calico custom resources. This configures the pod CIDR as `10.244.0.0/16`, which matches `kubeadm-config.yaml` and avoids overlap with the node network.
+**20.** Apply the Calico custom resources. This configures the pod CIDR as `10.244.0.0/16`, which matches `kubeadm-config.yaml` and avoids overlap with the node network.
+
+> We use our own file rather than the upstream `custom-resources.yaml`, because upstream defaults to the `192.168.0.0/16` pod CIDR — which would collide with the node network in this lab.
 
 ```bash
 kubectl apply -f ~/lfs458/ch03-install/calico-custom-resources.yaml
@@ -244,10 +278,23 @@ installation.operator.tigera.io/default created
 apiserver.operator.tigera.io/default created
 ```
 
-**20.** Watch Calico come up. This takes 1–2 minutes.
+**21.** Watch Calico come up. This takes 1–2 minutes.
 
 ```bash
-watch kubectl get pods -n calico-system
+watch kubectl get tigerastatus
+```
+
+```
+NAME        AVAILABLE   PROGRESSING   DEGRADED   SINCE
+apiserver   True        False         False      70s
+calico      True        False         False      90s
+ippools     True        False         False      2m
+```
+
+Press `Ctrl+C` when all components show `True` in the `AVAILABLE` column. You can also watch the pods directly:
+
+```bash
+kubectl get pods -n calico-system
 ```
 
 ```
@@ -257,7 +304,7 @@ calico-node-7rqtk                           1/1     Running   0          90s
 calico-typha-5f5f4d6b8c-j9p2l              1/1     Running   0          90s
 ```
 
-Press `Ctrl+C` when all pods show `Running`. Then verify the node is `Ready`:
+Then verify the node is `Ready`:
 
 ```bash
 kubectl get nodes
@@ -265,7 +312,7 @@ kubectl get nodes
 
 ```
 NAME         STATUS   ROLES           AGE   VERSION
-controller   Ready    control-plane   3m    v1.33.1
+controller   Ready    control-plane   3m    v1.36.1
 ```
 
 ---
@@ -316,15 +363,15 @@ sudo systemctl enable containerd
 **3.** Install Kubernetes components.
 
 ```bash
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key \
   | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \
-https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /" \
+https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /" \
   | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
-sudo apt-get install -y kubeadm=1.33.1-1.1 kubelet=1.33.1-1.1 kubectl=1.33.1-1.1
+sudo apt-get install -y kubeadm=1.36.1-1.1 kubelet=1.36.1-1.1 kubectl=1.36.1-1.1 cri-tools
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
@@ -372,9 +419,9 @@ kubectl get nodes
 
 ```
 NAME         STATUS   ROLES           AGE   VERSION
-controller   Ready    control-plane   10m   v1.33.1
-worker1      Ready    <none>          2m    v1.33.1
-worker2      Ready    <none>          1m    v1.33.1
+controller   Ready    control-plane   10m   v1.36.1
+worker1      Ready    <none>          2m    v1.36.1
+worker2      Ready    <none>          1m    v1.36.1
 ```
 
 **2.** Remove the taint from the controller so it can run workloads during training.

@@ -69,7 +69,7 @@ kubectl config set-credentials devdan \
   --client-key=$HOME/devdan/devdan.key
 
 kubectl config set-context devdan-context \
-  --cluster=$(kubectl config current-context | xargs kubectl config view --raw -o jsonpath='{.current-context}' 2>/dev/null || kubectl config view -o jsonpath='{.clusters[0].name}') \
+  --cluster=$(kubectl config view -o jsonpath='{.clusters[0].name}') \
   --user=devdan
 
 kubectl config get-contexts
@@ -256,7 +256,7 @@ echo "Backend pod IP: $BACKEND_IP"
 kubectl exec -n frontend frontend-pod -- curl -s --max-time 5 http://$BACKEND_IP | head -5
 
 # From default namespace — should be blocked
-kubectl run testpod --image=busybox --rm -it --restart=Never -- \
+kubectl run testpod --image=busybox --rm -i --restart=Never -- \
   wget -O- --timeout=5 http://$BACKEND_IP
 ```
 

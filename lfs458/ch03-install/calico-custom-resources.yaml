@@ -2,8 +2,9 @@
 # This matches the podSubnet in kubeadm-config.yaml and avoids
 # overlap with the node network (192.168.2.x).
 #
-# Apply AFTER the Tigera Operator is installed and ready:
-#   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+# Calico v3.32.1 install order — apply this file LAST:
+#   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml
+#   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
 #   kubectl rollout status deployment tigera-operator -n tigera-operator
 #   kubectl apply -f calico-custom-resources.yaml
 
