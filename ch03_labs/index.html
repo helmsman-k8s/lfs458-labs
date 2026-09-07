@@ -937,44 +937,54 @@
 <blockquote>
 <p><strong>Run all steps on the CONTROL PLANE node (<code>controller</code>) unless stated otherwise.</strong></p>
 </blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Prerequisite — lab files must be present</p>
+<p>This chapter reads files from <code>~/lfs458/ch03-install/</code>. Your instructor stages them with <code>setup_lab_environment.sh</code> before class. Verify they exist before you start:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ls<span class="w"> </span>~/lfs458/ch03-install/
+</code></pre></div>
+<p>If the directory is missing, run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/helmsman-k8s/lfs458-labs/rebuild-2025/setup_lab_environment.sh
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>bash<span class="w"> </span>setup_lab_environment.sh<span class="w"> </span><span class="nv">$USER</span>
+</code></pre></div>
+</div>
 <hr />
 <h3 id="step-1-prepare-the-system">Step 1 — Prepare the system<a class="headerlink" href="#step-1-prepare-the-system" title="Permanent link">&para;</a></h3>
 <p><strong>1.</strong> Update the system.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
 </code></pre></div>
 <p><strong>2.</strong> Install required packages.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
 </code></pre></div>
 <p><strong>3.</strong> Disable swap permanently.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/swap/d&#39;</span><span class="w"> </span>/etc/fstab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/swap/d&#39;</span><span class="w"> </span>/etc/fstab
 </code></pre></div>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>free<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Swap
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>free<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Swap
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Swap:          0B         0B         0B
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Swap:          0B         0B         0B
 </code></pre></div>
 <p><strong>4.</strong> Load required kernel modules.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>overlay
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>br_netfilter
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>overlay
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>br_netfilter
 </code></pre></div>
 <p>Make them persist across reboots:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/modules-load.d/kubernetes.conf</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="s">overlay</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="s">br_netfilter</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s">EOF</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/modules-load.d/kubernetes.conf</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="s">overlay</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="s">br_netfilter</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="s">EOF</span>
 </code></pre></div>
 <p><strong>5.</strong> Configure kernel networking.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/sysctl.d/kubernetes.conf</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="s">net.bridge.bridge-nf-call-ip6tables = 1</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="s">net.bridge.bridge-nf-call-iptables = 1</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s">net.ipv4.ip_forward = 1</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s">EOF</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/sysctl.d/kubernetes.conf</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="s">net.bridge.bridge-nf-call-ip6tables = 1</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s">net.bridge.bridge-nf-call-iptables = 1</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="s">net.ipv4.ip_forward = 1</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="s">EOF</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>--system
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>--system
 </code></pre></div>
 <p><strong>6.</strong> Reboot so swap stays off and modules load cleanly.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>reboot
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>reboot
 </code></pre></div>
 <blockquote>
 <p>Reconnect via SSH after ~30 seconds, then continue.</p>
@@ -982,121 +992,145 @@
 <hr />
 <h3 id="step-2-install-containerd">Step 2 — Install containerd<a class="headerlink" href="#step-2-install-containerd" title="Permanent link">&para;</a></h3>
 <p><strong>7.</strong> Add the Docker repository (containerd is distributed here).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] \</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="s2">https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] \</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="s2">https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
 </code></pre></div>
 <p><strong>8.</strong> Install containerd.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>containerd.io
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>containerd.io
 </code></pre></div>
 <p><strong>9.</strong> Configure containerd to use systemd as the cgroup driver.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>containerd<span class="w"> </span>config<span class="w"> </span>default<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/containerd/config.toml
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39;</span><span class="w"> </span>/etc/containerd/config.toml
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>containerd
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sudo<span class="w"> </span>containerd<span class="w"> </span>config<span class="w"> </span>default<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/containerd/config.toml
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39;</span><span class="w"> </span>/etc/containerd/config.toml
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>containerd
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerd
 </code></pre></div>
 <p>Verify it is running:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>containerd<span class="w"> </span>--no-pager
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>containerd<span class="w"> </span>--no-pager
 </code></pre></div>
 <hr />
 <h3 id="step-3-install-kubernetes-components">Step 3 — Install Kubernetes components<a class="headerlink" href="#step-3-install-kubernetes-components" title="Permanent link">&para;</a></h3>
 <p><strong>10.</strong> Add the Kubernetes repository.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="s2">https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="s2">https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
 </code></pre></div>
 <p><strong>11.</strong> Install kubeadm, kubelet and kubectl at a fixed version.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.33.1-1.1<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.33.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.33.1-1.1
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl
+<blockquote>
+<p><strong>If apt reports the version is not found</strong>, the Debian revision suffix has changed. List what is actually available and use that exact string:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+</code></pre></div></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span>cri-tools
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl
 </code></pre></div>
 <p><strong>12.</strong> Configure crictl to use containerd.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>--set<span class="w"> </span>runtime-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>--set<span class="w"> </span>image-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span>--set<span class="w"> </span>runtime-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span>--set<span class="w"> </span>image-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock
 </code></pre></div>
 <hr />
 <h3 id="step-4-initialise-the-cluster">Step 4 — Initialise the cluster<a class="headerlink" href="#step-4-initialise-the-cluster" title="Permanent link">&para;</a></h3>
 <p><strong>13.</strong> Verify that <code>/etc/hosts</code> has the correct entries for the cluster hostnames.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;controller|worker1|worker2&#39;</span><span class="w"> </span>/etc/hosts
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;controller|worker1|worker2&#39;</span><span class="w"> </span>/etc/hosts
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>192.168.x.x  controller
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>192.168.x.x  worker1
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>192.168.x.x  worker2
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>192.168.x.x  controller
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>192.168.x.x  worker1
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>192.168.x.x  worker2
 </code></pre></div>
 <blockquote>
 <p>If these lines are missing, ask your instructor — the lab environment should be pre-configured.</p>
 </blockquote>
 <p><strong>14.</strong> Review the kubeadm config file.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>cat<span class="w"> </span>~/lfs458/ch03-install/kubeadm-config.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>cat<span class="w"> </span>~/lfs458/ch03-install/kubeadm-config.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta4</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterConfiguration</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.33.1</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;controller:6443&quot;</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nt">networking</span><span class="p">:</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.244.0.0/16</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta4</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterConfiguration</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.36.1</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;controller:6443&quot;</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="nt">networking</span><span class="p">:</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.244.0.0/16</span>
 </code></pre></div>
 <p><strong>15.</strong> Initialise the cluster. This takes 2–3 minutes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>cp<span class="w"> </span>~/lfs458/ch03-install/kubeadm-config.yaml<span class="w"> </span>/root/
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>init<span class="w"> </span>--config<span class="o">=</span>/root/kubeadm-config.yaml<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span>--upload-certs<span class="w"> </span>--node-name<span class="o">=</span>controller<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/root/kubeadm-init.out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sudo<span class="w"> </span>cp<span class="w"> </span>~/lfs458/ch03-install/kubeadm-config.yaml<span class="w"> </span>/root/
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>init<span class="w"> </span>--config<span class="o">=</span>/root/kubeadm-config.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">  </span>--upload-certs<span class="w"> </span>--node-name<span class="o">=</span>controller<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/root/kubeadm-init.out
 </code></pre></div>
 <blockquote>
 <p><strong>Save the <code>kubeadm join</code> command</strong> printed at the end — you need it in Exercise 3.2. If the token expires (2 hours) regenerate it with:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>--print-join-command
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>--print-join-command
 </code></pre></div></p>
 </blockquote>
 <p><strong>16.</strong> Set up kubectl access.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.kube
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>sudo<span class="w"> </span>cp<span class="w"> </span>-i<span class="w"> </span>/etc/kubernetes/admin.conf<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>sudo<span class="w"> </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.kube
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>sudo<span class="w"> </span>cp<span class="w"> </span>-i<span class="w"> </span>/etc/kubernetes/admin.conf<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>sudo<span class="w"> </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span><span class="nv">$HOME</span>/.kube/config
 </code></pre></div>
 <p><strong>17.</strong> Enable kubectl bash completion.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>kubectl<span class="w"> </span>completion<span class="w"> </span>bash<span class="o">)</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;source &lt;(kubectl completion bash)&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>kubectl<span class="w"> </span>completion<span class="w"> </span>bash<span class="o">)</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;source &lt;(kubectl completion bash)&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
 </code></pre></div>
 <hr />
 <h3 id="step-5-install-the-network-plugin-calico">Step 5 — Install the network plugin (Calico)<a class="headerlink" href="#step-5-install-the-network-plugin-calico" title="Permanent link">&para;</a></h3>
-<p><strong>18.</strong> Install the Tigera Operator — this manages the Calico lifecycle.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+<p><strong>18.</strong> Install the Calico custom resource definitions. From Calico v3.32 the <code>projectcalico.org</code> CRDs ship in their own manifest and must be applied <strong>before</strong> the operator.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>namespace/tigera-operator created
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>customresourcedefinition.apiextensions.k8s.io/apiservers.operator.tigera.io created
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>customresourcedefinition.apiextensions.k8s.io/installations.operator.tigera.io created
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>...
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>deployment.apps/tigera-operator created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>...
+</code></pre></div>
+<p><strong>19.</strong> Install the Tigera Operator — this manages the Calico lifecycle.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>namespace/tigera-operator created
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>serviceaccount/tigera-operator created
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>clusterrole.rbac.authorization.k8s.io/tigera-operator created
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>deployment.apps/tigera-operator created
 </code></pre></div>
 <p>Wait for the operator to be ready:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment<span class="w"> </span>tigera-operator<span class="w"> </span>-n<span class="w"> </span>tigera-operator<span class="w"> </span>--timeout<span class="o">=</span>120s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment<span class="w"> </span>tigera-operator<span class="w"> </span>-n<span class="w"> </span>tigera-operator<span class="w"> </span>--timeout<span class="o">=</span>120s
 </code></pre></div>
-<p><strong>19.</strong> Apply the Calico custom resources. This configures the pod CIDR as <code>10.244.0.0/16</code>, which matches <code>kubeadm-config.yaml</code> and avoids overlap with the node network.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch03-install/calico-custom-resources.yaml
+<p><strong>20.</strong> Apply the Calico custom resources. This configures the pod CIDR as <code>10.244.0.0/16</code>, which matches <code>kubeadm-config.yaml</code> and avoids overlap with the node network.</p>
+<blockquote>
+<p>We use our own file rather than the upstream <code>custom-resources.yaml</code>, because upstream defaults to the <code>192.168.0.0/16</code> pod CIDR — which would collide with the node network in this lab.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch03-install/calico-custom-resources.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>installation.operator.tigera.io/default created
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>apiserver.operator.tigera.io/default created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>installation.operator.tigera.io/default created
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>apiserver.operator.tigera.io/default created
 </code></pre></div>
-<p><strong>20.</strong> Watch Calico come up. This takes 1–2 minutes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>watch<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>calico-system
+<p><strong>21.</strong> Watch Calico come up. This takes 1–2 minutes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>watch<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>tigerastatus
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>NAME                                       READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>calico-kube-controllers-57d48bcff9-x4b2k   1/1     Running   0          90s
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>calico-node-7rqtk                           1/1     Running   0          90s
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>calico-typha-5f5f4d6b8c-j9p2l              1/1     Running   0          90s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>NAME        AVAILABLE   PROGRESSING   DEGRADED   SINCE
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>apiserver   True        False         False      70s
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>calico      True        False         False      90s
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>ippools     True        False         False      2m
 </code></pre></div>
-<p>Press <code>Ctrl+C</code> when all pods show <code>Running</code>. Then verify the node is <code>Ready</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<p>Press <code>Ctrl+C</code> when all components show <code>True</code> in the <code>AVAILABLE</code> column. You can also watch the pods directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>calico-system
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>NAME         STATUS   ROLES           AGE   VERSION
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>controller   Ready    control-plane   3m    v1.33.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>NAME                                       READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>calico-kube-controllers-57d48bcff9-x4b2k   1/1     Running   0          90s
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>calico-node-7rqtk                           1/1     Running   0          90s
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>calico-typha-5f5f4d6b8c-j9p2l              1/1     Running   0          90s
+</code></pre></div>
+<p>Then verify the node is <code>Ready</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>NAME         STATUS   ROLES           AGE   VERSION
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>controller   Ready    control-plane   3m    v1.36.1
 </code></pre></div>
 <hr />
 <h2 id="exercise-32-grow-the-cluster">Exercise 3.2: Grow the Cluster<a class="headerlink" href="#exercise-32-grow-the-cluster" title="Permanent link">&para;</a></h2>
@@ -1104,140 +1138,140 @@
 <p>Open a <strong>new terminal</strong> and SSH into each worker node. Run steps 1–5 on <strong>each worker</strong> (<code>worker1</code> then <code>worker2</code>).</p>
 </blockquote>
 <p><strong>1.</strong> Prepare the system — same as the controller.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/swap/d&#39;</span><span class="w"> </span>/etc/fstab
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>overlay
-<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>br_netfilter
-<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/modules-load.d/kubernetes.conf</span>
-<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="s">overlay</span>
-<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="s">br_netfilter</span>
-<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="s">EOF</span>
-<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/sysctl.d/kubernetes.conf</span>
-<a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="s">net.bridge.bridge-nf-call-ip6tables = 1</span>
-<a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="s">net.bridge.bridge-nf-call-iptables = 1</span>
-<a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="s">net.ipv4.ip_forward = 1</span>
-<a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="s">EOF</span>
-<a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>--system
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/swap/d&#39;</span><span class="w"> </span>/etc/fstab
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>overlay
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>br_netfilter
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/modules-load.d/kubernetes.conf</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a><span class="s">overlay</span>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="s">br_netfilter</span>
+<a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="s">EOF</span>
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF | sudo tee /etc/sysctl.d/kubernetes.conf</span>
+<a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a><span class="s">net.bridge.bridge-nf-call-ip6tables = 1</span>
+<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="s">net.bridge.bridge-nf-call-iptables = 1</span>
+<a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a><span class="s">net.ipv4.ip_forward = 1</span>
+<a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a><span class="s">EOF</span>
+<a id="__codelineno-41-16" name="__codelineno-41-16" href="#__codelineno-41-16"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>--system
 </code></pre></div>
 <p><strong>2.</strong> Install containerd.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
-<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
-<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>
-<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] \</span>
-<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="s2">https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
-<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>
-<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>containerd.io
-<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>sudo<span class="w"> </span>containerd<span class="w"> </span>config<span class="w"> </span>default<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/containerd/config.toml
-<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39;</span><span class="w"> </span>/etc/containerd/config.toml
-<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>containerd
-<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] \</span>
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a><span class="s2">https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>containerd.io
+<a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>sudo<span class="w"> </span>containerd<span class="w"> </span>config<span class="w"> </span>default<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/containerd/config.toml
+<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39;</span><span class="w"> </span>/etc/containerd/config.toml
+<a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>containerd
+<a id="__codelineno-42-13" name="__codelineno-42-13" href="#__codelineno-42-13"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerd
 </code></pre></div>
 <p><strong>3.</strong> Install Kubernetes components.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg
-<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
-<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \</span>
-<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="s2">https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
-<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>
-<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.33.1-1.1<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.33.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.33.1-1.1
-<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="s2">https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.1-1.1<span class="w"> </span>cri-tools
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl
 </code></pre></div>
 <p><strong>4.</strong> Configure crictl.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="w">  </span>--set<span class="w"> </span>runtime-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="w">  </span>--set<span class="w"> </span>image-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>sudo<span class="w"> </span>crictl<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="w">  </span>--set<span class="w"> </span>runtime-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="w">  </span>--set<span class="w"> </span>image-endpoint<span class="o">=</span>unix:///run/containerd/containerd.sock
 </code></pre></div>
 <p><strong>5.</strong> Join the cluster. On the <strong>controller node</strong> first get the join command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>--print-join-command
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>--print-join-command
 </code></pre></div>
 <p>Then run the output on the <strong>worker node</strong>, adding the correct <code>--node-name</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># On worker1:</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>join<span class="w"> </span>controller:6443<span class="w"> </span>--token<span class="w"> </span>&lt;your-token&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="w">  </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:&lt;your-hash&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="w">  </span>--node-name<span class="o">=</span>worker1
-<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>
-<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="c1"># On worker2:</span>
-<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>join<span class="w"> </span>controller:6443<span class="w"> </span>--token<span class="w"> </span>&lt;your-token&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="w">  </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:&lt;your-hash&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="w">  </span>--node-name<span class="o">=</span>worker2
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1"># On worker1:</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>join<span class="w"> </span>controller:6443<span class="w"> </span>--token<span class="w"> </span>&lt;your-token&gt;<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">  </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:&lt;your-hash&gt;<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">  </span>--node-name<span class="o">=</span>worker1
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="c1"># On worker2:</span>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>join<span class="w"> </span>controller:6443<span class="w"> </span>--token<span class="w"> </span>&lt;your-token&gt;<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">  </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:&lt;your-hash&gt;<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">  </span>--node-name<span class="o">=</span>worker2
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>This node has joined the cluster.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>This node has joined the cluster.
 </code></pre></div>
 <hr />
 <h2 id="exercise-33-finish-cluster-setup">Exercise 3.3: Finish Cluster Setup<a class="headerlink" href="#exercise-33-finish-cluster-setup" title="Permanent link">&para;</a></h2>
 <p><strong>1.</strong> Back on the <strong>controller node</strong>, verify all nodes have joined.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>NAME         STATUS   ROLES           AGE   VERSION
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>controller   Ready    control-plane   10m   v1.33.1
-<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>worker1      Ready    &lt;none&gt;          2m    v1.33.1
-<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>worker2      Ready    &lt;none&gt;          1m    v1.33.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>NAME         STATUS   ROLES           AGE   VERSION
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>controller   Ready    control-plane   10m   v1.36.1
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>worker1      Ready    &lt;none&gt;          2m    v1.36.1
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>worker2      Ready    &lt;none&gt;          1m    v1.36.1
 </code></pre></div>
 <p><strong>2.</strong> Remove the taint from the controller so it can run workloads during training.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>--all<span class="w"> </span>node-role.kubernetes.io/control-plane-
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>--all<span class="w"> </span>node-role.kubernetes.io/control-plane-
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>node/controller untainted
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>error: taint &quot;node-role.kubernetes.io/control-plane&quot; not found   # normal for workers
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>node/controller untainted
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>error: taint &quot;node-role.kubernetes.io/control-plane&quot; not found   # normal for workers
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span>node-role.kubernetes.io/worker<span class="o">=</span>worker
-<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span>node-role.kubernetes.io/worker<span class="o">=</span>worker
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span>node-role.kubernetes.io/worker<span class="o">=</span>worker
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span>node-role.kubernetes.io/worker<span class="o">=</span>worker
 </code></pre></div>
 <p><strong>3.</strong> Verify all system pods are running.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--all-namespaces
 </code></pre></div>
 <p>All pods should show <code>Running</code>. If any are stuck in <code>Pending</code> wait another minute and try again.</p>
 <hr />
 <h2 id="exercise-34-deploy-a-simple-application">Exercise 3.4: Deploy A Simple Application<a class="headerlink" href="#exercise-34-deploy-a-simple-application" title="Permanent link">&para;</a></h2>
 <p><strong>1.</strong> Create an nginx deployment.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--image<span class="o">=</span>nginx
-<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--image<span class="o">=</span>nginx
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>NAME    READY   UP-TO-DATE   AVAILABLE   AGE
-<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>nginx   1/1     1            1           8s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>nginx   1/1     1            1           8s
 </code></pre></div>
 <p><strong>2.</strong> Expose it as a NodePort service.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--type<span class="o">=</span>NodePort<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span>
-<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>kubectl<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--type<span class="o">=</span>NodePort<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span>
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>NAME    TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
-<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>nginx   NodePort   10.96.x.x     &lt;none&gt;        80:3xxxx/TCP   6s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>NAME    TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>nginx   NodePort   10.96.x.x     &lt;none&gt;        80:3xxxx/TCP   6s
 </code></pre></div>
 <p><strong>3.</strong> Get the assigned NodePort and test with curl.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="nv">NODE_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[0].nodePort}&#39;</span><span class="k">)</span>
-<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>curl<span class="w"> </span>http://controller:<span class="nv">$NODE_PORT</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="nv">NODE_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>nginx<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[0].nodePort}&#39;</span><span class="k">)</span>
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>curl<span class="w"> </span>http://controller:<span class="nv">$NODE_PORT</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Welcome to nginx!<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Welcome to nginx!<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a>...
 </code></pre></div>
 <p><strong>4.</strong> Scale the deployment.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
-<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>nginx<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
 </code></pre></div>
 <p><strong>5.</strong> Clean up.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>nginx
-<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>svc<span class="w"> </span>nginx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>nginx
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>svc<span class="w"> </span>nginx
 </code></pre></div>
 <hr />
 <h2 id="exercise-35-access-from-outside-the-cluster">Exercise 3.5: Access from Outside the Cluster<a class="headerlink" href="#exercise-35-access-from-outside-the-cluster" title="Permanent link">&para;</a></h2>
 <p><strong>1.</strong> Use <code>exec</code> to inspect environment variables inside a running pod.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>kubectl<span class="w"> </span>run<span class="w"> </span>testpod<span class="w"> </span>--image<span class="o">=</span>nginx
-<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/testpod<span class="w"> </span>--timeout<span class="o">=</span>60s
-<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>testpod<span class="w"> </span>--<span class="w"> </span>printenv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>KUBERNETES
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>kubectl<span class="w"> </span>run<span class="w"> </span>testpod<span class="w"> </span>--image<span class="o">=</span>nginx
+<a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/testpod<span class="w"> </span>--timeout<span class="o">=</span>60s
+<a id="__codelineno-62-3" name="__codelineno-62-3" href="#__codelineno-62-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>testpod<span class="w"> </span>--<span class="w"> </span>printenv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>KUBERNETES
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>KUBERNETES_SERVICE_PORT=443
-<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>KUBERNETES_SERVICE_HOST=10.96.0.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>KUBERNETES_SERVICE_PORT=443
+<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>KUBERNETES_SERVICE_HOST=10.96.0.1
 </code></pre></div>
 <p><strong>2.</strong> Clean up.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>testpod
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>testpod
 </code></pre></div>
 <hr />
 

@@ -898,7 +898,7 @@
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Flag --insecure-port has been deprecated, This flag will be removed in a future version.
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>I1119 02:31:14.933023   1 server.go:623] external host was not specified, using 10.128.0.3
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>I1119 02:31:14.933356   1 server.go:149] Version: v1.29.1
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>I1119 02:31:14.933356   1 server.go:149] Version: v1.36.2
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>I1119 02:31:15.595131   1 plugins.go:158] Loaded 11 mutating admission controller(s)
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>...
 </code></pre></div>
@@ -908,7 +908,7 @@
 </code></pre></div>
 <hr />
 <h2 id="exercise-133-adding-tools-for-monitoring-and-metrics">Exercise 13.3: Adding Tools for Monitoring and Metrics<a class="headerlink" href="#exercise-133-adding-tools-for-monitoring-and-metrics" title="Permanent link">&para;</a></h2>
-<p>The <strong>Metrics Server</strong> exposes a standard API that <code>kubectl top</code> and the HPA controller use. If you installed it in Chapter 8 (Exercise 8.1) it should already be running — skip step 1 if so.</p>
+<p>The <strong>Metrics Server</strong> exposes a standard API that <code>kubectl top</code> and the HPA controller use. It was installed in Chapter 8 (Lab 8.3), so here we only verify it and then query it.</p>
 <hr />
 <h3 id="verify-metrics-server">Verify Metrics Server<a class="headerlink" href="#verify-metrics-server" title="Permanent link">&para;</a></h3>
 <blockquote>
@@ -920,7 +920,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>metrics-server-fc6d4999b-b9rjj   1/1   Running   0   2d
 </code></pre></div>
 <p>If the pod shows <code>0/1</code> or is missing, go back to Lab 8.3 and reinstall via Helm.</p>
-<p><strong>5.</strong> Test that metrics are working. It can take up to a minute for metrics to populate.</p>
+<p><strong>2.</strong> Test that metrics are working. It can take up to a minute for metrics to populate.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sleep<span class="w"> </span><span class="m">120</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>kubectl<span class="w"> </span>top<span class="w"> </span>pod<span class="w"> </span>--all-namespaces
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>NAMESPACE     NAME                                      CPU(cores)   MEMORY(bytes)
@@ -935,7 +935,7 @@
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>controller       228m         11%    2357Mi          31%
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>worker1   76m          3%     1385Mi          18%
 </code></pre></div>
-<p><strong>6.</strong> You can also query the metrics API directly using TLS certificates from your kubeconfig. Generate the PEM files first, then run the curl.</p>
+<p><strong>3.</strong> You can also query the metrics API directly using TLS certificates from your kubeconfig. Generate the PEM files first, then run the curl.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">client</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-cert<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>client-key-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">auth</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>certificate-authority-data<span class="w"> </span><span class="nv">$HOME</span>/.kube/config<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">6</span><span class="k">)</span>
