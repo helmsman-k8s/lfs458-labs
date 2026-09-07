@@ -826,316 +826,322 @@
 <p><strong>2.</strong> View the existing labels on the nodes in the cluster.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>...
-</code></pre></div>
+<p>Each node shows a long comma-separated list of labels. None of them has <code>system=secondOne</code> yet — that is what makes the pods stay <code>Pending</code> in the next steps.</p>
 <p><strong>3.</strong> Attempt to create the Deployment. It should fail because the <code>accounting</code> namespace does not exist yet.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Error from server (NotFound): error when creating
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>&quot;nginx-one.yaml&quot;: namespaces &quot;accounting&quot; not found
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Error from server (NotFound): error when creating
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>&quot;nginx-one.yaml&quot;: namespaces &quot;accounting&quot; not found
 </code></pre></div>
 <p><strong>4.</strong> Create the namespace and try again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>ns<span class="w"> </span>accounting
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>ns<span class="w"> </span>accounting
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>namespace/accounting created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>namespace/accounting created
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>deployment.apps/nginx-one created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>deployment.apps/nginx-one created
 </code></pre></div>
 <p><strong>5.</strong> View the pods in the <code>accounting</code> namespace. They show <code>Pending</code> because no node has the required label.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>pods
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>nginx-one-74dd9d578d-fcpmv    0/1     Pending   0          4m
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>nginx-one-74dd9d578d-r2d67    0/1     Pending   0          4m
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>nginx-one-74dd9d578d-fcpmv    0/1     Pending   0          4m
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>nginx-one-74dd9d578d-r2d67    0/1     Pending   0          4m
 </code></pre></div>
 <p><strong>6.</strong> Describe one of the pods to confirm the scheduling failure reason.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nginx-one-pod-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nginx-one-pod-name&gt;
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Events:
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  Type     Reason            Age    From               Message
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  ----     ------            ---    ----               -------
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>  Warning  FailedScheduling  &lt;unknown&gt;  default-scheduler
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>  0/2 nodes are available: 2 node(s) didn&#39;t match node selector.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Events:
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  Type     Reason            Age    From               Message
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  ----     ------            ---    ----               -------
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>  Warning  FailedScheduling  &lt;unknown&gt;  default-scheduler
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  0/2 nodes are available: 2 node(s) didn&#39;t match node selector.
 </code></pre></div>
 <p><strong>7.</strong> Label the worker1 node with the value the <code>nodeSelector</code> expects. Note the value is case sensitive.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span><span class="nv">system</span><span class="o">=</span>secondOne
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span><span class="nv">system</span><span class="o">=</span>secondOne
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>node/worker1 labeled
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>node/worker1 labeled
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--show-labels
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>NAME     STATUS   ROLES           AGE    VERSION   LABELS
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>controller       Ready    control-plane   14h    v1.36.2   beta.kubernetes.io/arch=amd64,...
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>worker1   Ready    &lt;none&gt;          14h    v1.36.2   beta.kubernetes.io/arch=amd64,...,system=secondOne,...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>NAME     STATUS   ROLES           AGE    VERSION   LABELS
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>controller       Ready    control-plane   14h    v1.36.2   beta.kubernetes.io/arch=amd64,...
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>worker1   Ready    &lt;none&gt;          14h    v1.36.2   beta.kubernetes.io/arch=amd64,...,system=secondOne,...
 </code></pre></div>
 <p><strong>8.</strong> Check the pods again — they should now be <code>Running</code>. If they still show <code>Pending</code> after a minute, delete one to trigger the scheduler to re-evaluate.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>pods
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>nginx-one-74dd9d578d-fcpmv    1/1     Running   0          10m
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>nginx-one-74dd9d578d-sts5l    1/1     Running   0          3s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>nginx-one-74dd9d578d-fcpmv    1/1     Running   0          10m
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>nginx-one-74dd9d578d-sts5l    1/1     Running   0          3s
 </code></pre></div>
 <p><strong>9.</strong> View Pods by the <code>system=secondary</code> label across all namespaces.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">system</span><span class="o">=</span>secondary<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">system</span><span class="o">=</span>secondary<span class="w"> </span>--all-namespaces
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>NAMESPACE    NAME                          READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>accounting   nginx-one-74dd9d578d-fcpmv    1/1     Running   0          20m
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>accounting   nginx-one-74dd9d578d-sts5l    1/1     Running   0          9m
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>NAMESPACE    NAME                          READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>accounting   nginx-one-74dd9d578d-fcpmv    1/1     Running   0          20m
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>accounting   nginx-one-74dd9d578d-sts5l    1/1     Running   0          9m
 </code></pre></div>
 <p><strong>10.</strong> Expose the deployment. Port 8080 was declared in the YAML file.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx-one
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx-one
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>service/nginx-one exposed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>service/nginx-one exposed
 </code></pre></div>
 <p><strong>11.</strong> View the newly created endpoints. Each Pod's IP is listed on port 8080.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>ep<span class="w"> </span>nginx-one
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>get<span class="w"> </span>ep<span class="w"> </span>nginx-one
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> The <code>Warning: v1 Endpoints is deprecated</code> message is expected on Kubernetes 1.33+ and can be ignored.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>NAME        ENDPOINTS                                   AGE
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>nginx-one   10.244.1.5:8080,10.244.2.3:8080            47s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>NAME        ENDPOINTS                                   AGE
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>nginx-one   10.244.1.5:8080,10.244.2.3:8080            47s
 </code></pre></div>
 <p><strong>12.</strong> Test access on port 8080 (nginx is not listening there) then on port 80 (nginx default). Use the Pod IP from the endpoint output above.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>curl<span class="w"> </span><span class="m">192</span>.168.1.72:8080
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>curl<span class="w"> </span><span class="m">192</span>.168.1.72:8080
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>curl: (7) Failed to connect to 192.168.1.72 port 8080: Connection refused
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>curl: (7) Failed to connect to 192.168.1.72 port 8080: Connection refused
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>curl<span class="w"> </span><span class="m">192</span>.168.1.72:80
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>curl<span class="w"> </span><span class="m">192</span>.168.1.72:80
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>&lt;!DOCTYPE html&gt;
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>&lt;html&gt;
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>&lt;head&gt;
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>&lt;!DOCTYPE html&gt;
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>&lt;html&gt;
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>&lt;head&gt;
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>...
 </code></pre></div>
 <p><strong>13.</strong> Delete the deployment, fix the port in the YAML to <code>80</code>, and recreate it. If you get stuck, the completed file is at <code>~/lfs458/ch10-services/solutions/nginx-one-port80.yaml</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-one
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>nginx-one
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>deployment.apps &quot;nginx-one&quot; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>deployment.apps &quot;nginx-one&quot; deleted
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>vim<span class="w"> </span>nginx-one.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>vim<span class="w"> </span>nginx-one.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span><span class="w">    </span><span class="c1">#&lt;-- Edit from 8080 to 80</span>
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="w">          </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span><span class="w">    </span><span class="c1">#&lt;-- Edit from 8080 to 80</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="w">          </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nginx-one.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>deployment.apps/nginx-one created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>deployment.apps/nginx-one created
 </code></pre></div>
 <hr />
 <h2 id="exercise-102-configure-a-nodeport">Exercise 10.2: Configure a NodePort<a class="headerlink" href="#exercise-102-configure-a-nodeport" title="Permanent link">&para;</a></h2>
 <p>A <code>NodePort</code> exposes the service on a static high-numbered port on every node, making it accessible from outside the cluster.</p>
 <p><strong>1.</strong> Expose the deployment as a NodePort service with a memorable name.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx-one<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="w">  </span>--type<span class="o">=</span>NodePort<span class="w"> </span>--name<span class="o">=</span>service-lab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx-one<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">  </span>--type<span class="o">=</span>NodePort<span class="w"> </span>--name<span class="o">=</span>service-lab
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>service/service-lab exposed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>service/service-lab exposed
 </code></pre></div>
 <p><strong>2.</strong> View the service details and note the auto-generated NodePort.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>describe<span class="w"> </span>services
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>accounting<span class="w"> </span>describe<span class="w"> </span>services
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>....
-<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>NodePort:   &lt;unset&gt;  32103/TCP
-<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>....
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>....
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>NodePort:   &lt;unset&gt;  32103/TCP
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>....
 </code></pre></div>
 <p><strong>3.</strong> Get the cluster API server URL and confirm the CP hostname.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>kubectl<span class="w"> </span>cluster-info
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>kubectl<span class="w"> </span>cluster-info
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Kubernetes control plane is running at https://controller:6443
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>CoreDNS is running at https://controller:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Kubernetes control plane is running at https://controller:6443
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>CoreDNS is running at https://controller:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 </code></pre></div>
 <p><strong>4.</strong> Test access to the nginx web server using the CP hostname and NodePort.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>curl<span class="w"> </span>http://controller:&lt;nodeport&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>curl<span class="w"> </span>http://controller:&lt;nodeport&gt;
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>&lt;!DOCTYPE html&gt;
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>&lt;html&gt;
-<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>&lt;head&gt;
-<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>&lt;!DOCTYPE html&gt;
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>&lt;html&gt;
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>&lt;head&gt;
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>...
 </code></pre></div>
 <p><strong>5.</strong> You can also access the service from outside the lab using the public IP of any node and the NodePort. Find your public IP if needed.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>curl<span class="w"> </span>ifconfig.io
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>curl<span class="w"> </span>ifconfig.io
 </code></pre></div>
 <hr />
 <h2 id="exercise-103-working-with-coredns">Exercise 10.3: Working with CoreDNS<a class="headerlink" href="#exercise-103-working-with-coredns" title="Permanent link">&para;</a></h2>
 <p><strong>CoreDNS</strong> provides DNS resolution within the cluster. Services are registered automatically using a predictable FQDN pattern: <code>&lt;service&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
 <p><strong>1.</strong> Review the pre-staged <code>nettool.yaml</code> — a long-running Ubuntu Pod for network diagnostics.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>cat<span class="w"> </span>~/lfs458/ch10-services/nettool.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>cat<span class="w"> </span>~/lfs458/ch10-services/nettool.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
-<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
-<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
-<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu:latest</span>
-<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;sleep&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;infinity&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu:latest</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;sleep&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;infinity&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <p><strong>2.</strong> Create the Pod and exec into it.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nettool.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>nettool.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>pod/ubuntu created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>pod/ubuntu created
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ubuntu<span class="w"> </span>--<span class="w"> </span>/bin/bash
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ubuntu<span class="w"> </span>--<span class="w"> </span>/bin/bash
 </code></pre></div>
 <blockquote>
 <p>The following sub-steps <strong>(a)–(h)</strong> run <strong>inside the ubuntu container</strong>.</p>
 </blockquote>
 <p><strong>(a)</strong> Install network tools.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>apt-get<span class="w"> </span>update<span class="w"> </span><span class="p">;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>curl<span class="w"> </span>dnsutils<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>apt-get<span class="w"> </span>update<span class="w"> </span><span class="p">;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>curl<span class="w"> </span>dnsutils<span class="w"> </span>-y
 </code></pre></div>
 <p><strong>(b)</strong> Run <code>dig</code> with no arguments to see the DNS server responding.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>dig
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>dig
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>; &lt;&lt;&gt;&gt; DiG 9.16.1-Ubuntu &lt;&lt;&gt;&gt;
-<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>;; global options: +cmd
-<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>;; Got answer:
-<a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3394
-<a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a>;; SERVER: 10.96.0.10#53(10.96.0.10)
-<a id="__codelineno-53-6" name="__codelineno-53-6" href="#__codelineno-53-6"></a>;; Query time: 4 msec
-<a id="__codelineno-53-7" name="__codelineno-53-7" href="#__codelineno-53-7"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>; &lt;&lt;&gt;&gt; DiG 9.16.1-Ubuntu &lt;&lt;&gt;&gt;
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>;; global options: +cmd
+<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>;; Got answer:
+<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3394
+<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>;; SERVER: 10.96.0.10#53(10.96.0.10)
+<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>;; Query time: 4 msec
+<a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>...
 </code></pre></div>
 <p><strong>(c)</strong> Check <code>/etc/resolv.conf</code> — the first search domain is <code>default.svc.cluster.local</code> since the Pod is in the <code>default</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>cat<span class="w"> </span>/etc/resolv.conf
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>cat<span class="w"> </span>/etc/resolv.conf
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>nameserver 10.96.0.10
-<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>search default.svc.cluster.local svc.cluster.local cluster.local
-<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>options ndots:5
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>nameserver 10.96.0.10
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>search default.svc.cluster.local svc.cluster.local cluster.local
+<a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>options ndots:5
 </code></pre></div>
 <p><strong>(d)</strong> Do a reverse lookup on the CoreDNS IP. Note the domain uses <code>.kube-system.svc.cluster.local.</code> — reflecting the pod's namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>dig<span class="w"> </span>@10.96.0.10<span class="w"> </span>-x<span class="w"> </span><span class="m">10</span>.96.0.10
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>dig<span class="w"> </span>@10.96.0.10<span class="w"> </span>-x<span class="w"> </span><span class="m">10</span>.96.0.10
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>;; ANSWER SECTION:
-<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>10.0.96.10.in-addr.arpa.   30  IN  PTR  kube-dns.kube-system.svc.cluster.local.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>;; ANSWER SECTION:
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>10.0.96.10.in-addr.arpa.   30  IN  PTR  kube-dns.kube-system.svc.cluster.local.
 </code></pre></div>
 <p><strong>(e)</strong> Use the full FQDN of the <code>service-lab</code> service to access nginx. This works because the service is in the <code>accounting</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>curl<span class="w"> </span>service-lab.accounting.svc.cluster.local.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>curl<span class="w"> </span>service-lab.accounting.svc.cluster.local.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>&lt;!DOCTYPE html&gt;
-<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>&lt;html&gt;
-<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a>&lt;head&gt;
-<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>&lt;!DOCTYPE html&gt;
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>&lt;html&gt;
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>&lt;head&gt;
+<a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>...
 </code></pre></div>
 <p><strong>(f)</strong> Try using just the short service name. It fails because <code>nettool</code> is in the <code>default</code> namespace and <code>service-lab</code> is in <code>accounting</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>curl<span class="w"> </span>service-lab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>curl<span class="w"> </span>service-lab
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>curl: (6) Could not resolve host: service-lab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>curl: (6) Could not resolve host: service-lab
 </code></pre></div>
 <p><strong>(g)</strong> Add the namespace to the short name and try again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>curl<span class="w"> </span>service-lab.accounting
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>curl<span class="w"> </span>service-lab.accounting
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>&lt;!DOCTYPE html&gt;
-<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>&lt;html&gt;
-<a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>&lt;head&gt;
-<a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-<a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>&lt;!DOCTYPE html&gt;
+<a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>&lt;html&gt;
+<a id="__codelineno-62-3" name="__codelineno-62-3" href="#__codelineno-62-3"></a>&lt;head&gt;
+<a id="__codelineno-62-4" name="__codelineno-62-4" href="#__codelineno-62-4"></a>&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+<a id="__codelineno-62-5" name="__codelineno-62-5" href="#__codelineno-62-5"></a>...
 </code></pre></div>
 <p><strong>(h)</strong> Exit the container.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="nb">exit</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="nb">exit</span>
 </code></pre></div>
 <p><strong>3.</strong> Examine the <code>kube-dns</code> service in <code>kube-system</code>. Note the selector that routes DNS traffic.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>kube-dns<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>kube-dns<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="nn">...</span>
-<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a><span class="w">    </span><span class="nt">k8s-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-dns</span>
-<a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a><span class="w">    </span><span class="nt">kubernetes.io/cluster-service</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
-<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a><span class="w">    </span><span class="nt">kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CoreDNS</span>
-<a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a><span class="nn">...</span>
-<a id="__codelineno-66-7" name="__codelineno-66-7" href="#__codelineno-66-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-<a id="__codelineno-66-8" name="__codelineno-66-8" href="#__codelineno-66-8"></a><span class="w">    </span><span class="nt">k8s-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-dns</span>
-<a id="__codelineno-66-9" name="__codelineno-66-9" href="#__codelineno-66-9"></a><span class="w">  </span><span class="nt">sessionAffinity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
-<a id="__codelineno-66-10" name="__codelineno-66-10" href="#__codelineno-66-10"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
-<a id="__codelineno-66-11" name="__codelineno-66-11" href="#__codelineno-66-11"></a><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="nn">...</span>
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a><span class="w">    </span><span class="nt">k8s-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-dns</span>
+<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a><span class="w">    </span><span class="nt">kubernetes.io/cluster-service</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a><span class="w">    </span><span class="nt">kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CoreDNS</span>
+<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a><span class="nn">...</span>
+<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a><span class="w">    </span><span class="nt">k8s-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-dns</span>
+<a id="__codelineno-65-9" name="__codelineno-65-9" href="#__codelineno-65-9"></a><span class="w">  </span><span class="nt">sessionAffinity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<a id="__codelineno-65-10" name="__codelineno-65-10" href="#__codelineno-65-10"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
+<a id="__codelineno-65-11" name="__codelineno-65-11" href="#__codelineno-65-11"></a><span class="nn">...</span>
 </code></pre></div>
 <p><strong>4.</strong> Find all pods with the <code>k8s-app</code> label across all namespaces — these are the infrastructure pods served by this selector, including <code>coredns</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="w"> </span>--all-namespaces
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>kube-system   coredns-5d78c9869d-44qvq          1/1     Running   0          31m
-<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>kube-system   coredns-5d78c9869d-j6tqx          1/1     Running   0          31m
-<a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a>kube-system   kube-proxy-lpsmq                  1/1     Running   0          35m
-<a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a>kube-system   kube-proxy-pvl8w                  1/1     Running   0          34m
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>kube-system   coredns-5d78c9869d-44qvq          1/1     Running   0          31m
+<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>kube-system   coredns-5d78c9869d-j6tqx          1/1     Running   0          31m
+<a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>kube-system   kube-proxy-lpsmq                  1/1     Running   0          35m
+<a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a>kube-system   kube-proxy-pvl8w                  1/1     Running   0          34m
 </code></pre></div>
 <p><strong>5.</strong> Inspect a CoreDNS pod. Note the configuration is loaded from a ConfigMap mounted at <code>/etc/coredns/Corefile</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="nv">COREDNS_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>kube-dns<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
-<a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="nv">$COREDNS_POD</span><span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="nv">COREDNS_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>kube-dns<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="nv">$COREDNS_POD</span><span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="nn">...</span>
-<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-conf</span>
-<a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/coredns/Corefile</span>
-<a id="__codelineno-70-7" name="__codelineno-70-7" href="#__codelineno-70-7"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s.gcr.io/coredns:1.7.0</span>
-<a id="__codelineno-70-8" name="__codelineno-70-8" href="#__codelineno-70-8"></a><span class="nn">...</span>
-<a id="__codelineno-70-9" name="__codelineno-70-9" href="#__codelineno-70-9"></a><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
-<a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/coredns</span>
-<a id="__codelineno-70-11" name="__codelineno-70-11" href="#__codelineno-70-11"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
-<a id="__codelineno-70-12" name="__codelineno-70-12" href="#__codelineno-70-12"></a><span class="w">      </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-70-13" name="__codelineno-70-13" href="#__codelineno-70-13"></a><span class="nn">...</span>
-<a id="__codelineno-70-14" name="__codelineno-70-14" href="#__codelineno-70-14"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
-<a id="__codelineno-70-15" name="__codelineno-70-15" href="#__codelineno-70-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">configMap</span><span class="p">:</span>
-<a id="__codelineno-70-16" name="__codelineno-70-16" href="#__codelineno-70-16"></a><span class="w">      </span><span class="nt">items</span><span class="p">:</span>
-<a id="__codelineno-70-17" name="__codelineno-70-17" href="#__codelineno-70-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corefile</span>
-<a id="__codelineno-70-18" name="__codelineno-70-18" href="#__codelineno-70-18"></a><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corefile</span>
-<a id="__codelineno-70-19" name="__codelineno-70-19" href="#__codelineno-70-19"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coredns</span>
-<a id="__codelineno-70-20" name="__codelineno-70-20" href="#__codelineno-70-20"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
-<a id="__codelineno-70-21" name="__codelineno-70-21" href="#__codelineno-70-21"></a><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="nn">...</span>
+<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-conf</span>
+<a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/coredns/Corefile</span>
+<a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s.gcr.io/coredns:1.7.0</span>
+<a id="__codelineno-69-8" name="__codelineno-69-8" href="#__codelineno-69-8"></a><span class="nn">...</span>
+<a id="__codelineno-69-9" name="__codelineno-69-9" href="#__codelineno-69-9"></a><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<a id="__codelineno-69-10" name="__codelineno-69-10" href="#__codelineno-69-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/coredns</span>
+<a id="__codelineno-69-11" name="__codelineno-69-11" href="#__codelineno-69-11"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
+<a id="__codelineno-69-12" name="__codelineno-69-12" href="#__codelineno-69-12"></a><span class="w">      </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-69-13" name="__codelineno-69-13" href="#__codelineno-69-13"></a><span class="nn">...</span>
+<a id="__codelineno-69-14" name="__codelineno-69-14" href="#__codelineno-69-14"></a><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-69-15" name="__codelineno-69-15" href="#__codelineno-69-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">configMap</span><span class="p">:</span>
+<a id="__codelineno-69-16" name="__codelineno-69-16" href="#__codelineno-69-16"></a><span class="w">      </span><span class="nt">items</span><span class="p">:</span>
+<a id="__codelineno-69-17" name="__codelineno-69-17" href="#__codelineno-69-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corefile</span>
+<a id="__codelineno-69-18" name="__codelineno-69-18" href="#__codelineno-69-18"></a><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corefile</span>
+<a id="__codelineno-69-19" name="__codelineno-69-19" href="#__codelineno-69-19"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coredns</span>
+<a id="__codelineno-69-20" name="__codelineno-69-20" href="#__codelineno-69-20"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
+<a id="__codelineno-69-21" name="__codelineno-69-21" href="#__codelineno-69-21"></a><span class="nn">...</span>
 </code></pre></div>
 <p><strong>6.</strong> View the ConfigMaps in <code>kube-system</code>. The <code>coredns</code> ConfigMap holds the Corefile.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>NAME                                 DATA   AGE
-<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>coredns                              1      43h
-<a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>extension-apiserver-authentication   6      43h
-<a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a>kube-proxy                           2      43h
-<a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>kubeadm-config                       2      43h
-<a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a>kubelet-config                       1      43h
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>NAME                                 DATA   AGE
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>coredns                              1      43h
+<a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a>extension-apiserver-authentication   6      43h
+<a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>kube-proxy                           2      43h
+<a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a>kubeadm-config                       2      43h
+<a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>kubelet-config                       1      43h
 </code></pre></div>
 <p><strong>7.</strong> View the CoreDNS Corefile configuration. Note <code>cluster.local</code> is the default domain and <code>forward</code> sends unknown queries to <code>/etc/resolv.conf</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps<span class="w"> </span>coredns<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps<span class="w"> </span>coredns<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a><span class="nt">data</span><span class="p">:</span>
-<a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a><span class="w">  </span><span class="nt">Corefile</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a><span class="w">    </span><span class="no">.:53 {</span>
-<a id="__codelineno-74-5" name="__codelineno-74-5" href="#__codelineno-74-5"></a><span class="w">        </span><span class="no">errors</span>
-<a id="__codelineno-74-6" name="__codelineno-74-6" href="#__codelineno-74-6"></a><span class="w">        </span><span class="no">health {</span>
-<a id="__codelineno-74-7" name="__codelineno-74-7" href="#__codelineno-74-7"></a><span class="w">          </span><span class="no">lameduck 5s</span>
-<a id="__codelineno-74-8" name="__codelineno-74-8" href="#__codelineno-74-8"></a><span class="w">        </span><span class="no">}</span>
-<a id="__codelineno-74-9" name="__codelineno-74-9" href="#__codelineno-74-9"></a><span class="w">        </span><span class="no">ready</span>
-<a id="__codelineno-74-10" name="__codelineno-74-10" href="#__codelineno-74-10"></a><span class="w">        </span><span class="no">kubernetes cluster.local in-addr.arpa ip6.arpa {</span>
-<a id="__codelineno-74-11" name="__codelineno-74-11" href="#__codelineno-74-11"></a><span class="w">          </span><span class="no">pods insecure</span>
-<a id="__codelineno-74-12" name="__codelineno-74-12" href="#__codelineno-74-12"></a><span class="w">          </span><span class="no">fallthrough in-addr.arpa ip6.arpa</span>
-<a id="__codelineno-74-13" name="__codelineno-74-13" href="#__codelineno-74-13"></a><span class="w">          </span><span class="no">ttl 30</span>
-<a id="__codelineno-74-14" name="__codelineno-74-14" href="#__codelineno-74-14"></a><span class="w">        </span><span class="no">}</span>
-<a id="__codelineno-74-15" name="__codelineno-74-15" href="#__codelineno-74-15"></a><span class="w">        </span><span class="no">prometheus :9153</span>
-<a id="__codelineno-74-16" name="__codelineno-74-16" href="#__codelineno-74-16"></a><span class="w">        </span><span class="no">forward . /etc/resolv.conf {</span>
-<a id="__codelineno-74-17" name="__codelineno-74-17" href="#__codelineno-74-17"></a><span class="w">          </span><span class="no">max_concurrent 1000</span>
-<a id="__codelineno-74-18" name="__codelineno-74-18" href="#__codelineno-74-18"></a><span class="w">        </span><span class="no">}</span>
-<a id="__codelineno-74-19" name="__codelineno-74-19" href="#__codelineno-74-19"></a><span class="w">        </span><span class="no">cache 30</span>
-<a id="__codelineno-74-20" name="__codelineno-74-20" href="#__codelineno-74-20"></a><span class="w">        </span><span class="no">loop</span>
-<a id="__codelineno-74-21" name="__codelineno-74-21" href="#__codelineno-74-21"></a><span class="w">        </span><span class="no">reload</span>
-<a id="__codelineno-74-22" name="__codelineno-74-22" href="#__codelineno-74-22"></a><span class="w">        </span><span class="no">loadbalance</span>
-<a id="__codelineno-74-23" name="__codelineno-74-23" href="#__codelineno-74-23"></a><span class="w">    </span><span class="no">}</span>
-<a id="__codelineno-74-24" name="__codelineno-74-24" href="#__codelineno-74-24"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
-<a id="__codelineno-74-25" name="__codelineno-74-25" href="#__codelineno-74-25"></a><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a><span class="w">  </span><span class="nt">Corefile</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a><span class="w">    </span><span class="no">.:53 {</span>
+<a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a><span class="w">        </span><span class="no">errors</span>
+<a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a><span class="w">        </span><span class="no">health {</span>
+<a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a><span class="w">          </span><span class="no">lameduck 5s</span>
+<a id="__codelineno-73-8" name="__codelineno-73-8" href="#__codelineno-73-8"></a><span class="w">        </span><span class="no">}</span>
+<a id="__codelineno-73-9" name="__codelineno-73-9" href="#__codelineno-73-9"></a><span class="w">        </span><span class="no">ready</span>
+<a id="__codelineno-73-10" name="__codelineno-73-10" href="#__codelineno-73-10"></a><span class="w">        </span><span class="no">kubernetes cluster.local in-addr.arpa ip6.arpa {</span>
+<a id="__codelineno-73-11" name="__codelineno-73-11" href="#__codelineno-73-11"></a><span class="w">          </span><span class="no">pods insecure</span>
+<a id="__codelineno-73-12" name="__codelineno-73-12" href="#__codelineno-73-12"></a><span class="w">          </span><span class="no">fallthrough in-addr.arpa ip6.arpa</span>
+<a id="__codelineno-73-13" name="__codelineno-73-13" href="#__codelineno-73-13"></a><span class="w">          </span><span class="no">ttl 30</span>
+<a id="__codelineno-73-14" name="__codelineno-73-14" href="#__codelineno-73-14"></a><span class="w">        </span><span class="no">}</span>
+<a id="__codelineno-73-15" name="__codelineno-73-15" href="#__codelineno-73-15"></a><span class="w">        </span><span class="no">prometheus :9153</span>
+<a id="__codelineno-73-16" name="__codelineno-73-16" href="#__codelineno-73-16"></a><span class="w">        </span><span class="no">forward . /etc/resolv.conf {</span>
+<a id="__codelineno-73-17" name="__codelineno-73-17" href="#__codelineno-73-17"></a><span class="w">          </span><span class="no">max_concurrent 1000</span>
+<a id="__codelineno-73-18" name="__codelineno-73-18" href="#__codelineno-73-18"></a><span class="w">        </span><span class="no">}</span>
+<a id="__codelineno-73-19" name="__codelineno-73-19" href="#__codelineno-73-19"></a><span class="w">        </span><span class="no">cache 30</span>
+<a id="__codelineno-73-20" name="__codelineno-73-20" href="#__codelineno-73-20"></a><span class="w">        </span><span class="no">loop</span>
+<a id="__codelineno-73-21" name="__codelineno-73-21" href="#__codelineno-73-21"></a><span class="w">        </span><span class="no">reload</span>
+<a id="__codelineno-73-22" name="__codelineno-73-22" href="#__codelineno-73-22"></a><span class="w">        </span><span class="no">loadbalance</span>
+<a id="__codelineno-73-23" name="__codelineno-73-23" href="#__codelineno-73-23"></a><span class="w">    </span><span class="no">}</span>
+<a id="__codelineno-73-24" name="__codelineno-73-24" href="#__codelineno-73-24"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-73-25" name="__codelineno-73-25" href="#__codelineno-73-25"></a><span class="nn">...</span>
 </code></pre></div>
 <p><strong>8.</strong> Back up the CoreDNS ConfigMap before editing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps<span class="w"> </span>coredns<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>coredns-backup.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>configmaps<span class="w"> </span>coredns<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>coredns-backup.yaml
 </code></pre></div>
 <p><strong>9.</strong> Edit the CoreDNS ConfigMap to add a <code>rewrite</code> rule so that <code>*.test.io</code> domains resolve to <code>*.default.svc.cluster.local</code>. Add the rewrite line as the <strong>first</strong> entry inside the <code>.:53</code> block.</p>
+<div class="admonition danger">
+<p class="admonition-title">A broken Corefile breaks DNS for the whole cluster</p>
+<p>Indentation and braces matter here. If name resolution stops working after your edit, restore a known-good file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch10-services/solutions/coredns-rewrite-simple.yaml
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>coredns
+</code></pre></div>
+</div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>edit<span class="w"> </span>configmaps<span class="w"> </span>coredns
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
@@ -1187,6 +1193,9 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="nb">exit</span>
 </code></pre></div>
 <p><strong>13.</strong> Edit the CoreDNS configmap again to upgrade the rewrite rule to also return the <code>test.io</code> name in the answer (using <code>rewrite stop</code> with an <code>answer</code> clause).</p>
+<blockquote>
+<p><strong>Emergency fallback:</strong> <code>kubectl apply -f ~/lfs458/ch10-services/solutions/coredns-rewrite-answer.yaml</code> then <code>kubectl -n kube-system rollout restart deployment coredns</code></p>
+</blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>edit<span class="w"> </span>configmaps<span class="w"> </span>coredns
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>

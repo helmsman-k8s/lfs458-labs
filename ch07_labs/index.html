@@ -1006,7 +1006,7 @@
 <li>Create and manage Deployments (scale, rollout, rollback)</li>
 <li>Create a DaemonSet with <code>OnDelete</code> and <code>RollingUpdate</code> strategies</li>
 </ul>
-<p>Lab files are in <code>~/lfs458/ch07-deployments/</code>. The <code>solutions/</code> subfolder contains completed manifests for files you need to edit.</p>
+<p>Lab files are in <code>~/lfs458/ch07-deployments/</code>. All changes in this chapter are made imperatively with <code>kubectl</code> (<code>set image</code>, <code>patch</code>, <code>scale</code>, <code>rollout</code>) rather than by editing files, so there are no solution manifests to fall back on — if a step goes wrong, delete the object and recreate it.</p>
 <hr />
 <h2 id="lab-71-replicasets">Lab 7.1 — ReplicaSets<a class="headerlink" href="#lab-71-replicasets" title="Permanent link">&para;</a></h2>
 <p>Create a ReplicaSet:</p>
