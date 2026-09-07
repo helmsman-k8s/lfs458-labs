@@ -1,12 +1,14 @@
-# Exercise 4.2 step 9 — hog.yaml with CPU/memory limits AND stress args.
-# Matches the guide exactly. Apply with: kubectl create -f hog-with-resources.yaml
+# Exercise 4.3 step 9 — hog2.yaml: same as hog.yaml but deployed into the
+# low-usage-limit namespace, to demonstrate that per-deployment resource
+# settings override the namespace LimitRange defaults.
+# Apply with: kubectl create -f hog2-namespaced.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: hog
   name: hog
-  namespace: default
+  namespace: low-usage-limit
 spec:
   replicas: 1
   selector:

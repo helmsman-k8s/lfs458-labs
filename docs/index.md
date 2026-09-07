@@ -59,7 +59,7 @@ kubectl config use-context <name>
     Simulation test scripts are in `~/chXX_sim.sh`.
 
 !!! warning "Node names"
-    This guide uses `controller`, `worker1`, `worker2` ? not the generic `cp`/`worker` names used in the upstream LFS458 material.
+    This guide uses `controller`, `worker1`, `worker2` — not the generic `cp`/`worker` names used in the upstream LFS458 material.
 
 ---
 

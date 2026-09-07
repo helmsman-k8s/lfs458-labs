@@ -18,9 +18,7 @@ cd ~/lfs458/ch13-troubleshoot/
 journalctl -u kubelet | less
 ```
 
-```
-...
-```
+You will see a continuous stream of kubelet entries — pod lifecycle events, volume mounts, and image pulls. Press `q` to exit.
 
 **2.** Major Kubernetes processes run inside containers. Use `find` to locate the **kube-apiserver** log on disk.
 
@@ -39,9 +37,7 @@ d25701998f68b503e64d41dd786e657fc09504f13278044934d79a4019e3c.log
 sudo less /var/log/containers/kube-apiserver-controller_kube-system_kube-apiserver-<Tab>
 ```
 
-```
-...
-```
+Each line is a JSON-wrapped log entry from the API server, prefixed with a timestamp and the stream name (`stdout` or `stderr`). Press `q` to exit.
 
 **4.** Search for and review log files for other cluster agents: `coredns`, `kube-proxy`, and others.
 

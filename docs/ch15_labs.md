@@ -111,6 +111,8 @@ EOF
 
 ### Bind the Role to DevDan
 
+> **Emergency fallback:** `kubectl apply -f ~/lfs458/ch15-security/solutions/rolebinding-devdan.yaml`
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: rbac.authorization.k8s.io/v1

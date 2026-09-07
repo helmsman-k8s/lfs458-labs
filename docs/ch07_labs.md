@@ -8,7 +8,7 @@ In this lab you will:
 - Create and manage Deployments (scale, rollout, rollback)
 - Create a DaemonSet with `OnDelete` and `RollingUpdate` strategies
 
-Lab files are in `~/lfs458/ch07-deployments/`. The `solutions/` subfolder contains completed manifests for files you need to edit.
+Lab files are in `~/lfs458/ch07-deployments/`. All changes in this chapter are made imperatively with `kubectl` (`set image`, `patch`, `scale`, `rollout`) rather than by editing files, so there are no solution manifests to fall back on — if a step goes wrong, delete the object and recreate it.
 
 ---
 

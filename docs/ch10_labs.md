@@ -53,9 +53,7 @@ spec:
 kubectl get nodes --show-labels
 ```
 
-```
-...
-```
+Each node shows a long comma-separated list of labels. None of them has `system=secondOne` yet — that is what makes the pods stay `Pending` in the next steps.
 
 **3.** Attempt to create the Deployment. It should fail because the `accounting` namespace does not exist yet.
 
@@ -544,6 +542,14 @@ kubectl -n kube-system get configmaps coredns -o yaml > coredns-backup.yaml
 
 **9.** Edit the CoreDNS ConfigMap to add a `rewrite` rule so that `*.test.io` domains resolve to `*.default.svc.cluster.local`. Add the rewrite line as the **first** entry inside the `.:53` block.
 
+!!! danger "A broken Corefile breaks DNS for the whole cluster"
+    Indentation and braces matter here. If name resolution stops working after your edit, restore a known-good file:
+
+    ```bash
+    kubectl apply -f ~/lfs458/ch10-services/solutions/coredns-rewrite-simple.yaml
+    kubectl -n kube-system rollout restart deployment coredns
+    ```
+
 ```bash
 kubectl -n kube-system edit configmaps coredns
 ```
@@ -630,6 +636,8 @@ exit
 ```
 
 **13.** Edit the CoreDNS configmap again to upgrade the rewrite rule to also return the `test.io` name in the answer (using `rewrite stop` with an `answer` clause).
+
+> **Emergency fallback:** `kubectl apply -f ~/lfs458/ch10-services/solutions/coredns-rewrite-answer.yaml` then `kubectl -n kube-system rollout restart deployment coredns`
 
 ```bash
 kubectl -n kube-system edit configmaps coredns

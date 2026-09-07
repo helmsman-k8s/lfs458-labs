@@ -155,10 +155,6 @@ sudo cp -r /etc/kubernetes/pki/etcd $HOME/backup/
 sudo apt update
 ```
 
-```
-...
-```
-
 **2.** In this exercise we perform a **patch upgrade** (1.36.1 → 1.36.2), staying within the same minor release. Because the apt repository is already pinned to `v1.36`, no repository change is required — simply refresh the package metadata.
 
 ```bash
@@ -619,6 +615,8 @@ kubectl get deployment hog -o yaml > hog.yaml
 
 **4.** Edit the file to remove the `status:` section, `creationTimestamp`, and other generated fields. Then add memory resource limits as shown below. Find the `resources: {}` line and replace it with the limits block.
 
+> **If you get stuck**, the completed file for this step is at `~/lfs458/ch04-architecture/solutions/hog-memory-limits.yaml`.
+
 ```bash
 vim hog.yaml
 ```
@@ -886,6 +884,8 @@ spec:
 ```
 
 **9.** Copy `hog.yaml` to a new file and add a `namespace:` line so the deployment runs in `low-usage-limit`. Delete the `selfLink:` line if it exists.
+
+> **If you get stuck**, the completed file is at `~/lfs458/ch04-architecture/solutions/hog2-namespaced.yaml`. Note the file must contain **exactly one** `namespace:` line — if you edit with `sed` you may accidentally add a second one.
 
 ```bash
 cp hog.yaml hog2.yaml

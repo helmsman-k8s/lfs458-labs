@@ -1,0 +1,37 @@
+# Exercise 10.3 step 9 — CoreDNS ConfigMap with the single-line rewrite rule.
+#
+# Use this ONLY if your own edit broke cluster DNS. Applying a malformed
+# Corefile stops name resolution for the whole cluster, so recovering from a
+# known-good file is the fastest fix.
+#
+#   kubectl apply -f coredns-rewrite-simple.yaml
+#   kubectl -n kube-system rollout restart deployment coredns
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        rewrite name regex (.*)\.test\.io {1}.default.svc.cluster.local
+        errors
+        health {
+          lameduck 5s
+        }
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+          pods insecure
+          fallthrough in-addr.arpa ip6.arpa
+          ttl 30
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf {
+          max_concurrent 1000
+        }
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
