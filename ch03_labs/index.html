@@ -949,9 +949,12 @@
 </div>
 <hr />
 <h3 id="step-1-prepare-the-system">Step 1 — Prepare the system<a class="headerlink" href="#step-1-prepare-the-system" title="Permanent link">&para;</a></h3>
-<p><strong>1.</strong> Update the system.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
+<p><strong>1.</strong> Refresh the package lists.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </code></pre></div>
+<blockquote>
+<p>This only refreshes package metadata — it does <strong>not</strong> upgrade installed packages. A full <code>apt-get upgrade</code> is not required for a kubeadm install and can take 10+ minutes per node.</p>
+</blockquote>
 <p><strong>2.</strong> Install required packages.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
 </code></pre></div>
@@ -1138,7 +1141,7 @@
 <p>Open a <strong>new terminal</strong> and SSH into each worker node. Run steps 1–5 on <strong>each worker</strong> (<code>worker1</code> then <code>worker2</code>).</p>
 </blockquote>
 <p><strong>1.</strong> Prepare the system — same as the controller.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>socat<span class="w"> </span>tree<span class="w"> </span>bash-completion
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/swap/d&#39;</span><span class="w"> </span>/etc/fstab
