@@ -944,135 +944,133 @@
 <p><strong>1.</strong> Update the package metadata for APT.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>...
-</code></pre></div>
 <p><strong>2.</strong> In this exercise we perform a <strong>patch upgrade</strong> (1.36.1 → 1.36.2), staying within the same minor release. Because the apt repository is already pinned to <code>v1.36</code>, no repository change is required — simply refresh the package metadata.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> For a <strong>minor</strong> upgrade (for example 1.36 → 1.37) you would first have to repoint the repository, because each minor release is published in its own repository:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/v1.36/v1.37/g&#39;</span><span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/v1.36/v1.37/g&#39;</span><span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </code></pre></div>
 Kubernetes only supports upgrading <strong>one minor version at a time</strong>.</p>
 </blockquote>
 <p><strong>3.</strong> View the available kubeadm packages to confirm the target patch version is available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>...
 </code></pre></div>
 <p><strong>4.</strong> Remove the hold on <strong>kubeadm</strong> and upgrade it to the target patch release.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Canceled hold on kubeadm.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>Canceled hold on kubeadm.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Reading package lists... Done
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>Building dependency tree
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>Reading state information... Done
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Reading package lists... Done
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>Building dependency tree
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>Reading state information... Done
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>...
 </code></pre></div>
 <p><strong>5.</strong> Hold the package again to prevent unintended upgrades.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>kubeadm set on hold.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>kubeadm set on hold.
 </code></pre></div>
 <p><strong>6.</strong> Verify the new kubeadm version.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>version
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>version
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubeadm version: &amp;version.Info{Major:&quot;1&quot;, Minor:&quot;36&quot;, GitVersion:&quot;v1.36.2&quot;, ...}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>kubeadm version: &amp;version.Info{Major:&quot;1&quot;, Minor:&quot;36&quot;, GitVersion:&quot;v1.36.2&quot;, ...}
 </code></pre></div>
 <p><strong>7.</strong> Drain the CP node to evict as many pods as possible before upgrading. DaemonSet pods such as Calico must remain.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>controller<span class="w"> </span>--ignore-daemonsets
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>controller<span class="w"> </span>--ignore-daemonsets
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>node/controller cordoned
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>Warning: ignoring DaemonSet-managed Pods: calico-system/calico-node-5tv9d, kube-system/kube-proxy-8x9c5
-<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>evicting pod kube-system/coredns-5d78c9869d-z5ngb
-<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>evicting pod calico-system/calico-kube-controllers-788c7d7585-wnb5b
-<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>evicting pod kube-system/coredns-5d78c9869d-4h2bs
-<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>pod/calico-kube-controllers-788c7d7585-wnb5b evicted
-<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>pod/coredns-5d78c9869d-z5ngb evicted
-<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>pod/coredns-5d78c9869d-4h2bs evicted
-<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>node/controller drained
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>node/controller cordoned
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>Warning: ignoring DaemonSet-managed Pods: calico-system/calico-node-5tv9d, kube-system/kube-proxy-8x9c5
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>evicting pod kube-system/coredns-5d78c9869d-z5ngb
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>evicting pod calico-system/calico-kube-controllers-788c7d7585-wnb5b
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>evicting pod kube-system/coredns-5d78c9869d-4h2bs
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>pod/calico-kube-controllers-788c7d7585-wnb5b evicted
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>pod/coredns-5d78c9869d-z5ngb evicted
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>pod/coredns-5d78c9869d-4h2bs evicted
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>node/controller drained
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> If the drain loops with <code>Cannot evict pod as it would violate the pod's disruption budget</code> errors, wait — it will resolve automatically once a replacement pod starts on a worker node (typically 2–3 minutes).</p>
 </blockquote>
 <p><strong>8.</strong> Review the upgrade plan. Read through the output to understand what will change.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>plan
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>plan
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>[preflight] Running pre-flight checks.
-<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>[upgrade/config] Reading configuration from the cluster...
-<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>[upgrade] Running cluster health checks
-<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>[upgrade/versions] Cluster version: v1.36.1
-<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>[upgrade/versions] kubeadm version: v1.36.2
-<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>[upgrade/versions] Target version: v1.36.2
-<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>[upgrade/versions] Latest version in the v1.36 series: v1.36.2
-<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>[preflight] Running pre-flight checks.
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>[upgrade/config] Reading configuration from the cluster...
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>[upgrade] Running cluster health checks
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>[upgrade/versions] Cluster version: v1.36.1
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>[upgrade/versions] kubeadm version: v1.36.2
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>[upgrade/versions] Target version: v1.36.2
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>[upgrade/versions] Latest version in the v1.36 series: v1.36.2
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>...
 </code></pre></div>
 <p><strong>9.</strong> Apply the upgrade. Answer <strong>y</strong> when prompted. This will take several minutes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>apply<span class="w"> </span>v1.36.2
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>apply<span class="w"> </span>v1.36.2
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>[preflight] Running pre-flight checks.
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>[upgrade/config] Reading configuration from the cluster...
-<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>[upgrade/version] You have chosen to change the cluster version to &quot;v1.36.2&quot;
-<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>[upgrade/versions] Cluster version: v1.36.1
-<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>[upgrade/versions] kubeadm version: v1.36.2
-<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>[upgrade] Are you sure you want to proceed? [y/N]: y
-<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>[upgrade/prepull] Pulling images required for setting up a Kubernetes cluster
-<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>[preflight] Running pre-flight checks.
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>[upgrade/config] Reading configuration from the cluster...
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>[upgrade/version] You have chosen to change the cluster version to &quot;v1.36.2&quot;
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>[upgrade/versions] Cluster version: v1.36.1
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>[upgrade/versions] kubeadm version: v1.36.2
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>[upgrade] Are you sure you want to proceed? [y/N]: y
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>[upgrade/prepull] Pulling images required for setting up a Kubernetes cluster
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>...
 </code></pre></div>
 <p><strong>10.</strong> Check node status. The CP should show <code>Ready,SchedulingDisabled</code> and still show the old version until kubelet is upgraded.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>controller   Ready,SchedulingDisabled   control-plane   109m   v1.36.1
-<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>worker1      Ready                      &lt;none&gt;          61m    v1.36.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>controller   Ready,SchedulingDisabled   control-plane   109m   v1.36.1
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>worker1      Ready                      &lt;none&gt;          61m    v1.36.1
 </code></pre></div>
 <p><strong>11.</strong> Release the hold on <strong>kubelet</strong> and <strong>kubectl</strong>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Canceled hold on kubelet.
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>Canceled hold on kubectl.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>Canceled hold on kubelet.
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>Canceled hold on kubectl.
 </code></pre></div>
 <p><strong>12.</strong> Upgrade both packages to match kubeadm.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.2-2.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.2-2.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>Reading package lists... Done
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Reading package lists... Done
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>...
 </code></pre></div>
 <p><strong>13.</strong> Hold the packages again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>kubelet set on hold.
-<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>kubectl set on hold.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>kubelet set on hold.
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>kubectl set on hold.
 </code></pre></div>
 <p><strong>14.</strong> Restart the daemons.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
 </code></pre></div>
 <p><strong>15.</strong> Verify the CP node now shows the new version. The worker still shows the old version — we will upgrade it next.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
-<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>controller   Ready,SchedulingDisabled   control-plane   113m   v1.36.2
-<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>worker1      Ready                      &lt;none&gt;          65m    v1.36.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>NAME     STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>controller   Ready,SchedulingDisabled   control-plane   113m   v1.36.2
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>worker1      Ready                      &lt;none&gt;          65m    v1.36.1
 </code></pre></div>
 <p><strong>16.</strong> Make the CP available for scheduling again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>controller
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>controller
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>node/controller uncordoned
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>node/controller uncordoned
 </code></pre></div>
 <p><strong>17.</strong> Verify the CP now shows <code>Ready</code> status.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>NAME     STATUS   ROLES           AGE    VERSION
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>controller   Ready    control-plane   114m   v1.36.2
-<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>worker1      Ready    &lt;none&gt;          66m    v1.36.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>NAME     STATUS   ROLES           AGE    VERSION
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>controller   Ready    control-plane   114m   v1.36.2
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>worker1      Ready    &lt;none&gt;          66m    v1.36.1
 </code></pre></div>
 <hr />
 <h3 id="upgrade-the-cluster-worker-node">Upgrade the Cluster — Worker Node<a class="headerlink" href="#upgrade-the-cluster-worker-node" title="Permanent link">&para;</a></h3>
@@ -1080,369 +1078,375 @@ Kubernetes only supports upgrading <strong>one minor version at a time</strong>.
 <p>Open a <strong>second terminal</strong> connected to the <strong>worker node</strong> for steps 18–27. You will also need the CP terminal open.</p>
 </blockquote>
 <p><strong>18.</strong> On the <strong>worker node</strong>, remove the hold on kubeadm.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>Canceled hold on kubeadm.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>Canceled hold on kubeadm.
 </code></pre></div>
 <p><strong>19.</strong> Refresh the package metadata. As on the control plane, the repository is already pinned to <code>v1.36</code>, so no repository change is needed for a patch upgrade.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </code></pre></div>
 <p><strong>20.</strong> View available packages to confirm the target patch version.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>sudo<span class="w"> </span>apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
-<a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>kubeadm | 1.36.2-2.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>kubeadm | 1.36.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>kubeadm | 1.36.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.36/deb  Packages
+<a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a>...
 </code></pre></div>
 <p><strong>21.</strong> Install the updated kubeadm on the worker.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>...
-<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>Setting up kubeadm (1.36.2-2.1) ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>...
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>Setting up kubeadm (1.36.2-2.1) ...
 </code></pre></div>
 <p><strong>22.</strong> Hold kubeadm again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubeadm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>kubeadm set on hold.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>kubeadm set on hold.
 </code></pre></div>
 <p><strong>23.</strong> Back on the <strong>CP node</strong>, drain the worker node to evict its pods before upgrading.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>worker1<span class="w"> </span>--ignore-daemonsets
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>kubectl<span class="w"> </span>drain<span class="w"> </span>worker1<span class="w"> </span>--ignore-daemonsets
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>node/worker1 cordoned
-<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>Warning: ignoring DaemonSet-managed Pods: calico-system/calico-node-gzdk6, kube-system/kube-proxy-lpsmq
-<a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>evicting pod kube-system/coredns-5d78c9869d-h4p7v
-<a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>evicting pod kube-system/coredns-5d78c9869d-d4nv8
-<a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a>pod/coredns-5d78c9869d-h4p7v evicted
-<a id="__codelineno-63-6" name="__codelineno-63-6" href="#__codelineno-63-6"></a>pod/coredns-5d78c9869d-d4nv8 evicted
-<a id="__codelineno-63-7" name="__codelineno-63-7" href="#__codelineno-63-7"></a>node/worker1 drained
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>node/worker1 cordoned
+<a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>Warning: ignoring DaemonSet-managed Pods: calico-system/calico-node-gzdk6, kube-system/kube-proxy-lpsmq
+<a id="__codelineno-62-3" name="__codelineno-62-3" href="#__codelineno-62-3"></a>evicting pod kube-system/coredns-5d78c9869d-h4p7v
+<a id="__codelineno-62-4" name="__codelineno-62-4" href="#__codelineno-62-4"></a>evicting pod kube-system/coredns-5d78c9869d-d4nv8
+<a id="__codelineno-62-5" name="__codelineno-62-5" href="#__codelineno-62-5"></a>pod/coredns-5d78c9869d-h4p7v evicted
+<a id="__codelineno-62-6" name="__codelineno-62-6" href="#__codelineno-62-6"></a>pod/coredns-5d78c9869d-d4nv8 evicted
+<a id="__codelineno-62-7" name="__codelineno-62-7" href="#__codelineno-62-7"></a>node/worker1 drained
 </code></pre></div>
 <p><strong>24.</strong> Back on the <strong>worker node</strong>, download the updated node configuration.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>node
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>sudo<span class="w"> </span>kubeadm<span class="w"> </span>upgrade<span class="w"> </span>node
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>[upgrade] Reading configuration from the cluster...
-<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>[preflight] Running pre-flight checks
-<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>[preflight] Skipping prepull. Not a control plane node.
-<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a>[upgrade] Skipping phase. Not a control plane node.
-<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
-<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>[upgrade] The configuration for this node was successfully updated!
-<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a>[upgrade] Now you should go ahead and upgrade the kubelet package using your package manager.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>[upgrade] Reading configuration from the cluster...
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>[preflight] Running pre-flight checks
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>[preflight] Skipping prepull. Not a control plane node.
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a>[upgrade] Skipping phase. Not a control plane node.
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a>[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+<a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>[upgrade] The configuration for this node was successfully updated!
+<a id="__codelineno-64-7" name="__codelineno-64-7" href="#__codelineno-64-7"></a>[upgrade] Now you should go ahead and upgrade the kubelet package using your package manager.
 </code></pre></div>
 <p><strong>25.</strong> Remove the hold on kubelet and kubectl, then upgrade them.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>unhold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>Canceled hold on kubelet.
-<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>Canceled hold on kubectl.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>Canceled hold on kubelet.
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>Canceled hold on kubectl.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.2-2.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.36.2-2.1<span class="w"> </span><span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.36.2-2.1
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>Reading package lists... Done
-<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>...
-<a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>Setting up kubectl (1.36.2-2.1) ...
-<a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a>Setting up kubelet (1.36.2-2.1) ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>Reading package lists... Done
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>...
+<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>Setting up kubectl (1.36.2-2.1) ...
+<a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a>Setting up kubelet (1.36.2-2.1) ...
 </code></pre></div>
 <p><strong>26.</strong> Hold the packages again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubectl
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>kubelet set on hold.
-<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>kubectl set on hold.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>kubelet set on hold.
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>kubectl set on hold.
 </code></pre></div>
 <p><strong>27.</strong> Restart the daemons on the worker node.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
 </code></pre></div>
 <p><strong>28.</strong> Back on the <strong>CP node</strong>, check the status of both nodes.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>node
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>NAME         STATUS                     ROLES           AGE    VERSION
-<a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>controller   Ready                      control-plane   118m   v1.36.2
-<a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a>worker1      Ready,SchedulingDisabled   &lt;none&gt;          70m    v1.36.2
-<a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a>worker2      Ready                      &lt;none&gt;          68m    v1.36.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>NAME         STATUS                     ROLES           AGE    VERSION
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>controller   Ready                      control-plane   118m   v1.36.2
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>worker1      Ready,SchedulingDisabled   &lt;none&gt;          70m    v1.36.2
+<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a>worker2      Ready                      &lt;none&gt;          68m    v1.36.1
 </code></pre></div>
 <p><strong>29.</strong> Uncordon the worker node to allow pods to be scheduled on it again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>worker1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>kubectl<span class="w"> </span>uncordon<span class="w"> </span>worker1
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>node/worker1 uncordoned
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>node/worker1 uncordoned
 </code></pre></div>
 <p><strong>30.</strong> Verify both nodes show <code>Ready</code> and the same upgraded version.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>NAME         STATUS   ROLES           AGE    VERSION
-<a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a>controller   Ready    control-plane   119m   v1.36.2
-<a id="__codelineno-78-3" name="__codelineno-78-3" href="#__codelineno-78-3"></a>worker1      Ready    &lt;none&gt;          71m    v1.36.2
-<a id="__codelineno-78-4" name="__codelineno-78-4" href="#__codelineno-78-4"></a>worker2      Ready    &lt;none&gt;          69m    v1.36.1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>NAME         STATUS   ROLES           AGE    VERSION
+<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>controller   Ready    control-plane   119m   v1.36.2
+<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a>worker1      Ready    &lt;none&gt;          71m    v1.36.2
+<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a>worker2      Ready    &lt;none&gt;          69m    v1.36.1
 </code></pre></div>
 <p><strong>31.</strong> Repeat steps 18–30 for <strong>worker2</strong>. The procedure is identical — SSH into worker2 and follow the same upgrade sequence.</p>
 <p>Once complete, verify all three nodes are on the same version:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>NAME         STATUS   ROLES           AGE    VERSION
-<a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a>controller   Ready    control-plane   125m   v1.36.2
-<a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a>worker1      Ready    &lt;none&gt;          77m    v1.36.2
-<a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a>worker2      Ready    &lt;none&gt;          75m    v1.36.2
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>NAME         STATUS   ROLES           AGE    VERSION
+<a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>controller   Ready    control-plane   125m   v1.36.2
+<a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a>worker1      Ready    &lt;none&gt;          77m    v1.36.2
+<a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a>worker2      Ready    &lt;none&gt;          75m    v1.36.2
 </code></pre></div>
 <hr />
 <h2 id="exercise-42-working-with-cpu-and-memory-constraints">Exercise 4.2: Working with CPU and Memory Constraints<a class="headerlink" href="#exercise-42-working-with-cpu-and-memory-constraints" title="Permanent link">&para;</a></h2>
 <p>We will deploy a <strong>stress</strong> application inside a container and use <code>resource limits</code> to constrain what it can consume.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
 </code></pre></div>
 <p><strong>1.</strong> Create a deployment called <code>hog</code> using the <code>vish/stress</code> container image and verify it is running.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>deployment.apps/hog created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>deployment.apps/hog created
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>NAME   READY   UP-TO-DATE   AVAILABLE   AGE
-<a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a>hog    1/1     1            1           13s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>hog    1/1     1            1           13s
 </code></pre></div>
 <p><strong>2.</strong> Describe the deployment and view the output in YAML format. Note there are no resource limits set — the <code>resources:</code> field shows empty curly brackets <code>{}</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>deployment<span class="w"> </span>hog
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>deployment<span class="w"> </span>hog
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>Name:       hog
-<a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a>Namespace:  default
-<a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a>Labels:     app=hog
-<a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a>Annotations: deployment.kubernetes.io/revision: 1
-<a id="__codelineno-87-5" name="__codelineno-87-5" href="#__codelineno-87-5"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>Name:       hog
+<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>Namespace:  default
+<a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a>Labels:     app=hog
+<a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a>Annotations: deployment.kubernetes.io/revision: 1
+<a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a>...
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="nn">...</span>
-<a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-<a id="__codelineno-89-6" name="__codelineno-89-6" href="#__codelineno-89-6"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-89-7" name="__codelineno-89-7" href="#__codelineno-89-7"></a><span class="w">      </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
-<a id="__codelineno-89-8" name="__codelineno-89-8" href="#__codelineno-89-8"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<a id="__codelineno-89-9" name="__codelineno-89-9" href="#__codelineno-89-9"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
-<a id="__codelineno-89-10" name="__codelineno-89-10" href="#__codelineno-89-10"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-89-11" name="__codelineno-89-11" href="#__codelineno-89-11"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-89-12" name="__codelineno-89-12" href="#__codelineno-89-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
-<a id="__codelineno-89-13" name="__codelineno-89-13" href="#__codelineno-89-13"></a><span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
-<a id="__codelineno-89-14" name="__codelineno-89-14" href="#__codelineno-89-14"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
-<a id="__codelineno-89-15" name="__codelineno-89-15" href="#__codelineno-89-15"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-<a id="__codelineno-89-16" name="__codelineno-89-16" href="#__codelineno-89-16"></a><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="nn">...</span>
+<a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<a id="__codelineno-88-6" name="__codelineno-88-6" href="#__codelineno-88-6"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-88-7" name="__codelineno-88-7" href="#__codelineno-88-7"></a><span class="w">      </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<a id="__codelineno-88-8" name="__codelineno-88-8" href="#__codelineno-88-8"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<a id="__codelineno-88-9" name="__codelineno-88-9" href="#__codelineno-88-9"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-88-10" name="__codelineno-88-10" href="#__codelineno-88-10"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-88-11" name="__codelineno-88-11" href="#__codelineno-88-11"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-88-12" name="__codelineno-88-12" href="#__codelineno-88-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
+<a id="__codelineno-88-13" name="__codelineno-88-13" href="#__codelineno-88-13"></a><span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<a id="__codelineno-88-14" name="__codelineno-88-14" href="#__codelineno-88-14"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
+<a id="__codelineno-88-15" name="__codelineno-88-15" href="#__codelineno-88-15"></a><span class="w">        </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-88-16" name="__codelineno-88-16" href="#__codelineno-88-16"></a><span class="nn">...</span>
 </code></pre></div>
 <p><strong>3.</strong> Save the deployment YAML to a file.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>hog.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>hog.yaml
 </code></pre></div>
 <p><strong>4.</strong> Edit the file to remove the <code>status:</code> section, <code>creationTimestamp</code>, and other generated fields. Then add memory resource limits as shown below. Find the <code>resources: {}</code> line and replace it with the limits block.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>vim<span class="w"> </span>hog.yaml
+<blockquote>
+<p><strong>If you get stuck</strong>, the completed file for this step is at <code>~/lfs458/ch04-architecture/solutions/hog-memory-limits.yaml</code>.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>vim<span class="w"> </span>hog.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
-<a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span><span class="w">             </span><span class="c1"># Edit to remove {}</span>
-<a id="__codelineno-92-4" name="__codelineno-92-4" href="#__codelineno-92-4"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span><span class="w">              </span><span class="c1"># Add these 4 lines</span>
-<a id="__codelineno-92-5" name="__codelineno-92-5" href="#__codelineno-92-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
-<a id="__codelineno-92-6" name="__codelineno-92-6" href="#__codelineno-92-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-92-7" name="__codelineno-92-7" href="#__codelineno-92-7"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2500Mi&quot;</span>
-<a id="__codelineno-92-8" name="__codelineno-92-8" href="#__codelineno-92-8"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
-<a id="__codelineno-92-9" name="__codelineno-92-9" href="#__codelineno-92-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
+<a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span><span class="w">             </span><span class="c1"># Edit to remove {}</span>
+<a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span><span class="w">              </span><span class="c1"># Add these 4 lines</span>
+<a id="__codelineno-91-5" name="__codelineno-91-5" href="#__codelineno-91-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
+<a id="__codelineno-91-6" name="__codelineno-91-6" href="#__codelineno-91-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-91-7" name="__codelineno-91-7" href="#__codelineno-91-7"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2500Mi&quot;</span>
+<a id="__codelineno-91-8" name="__codelineno-91-8" href="#__codelineno-91-8"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-91-9" name="__codelineno-91-9" href="#__codelineno-91-9"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
 <p><strong>5.</strong> Replace the deployment using the edited file.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>kubectl<span class="w"> </span>replace<span class="w"> </span>-f<span class="w"> </span>hog.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>kubectl<span class="w"> </span>replace<span class="w"> </span>-f<span class="w"> </span>hog.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>deployment.apps/hog replaced
+<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>deployment.apps/hog replaced
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> If you see <code>the object has been modified; please apply your changes to the latest version</code>, the deployment controller updated the object between your <code>kubectl get</code> and <code>kubectl replace</code>. Re-run the <code>kubectl get deployment hog -o yaml &gt; hog.yaml</code> command and reapply your edits.</p>
 </blockquote>
 <p><strong>6.</strong> Verify the deployment now shows the memory resource limits.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
-<a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2500Mi</span>
-<a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
-<a id="__codelineno-96-8" name="__codelineno-96-8" href="#__codelineno-96-8"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-95-3" name="__codelineno-95-3" href="#__codelineno-95-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-95-4" name="__codelineno-95-4" href="#__codelineno-95-4"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
+<a id="__codelineno-95-5" name="__codelineno-95-5" href="#__codelineno-95-5"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-95-6" name="__codelineno-95-6" href="#__codelineno-95-6"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2500Mi</span>
+<a id="__codelineno-95-7" name="__codelineno-95-7" href="#__codelineno-95-7"></a><span class="w w-Error">        </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-95-8" name="__codelineno-95-8" href="#__codelineno-95-8"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
 <p><strong>7.</strong> View the pod name and check its logs to see the stress application output.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>po
+<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>po
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>NAME                    READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a>hog-64cbfcc7cf-lwq66    1/1     Running   0          2m
+<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>NAME                    READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>hog-64cbfcc7cf-lwq66    1/1     Running   0          2m
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>I1102 16:16:42.638972  1 main.go:26] Allocating &quot;0&quot; memory, in
-<a id="__codelineno-100-2" name="__codelineno-100-2" href="#__codelineno-100-2"></a>  &quot;4Ki&quot; chunks, with a 1ms sleep between allocations
-<a id="__codelineno-100-3" name="__codelineno-100-3" href="#__codelineno-100-3"></a>I1102 16:16:42.639064  1 main.go:29] Allocated &quot;0&quot; memory
+<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>I1102 16:16:42.638972  1 main.go:26] Allocating &quot;0&quot; memory, in
+<a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>  &quot;4Ki&quot; chunks, with a 1ms sleep between allocations
+<a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a>I1102 16:16:42.639064  1 main.go:29] Allocated &quot;0&quot; memory
 </code></pre></div>
 <p><strong>8.</strong> Open a second and third terminal to access both CP and worker nodes. Run <code>top</code> on each to monitor resource usage. The <strong>stress</strong> command is not consuming resources yet since no <code>args:</code> have been set.</p>
 <p><strong>9.</strong> Edit <code>hog.yaml</code> to add CPU and memory consumption arguments for the <strong>stress</strong> container. The <code>args:</code> entry should be indented at the same level as <code>resources:</code>. If you get stuck, the completed file is at <code>~/lfs458/ch04-architecture/solutions/hog-with-resources.yaml</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a>vim<span class="w"> </span>hog.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>vim<span class="w"> </span>hog.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-102-2" name="__codelineno-102-2" href="#__codelineno-102-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-102-3" name="__codelineno-102-3" href="#__codelineno-102-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-102-4" name="__codelineno-102-4" href="#__codelineno-102-4"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-<a id="__codelineno-102-5" name="__codelineno-102-5" href="#__codelineno-102-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
-<a id="__codelineno-102-6" name="__codelineno-102-6" href="#__codelineno-102-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-102-7" name="__codelineno-102-7" href="#__codelineno-102-7"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.5&quot;</span>
-<a id="__codelineno-102-8" name="__codelineno-102-8" href="#__codelineno-102-8"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500Mi&quot;</span>
-<a id="__codelineno-102-9" name="__codelineno-102-9" href="#__codelineno-102-9"></a><span class="w w-Error">        </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-102-10" name="__codelineno-102-10" href="#__codelineno-102-10"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-cpus</span>
-<a id="__codelineno-102-11" name="__codelineno-102-11" href="#__codelineno-102-11"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
-<a id="__codelineno-102-12" name="__codelineno-102-12" href="#__codelineno-102-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-total</span>
-<a id="__codelineno-102-13" name="__codelineno-102-13" href="#__codelineno-102-13"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;950Mi&quot;</span>
-<a id="__codelineno-102-14" name="__codelineno-102-14" href="#__codelineno-102-14"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-size</span>
-<a id="__codelineno-102-15" name="__codelineno-102-15" href="#__codelineno-102-15"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span>
-<a id="__codelineno-102-16" name="__codelineno-102-16" href="#__codelineno-102-16"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-sleep</span>
-<a id="__codelineno-102-17" name="__codelineno-102-17" href="#__codelineno-102-17"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1s&quot;</span>
-<a id="__codelineno-102-18" name="__codelineno-102-18" href="#__codelineno-102-18"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a><span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-101-4" name="__codelineno-101-4" href="#__codelineno-101-4"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
+<a id="__codelineno-101-5" name="__codelineno-101-5" href="#__codelineno-101-5"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
+<a id="__codelineno-101-6" name="__codelineno-101-6" href="#__codelineno-101-6"></a><span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-101-7" name="__codelineno-101-7" href="#__codelineno-101-7"></a><span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.5&quot;</span>
+<a id="__codelineno-101-8" name="__codelineno-101-8" href="#__codelineno-101-8"></a><span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500Mi&quot;</span>
+<a id="__codelineno-101-9" name="__codelineno-101-9" href="#__codelineno-101-9"></a><span class="w w-Error">        </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-101-10" name="__codelineno-101-10" href="#__codelineno-101-10"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-cpus</span>
+<a id="__codelineno-101-11" name="__codelineno-101-11" href="#__codelineno-101-11"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
+<a id="__codelineno-101-12" name="__codelineno-101-12" href="#__codelineno-101-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-total</span>
+<a id="__codelineno-101-13" name="__codelineno-101-13" href="#__codelineno-101-13"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;950Mi&quot;</span>
+<a id="__codelineno-101-14" name="__codelineno-101-14" href="#__codelineno-101-14"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-size</span>
+<a id="__codelineno-101-15" name="__codelineno-101-15" href="#__codelineno-101-15"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span>
+<a id="__codelineno-101-16" name="__codelineno-101-16" href="#__codelineno-101-16"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-mem-alloc-sleep</span>
+<a id="__codelineno-101-17" name="__codelineno-101-17" href="#__codelineno-101-17"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1s&quot;</span>
+<a id="__codelineno-101-18" name="__codelineno-101-18" href="#__codelineno-101-18"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
 <p><strong>10.</strong> Delete and recreate the deployment. Watch the <code>top</code> output on both nodes — you should see CPU usage spike and memory allocated in 100Mi chunks.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
+<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>deployment.apps &quot;hog&quot; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>deployment.apps &quot;hog&quot; deleted
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>deployment.apps/hog created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>deployment.apps/hog created
 </code></pre></div>
 <blockquote>
 <p>If <code>top</code> does not show high usage, check the pod logs for errors. A common mistake is using <code>Mi</code> (case sensitive) — <code>mi</code> will cause the container to panic.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
-<a id="__codelineno-107-2" name="__codelineno-107-2" href="#__codelineno-107-2"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pod
+<a id="__codelineno-106-2" name="__codelineno-106-2" href="#__codelineno-106-2"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;hog-pod-name&gt;
 </code></pre></div>
 <hr />
 <h2 id="exercise-43-resource-limits-for-a-namespace">Exercise 4.3: Resource Limits for a Namespace<a class="headerlink" href="#exercise-43-resource-limits-for-a-namespace" title="Permanent link">&para;</a></h2>
 <p>The previous exercise set limits on a specific deployment. You can also set limits on an entire <strong>namespace</strong> using a <code>LimitRange</code> object. When set, the <code>hog</code> deployment should not be able to exceed those namespace-level limits.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="nb">cd</span><span class="w"> </span>~/lfs458/ch04-architecture/
 </code></pre></div>
 <p><strong>1.</strong> Create a new namespace called <code>low-usage-limit</code> and verify it exists.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>low-usage-limit
+<div class="highlight"><pre><span></span><code><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>low-usage-limit
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>namespace/low-usage-limit created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>namespace/low-usage-limit created
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>namespace
+<div class="highlight"><pre><span></span><code><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>namespace
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>NAME              STATUS   AGE
-<a id="__codelineno-112-2" name="__codelineno-112-2" href="#__codelineno-112-2"></a>default           Active   1h
-<a id="__codelineno-112-3" name="__codelineno-112-3" href="#__codelineno-112-3"></a>kube-node-lease   Active   1h
-<a id="__codelineno-112-4" name="__codelineno-112-4" href="#__codelineno-112-4"></a>kube-public       Active   1h
-<a id="__codelineno-112-5" name="__codelineno-112-5" href="#__codelineno-112-5"></a>kube-system       Active   1h
-<a id="__codelineno-112-6" name="__codelineno-112-6" href="#__codelineno-112-6"></a>low-usage-limit   Active   42s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>NAME              STATUS   AGE
+<a id="__codelineno-111-2" name="__codelineno-111-2" href="#__codelineno-111-2"></a>default           Active   1h
+<a id="__codelineno-111-3" name="__codelineno-111-3" href="#__codelineno-111-3"></a>kube-node-lease   Active   1h
+<a id="__codelineno-111-4" name="__codelineno-111-4" href="#__codelineno-111-4"></a>kube-public       Active   1h
+<a id="__codelineno-111-5" name="__codelineno-111-5" href="#__codelineno-111-5"></a>kube-system       Active   1h
+<a id="__codelineno-111-6" name="__codelineno-111-6" href="#__codelineno-111-6"></a>low-usage-limit   Active   42s
 </code></pre></div>
 <p><strong>2.</strong> The <code>low-resource-range.yaml</code> file is already staged in your lab folder. Review it.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a>cat<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>cat<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LimitRange</span>
-<a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-114-4" name="__codelineno-114-4" href="#__codelineno-114-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-resource-range</span>
-<a id="__codelineno-114-5" name="__codelineno-114-5" href="#__codelineno-114-5"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-114-6" name="__codelineno-114-6" href="#__codelineno-114-6"></a><span class="w">  </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-114-7" name="__codelineno-114-7" href="#__codelineno-114-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">default</span><span class="p">:</span>
-<a id="__codelineno-114-8" name="__codelineno-114-8" href="#__codelineno-114-8"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-114-9" name="__codelineno-114-9" href="#__codelineno-114-9"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
-<a id="__codelineno-114-10" name="__codelineno-114-10" href="#__codelineno-114-10"></a><span class="w">    </span><span class="nt">defaultRequest</span><span class="p">:</span>
-<a id="__codelineno-114-11" name="__codelineno-114-11" href="#__codelineno-114-11"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-<a id="__codelineno-114-12" name="__codelineno-114-12" href="#__codelineno-114-12"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
-<a id="__codelineno-114-13" name="__codelineno-114-13" href="#__codelineno-114-13"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Container</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-113-2" name="__codelineno-113-2" href="#__codelineno-113-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LimitRange</span>
+<a id="__codelineno-113-3" name="__codelineno-113-3" href="#__codelineno-113-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-113-4" name="__codelineno-113-4" href="#__codelineno-113-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-resource-range</span>
+<a id="__codelineno-113-5" name="__codelineno-113-5" href="#__codelineno-113-5"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-113-6" name="__codelineno-113-6" href="#__codelineno-113-6"></a><span class="w">  </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-113-7" name="__codelineno-113-7" href="#__codelineno-113-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">default</span><span class="p">:</span>
+<a id="__codelineno-113-8" name="__codelineno-113-8" href="#__codelineno-113-8"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-113-9" name="__codelineno-113-9" href="#__codelineno-113-9"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
+<a id="__codelineno-113-10" name="__codelineno-113-10" href="#__codelineno-113-10"></a><span class="w">    </span><span class="nt">defaultRequest</span><span class="p">:</span>
+<a id="__codelineno-113-11" name="__codelineno-113-11" href="#__codelineno-113-11"></a><span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<a id="__codelineno-113-12" name="__codelineno-113-12" href="#__codelineno-113-12"></a><span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
+<a id="__codelineno-113-13" name="__codelineno-113-13" href="#__codelineno-113-13"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Container</span>
 </code></pre></div>
 <p><strong>3.</strong> Apply the LimitRange to the <code>low-usage-limit</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-115-2" name="__codelineno-115-2" href="#__codelineno-115-2"></a><span class="w">  </span>-n<span class="w"> </span>low-usage-limit
+<div class="highlight"><pre><span></span><code><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>~/lfs458/ch04-architecture/low-resource-range.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a><span class="w">  </span>-n<span class="w"> </span>low-usage-limit
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a>limitrange/low-resource-range created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a>limitrange/low-resource-range created
 </code></pre></div>
 <p><strong>4.</strong> Verify the LimitRange was created. Note it only exists in the <code>low-usage-limit</code> namespace — the default namespace shows nothing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange
+<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>No resources found in default namespace.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a>No resources found in default namespace.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>LimitRange<span class="w"> </span>--all-namespaces
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>NAMESPACE         NAME                CREATED AT
-<a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a>low-usage-limit   low-resource-range  2024-06-23T10:23:57Z
+<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>NAMESPACE         NAME                CREATED AT
+<a id="__codelineno-119-2" name="__codelineno-119-2" href="#__codelineno-119-2"></a>low-usage-limit   low-resource-range  2024-06-23T10:23:57Z
 </code></pre></div>
 <p><strong>5.</strong> Create a new deployment in the <code>low-usage-limit</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a><span class="w">  </span>create<span class="w"> </span>deployment<span class="w"> </span>limited-hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
+<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a><span class="w">  </span>create<span class="w"> </span>deployment<span class="w"> </span>limited-hog<span class="w"> </span>--image<span class="w"> </span>vish/stress
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>deployment.apps/limited-hog created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a>deployment.apps/limited-hog created
 </code></pre></div>
 <p><strong>6.</strong> List deployments across all namespaces. Note that <code>hog</code> continues to run in the <code>default</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
-<a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>default           hog               1/1     1            1           7m57s
-<a id="__codelineno-124-3" name="__codelineno-124-3" href="#__codelineno-124-3"></a>calico-system     calico-kube-controllers   1/1     1            1           2d10h
-<a id="__codelineno-124-4" name="__codelineno-124-4" href="#__codelineno-124-4"></a>kube-system       coredns           2/2     2            2           2d10h
-<a id="__codelineno-124-5" name="__codelineno-124-5" href="#__codelineno-124-5"></a>low-usage-limit   limited-hog       1/1     1            1           9s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>default           hog               1/1     1            1           7m57s
+<a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a>calico-system     calico-kube-controllers   1/1     1            1           2d10h
+<a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a>kube-system       coredns           2/2     2            2           2d10h
+<a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a>low-usage-limit   limited-hog       1/1     1            1           9s
 </code></pre></div>
 <p><strong>7.</strong> View the pods in the <code>low-usage-limit</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>get<span class="w"> </span>pods
+<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>NAME                            READY   STATUS    RESTARTS   AGE
-<a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>limited-hog-2556092078-wnpnv    1/1     Running   0          2m11s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>NAME                            READY   STATUS    RESTARTS   AGE
+<a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>limited-hog-2556092078-wnpnv    1/1     Running   0          2m11s
 </code></pre></div>
 <p><strong>8.</strong> Look at the pod details. Notice it has inherited the resource limits from the namespace LimitRange.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a><span class="w">  </span>get<span class="w"> </span>pod<span class="w"> </span>&lt;limited-hog-pod-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a><span class="w">  </span>get<span class="w"> </span>pod<span class="w"> </span>&lt;limited-hog-pod-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a><span class="nn">...</span>
-<a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-128-3" name="__codelineno-128-3" href="#__codelineno-128-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-128-4" name="__codelineno-128-4" href="#__codelineno-128-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
-<a id="__codelineno-128-5" name="__codelineno-128-5" href="#__codelineno-128-5"></a><span class="w">    </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
-<a id="__codelineno-128-6" name="__codelineno-128-6" href="#__codelineno-128-6"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
-<a id="__codelineno-128-7" name="__codelineno-128-7" href="#__codelineno-128-7"></a><span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
-<a id="__codelineno-128-8" name="__codelineno-128-8" href="#__codelineno-128-8"></a><span class="w">      </span><span class="nt">limits</span><span class="p">:</span>
-<a id="__codelineno-128-9" name="__codelineno-128-9" href="#__codelineno-128-9"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-<a id="__codelineno-128-10" name="__codelineno-128-10" href="#__codelineno-128-10"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
-<a id="__codelineno-128-11" name="__codelineno-128-11" href="#__codelineno-128-11"></a><span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
-<a id="__codelineno-128-12" name="__codelineno-128-12" href="#__codelineno-128-12"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span>
-<a id="__codelineno-128-13" name="__codelineno-128-13" href="#__codelineno-128-13"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
-<a id="__codelineno-128-14" name="__codelineno-128-14" href="#__codelineno-128-14"></a><span class="w">    </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
-<a id="__codelineno-128-15" name="__codelineno-128-15" href="#__codelineno-128-15"></a><span class="nn">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a><span class="nn">...</span>
+<a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-127-3" name="__codelineno-127-3" href="#__codelineno-127-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<a id="__codelineno-127-4" name="__codelineno-127-4" href="#__codelineno-127-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vish/stress</span>
+<a id="__codelineno-127-5" name="__codelineno-127-5" href="#__codelineno-127-5"></a><span class="w">    </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<a id="__codelineno-127-6" name="__codelineno-127-6" href="#__codelineno-127-6"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stress</span>
+<a id="__codelineno-127-7" name="__codelineno-127-7" href="#__codelineno-127-7"></a><span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
+<a id="__codelineno-127-8" name="__codelineno-127-8" href="#__codelineno-127-8"></a><span class="w">      </span><span class="nt">limits</span><span class="p">:</span>
+<a id="__codelineno-127-9" name="__codelineno-127-9" href="#__codelineno-127-9"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
+<a id="__codelineno-127-10" name="__codelineno-127-10" href="#__codelineno-127-10"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500Mi</span>
+<a id="__codelineno-127-11" name="__codelineno-127-11" href="#__codelineno-127-11"></a><span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
+<a id="__codelineno-127-12" name="__codelineno-127-12" href="#__codelineno-127-12"></a><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span>
+<a id="__codelineno-127-13" name="__codelineno-127-13" href="#__codelineno-127-13"></a><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
+<a id="__codelineno-127-14" name="__codelineno-127-14" href="#__codelineno-127-14"></a><span class="w">    </span><span class="nt">terminationMessagePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/termination-log</span>
+<a id="__codelineno-127-15" name="__codelineno-127-15" href="#__codelineno-127-15"></a><span class="nn">...</span>
 </code></pre></div>
 <p><strong>9.</strong> Copy <code>hog.yaml</code> to a new file and add a <code>namespace:</code> line so the deployment runs in <code>low-usage-limit</code>. Delete the <code>selfLink:</code> line if it exists.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>cp<span class="w"> </span>hog.yaml<span class="w"> </span>hog2.yaml
-<a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a>vim<span class="w"> </span>hog2.yaml
+<blockquote>
+<p><strong>If you get stuck</strong>, the completed file is at <code>~/lfs458/ch04-architecture/solutions/hog2-namespaced.yaml</code>. Note the file must contain <strong>exactly one</strong> <code>namespace:</code> line — if you edit with <code>sed</code> you may accidentally add a second one.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>cp<span class="w"> </span>hog.yaml<span class="w"> </span>hog2.yaml
+<a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a>vim<span class="w"> </span>hog2.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
-<a id="__codelineno-130-2" name="__codelineno-130-2" href="#__codelineno-130-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">labels</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-130-3" name="__codelineno-130-3" href="#__codelineno-130-3"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
-<a id="__codelineno-130-4" name="__codelineno-130-4" href="#__codelineno-130-4"></a><span class="w w-Error">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
-<a id="__codelineno-130-5" name="__codelineno-130-5" href="#__codelineno-130-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-usage-limit</span><span class="w">    </span><span class="c1">#&lt;-- Add this line, delete selfLink below if present</span>
-<a id="__codelineno-130-6" name="__codelineno-130-6" href="#__codelineno-130-6"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-130-7" name="__codelineno-130-7" href="#__codelineno-130-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
+<a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">labels</span><span class="p p-Indicator">:</span>
+<a id="__codelineno-129-3" name="__codelineno-129-3" href="#__codelineno-129-3"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-129-4" name="__codelineno-129-4" href="#__codelineno-129-4"></a><span class="w w-Error">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hog</span>
+<a id="__codelineno-129-5" name="__codelineno-129-5" href="#__codelineno-129-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low-usage-limit</span><span class="w">    </span><span class="c1">#&lt;-- Add this line, delete selfLink below if present</span>
+<a id="__codelineno-129-6" name="__codelineno-129-6" href="#__codelineno-129-6"></a><span class="nt">spec</span><span class="p">:</span>
+<a id="__codelineno-129-7" name="__codelineno-129-7" href="#__codelineno-129-7"></a><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
 <p><strong>10.</strong> Create the deployment in the <code>low-usage-limit</code> namespace.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog2.yaml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>hog2.yaml
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>deployment.apps/hog created
+<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>deployment.apps/hog created
 </code></pre></div>
 <p><strong>11.</strong> List all deployments. You should see two deployments with the same name <code>hog</code> — one in <code>default</code> and one in <code>low-usage-limit</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
+<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>--all-namespaces
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
-<a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>default           hog               1/1     1            1           24m
-<a id="__codelineno-134-3" name="__codelineno-134-3" href="#__codelineno-134-3"></a>calico-system     calico-kube-controllers   1/1     0            0           4h
-<a id="__codelineno-134-4" name="__codelineno-134-4" href="#__codelineno-134-4"></a>kube-system       coredns           2/2     2            2           4h
-<a id="__codelineno-134-5" name="__codelineno-134-5" href="#__codelineno-134-5"></a>low-usage-limit   hog               1/1     1            1           26s
-<a id="__codelineno-134-6" name="__codelineno-134-6" href="#__codelineno-134-6"></a>low-usage-limit   limited-hog       1/1     1            1           5m11s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>NAMESPACE         NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+<a id="__codelineno-133-2" name="__codelineno-133-2" href="#__codelineno-133-2"></a>default           hog               1/1     1            1           24m
+<a id="__codelineno-133-3" name="__codelineno-133-3" href="#__codelineno-133-3"></a>calico-system     calico-kube-controllers   1/1     0            0           4h
+<a id="__codelineno-133-4" name="__codelineno-133-4" href="#__codelineno-133-4"></a>kube-system       coredns           2/2     2            2           4h
+<a id="__codelineno-133-5" name="__codelineno-133-5" href="#__codelineno-133-5"></a>low-usage-limit   hog               1/1     1            1           26s
+<a id="__codelineno-133-6" name="__codelineno-133-6" href="#__codelineno-133-6"></a>low-usage-limit   limited-hog       1/1     1            1           5m11s
 </code></pre></div>
 <p><strong>12.</strong> Check <code>top</code> on both node terminals. Both <code>hog</code> deployments should be consuming about the same resources — the per-deployment settings from <code>hog.yaml</code> override the global namespace limits.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>25128 root   20   0  958532 954672  3180 R 100.0 11.7   0:52.27 stress
-<a id="__codelineno-135-2" name="__codelineno-135-2" href="#__codelineno-135-2"></a>24875 root   20   0  958532 954800  3180 R 100.3 11.7  41:04.97 stress
+<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>25128 root   20   0  958532 954672  3180 R 100.0 11.7   0:52.27 stress
+<a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>24875 root   20   0  958532 954800  3180 R 100.3 11.7  41:04.97 stress
 </code></pre></div>
 <p><strong>13.</strong> Delete all <code>hog</code> deployments to recover cluster resources.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>limited-hog
+<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>low-usage-limit<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog<span class="w"> </span>limited-hog
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>deployment.apps &quot;hog&quot; deleted
-<a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>deployment.apps &quot;limited-hog&quot; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>deployment.apps &quot;hog&quot; deleted
+<a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a>deployment.apps &quot;limited-hog&quot; deleted
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
+<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>hog
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a>deployment.apps &quot;hog&quot; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>deployment.apps &quot;hog&quot; deleted
 </code></pre></div>
 <hr />
 

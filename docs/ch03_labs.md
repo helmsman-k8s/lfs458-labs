@@ -26,11 +26,13 @@
 
 ### Step 1 — Prepare the system
 
-**1.** Update the system.
+**1.** Refresh the package lists.
 
 ```bash
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
 ```
+
+> This only refreshes package metadata — it does **not** upgrade installed packages. A full `apt-get upgrade` is not required for a kubeadm install and can take 10+ minutes per node.
 
 **2.** Install required packages.
 
@@ -324,7 +326,7 @@ controller   Ready    control-plane   3m    v1.36.1
 **1.** Prepare the system — same as the controller.
 
 ```bash
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl socat tree bash-completion
 sudo swapoff -a
 sudo sed -i '/swap/d' /etc/fstab
